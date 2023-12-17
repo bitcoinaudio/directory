@@ -44,4 +44,4 @@ jobs:
             git checkout .
             git pull
             npm run build
-            pm2 restart MyApp
+            pm2 restart directory
