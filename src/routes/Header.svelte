@@ -23,9 +23,15 @@
 			<li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
 				<a href="/directory">Directory</a>
 			</li>
-			<!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
-			</li> -->
+			<li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
+				<a href="/rules">Rules</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/submit' ? 'page' : undefined}>
+				<a href="/submit">Submit</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+				<a href="/about">About Us</a>
+			</li>
 			
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -100,6 +106,9 @@
 	li {
 		position: relative;
 		height: 100%;
+	}
+	li:hover {
+		text-decoration: underline;
 	}
 
 	li[aria-current='page']::before {

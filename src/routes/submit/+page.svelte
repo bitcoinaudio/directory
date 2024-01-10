@@ -1,10 +1,10 @@
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>Submit</title>
+	<meta name="description" content="How to submit" />
 </svelte:head>
 
 <div class="text-column">
-	<h1>About Us</h1>
+	<h1>How to get on</h1>
 
 	<p>
 		
