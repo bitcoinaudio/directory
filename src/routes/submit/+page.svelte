@@ -6,14 +6,11 @@
 	<meta name="description" content="How to submit" />
 </svelte:head>
 
-<div class="text-column">
+<div class="submit">
 	<h1>How to get on</h1>
-
-	<div id="details-content" class="container">
-		<div class="row">
-			<div class="col-12">
-					<h2>BTCAudio Submision Form</h2>
-					<img src={logo} alt="logo" style="width:150px;float:right;margin:10px;">
+	<h1>BTCAudio Submision Form</h1>
+	<img src={logo} alt="logo" style="width:150px;float:left;margin:10px;">
+		
 					<p>This form is the first check that your Token/Card needs to pass in the submission process for the Fake Rare Directory.</p>
 					<p>If the Token/Card does not pass this form it means you need to make changes to the Token (locked, divisible) or Asset (Image dimesions/ratio) and come back and check on this form again.</p>
 					<p>To submit a Token/Card, you will need to have it minted on XCP, ideally using EasyAsset for the .json creation.  If you have questions about minting on XCP please head over to this <a href="https://robotlovecoffee.io/CreatorFW.html" target="_blank">link</a> and follow along the full walkthru document with time-stamped videos.</p>
@@ -35,10 +32,8 @@
 						<li>Minting Address must hold all tokens</li>
 						<li>No NSFW content please.</li>
 					</ul>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-11">
+			
+		
 					<hr>
 	<form action="https://xcpsub.io/FakeRares" class="standard-form fv-form fv-form-bootstrap" enctype="multipart/form-data" id="RegistrationForm" method="post" novalidate="novalidate"><button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>                    <b><span class="field-validation-valid help-block" data-valmsg-for="" data-valmsg-replace="true"></span></b>
 	
@@ -91,7 +86,20 @@
 							<br>
 	
 						</div>
-	</form>        </div>
-		</div>
-	</div>
+	</form>        
+			
 </div>
+<style>
+	.submit {
+		
+		color: black;
+		background-color: rgb(250, 250, 250);
+		border: 2px solid black;
+		border-radius: 1%;
+		box-shadow: -5px -5px 10px 7px #060606a0;
+		padding: 15px;
+	}
+	a {
+		color: chocolate; 
+	}
+</style>
