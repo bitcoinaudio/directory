@@ -2,7 +2,13 @@
 	import { page } from '$app/stores';
 	import logo from '$lib/images/ba-logo.svg';
 	import github from '$lib/images/github.svg';
-	
+	import Modal from '../components/Modal.svelte';
+	import wallet from '$lib/images/wallet.svg';
+	import Connect from '../components/Connect.svelte';
+	import { walletConnected } from '../stores';
+
+	let showModal = false;
+
 </script>
 
 <header>
@@ -23,6 +29,9 @@
 			<li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
 				<a href="/directory">Directory</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
+				<a href="/collections">Collections</a>
+			</li>
 			<li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
 				<a href="/rules">Rules</a>
 			</li>
@@ -32,27 +41,49 @@
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About Us</a>
 			</li>
+			{#if $walletConnected}
+			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
+				<a href="/myinscriptions">My Inscriptions</a>
+			</li>
+			{/if}
+			
 			
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
+	
 	</nav>
 
 	<div class="corner">
 		
-		<a href="https://github.com/bitcoinaudio/directory">
+		<span><a href="https://github.com/bitcoinaudio/directory">
 			<img src={github} alt="GitHub" />
-		</a>
-		
+		</a></span>
+		<button class="connectbutton" on:click={() => (showModal = true)}> 
+			<img src={wallet} alt="GitHub" />
+		 </button>
 	</div>
-	
+
+		
+		
 </header>
+
+
+<Modal bind:showModal>
+	
+	<Connect />
+
+	
+</Modal>
+
 
 <style>
 	header {
 		display: flex;
-		justify-content: space-between;padding-bottom: 50px;
+		justify-content: space-between;
+		padding-bottom: 5px;
+		z-index: 1;
 	}
 
 	.corner {
@@ -139,5 +170,12 @@
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	.connectbutton {
+		background: none;
+		border: none;
+		cursor: pointer;
+
 	}
 </style>

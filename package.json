@@ -35,6 +35,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"pg": "^8.11.3"
+		"bitcoinjs-lib": "^6.1.5",
+		"bitcoinjs-message": "^2.2.0",
+		"ecpair": "^2.1.0",
+		"pg": "^8.11.3",
+		"socket.io-client": "^4.7.4"
 	}
 }

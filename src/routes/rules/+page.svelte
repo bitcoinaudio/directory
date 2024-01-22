@@ -91,10 +91,10 @@
 	.rules {
 		
 		color: black;
-		background-color: rgb(250, 250, 250);
+		background-color: rgba(250, 250, 250, 0.608);
 		border: 2px solid black;
 		border-radius: 1%;
-		box-shadow: -5px -5px 10px 7px #060606a0;
+		box-shadow: -5px -5px 10px 7px #06060676;
 		padding: 10px;
 	}
 	a {

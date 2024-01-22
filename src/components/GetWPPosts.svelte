@@ -2,10 +2,10 @@
     const { Pool } = require('pg');
 
 const pool = new Pool({
-    user: 'rad',
+    user: '',
     host: 'directory.bitcoinaudio.co',
     database: 'bad001',
-    password: 'rad_October2!',
+    password: '',
     port: 5432,
 });
 

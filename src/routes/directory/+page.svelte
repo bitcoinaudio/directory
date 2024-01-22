@@ -8,16 +8,29 @@
 
 </svelte:head>
 
-<div class="text-column">
-	<h1>Coming Soon!</h1>
-	<!-- <h1>Artist Name: {artist}</h1>
-	<img src="" alt=""/> -->
+<div class="directory">
+	<div class="Artist-card">
+	<span><h2>Artist Name: {artist}</h2></span>
 
-	<p>
-		<!-- <li aria-current={$page.url.pathname === '/artists/'+{artist} ? 'page' : undefined}>
-			<a href='/artists/{artist}'>{artist}</a>
-		</li> -->
-	</p>
+	<img src="" alt=""/>
 
+	<iframe id="dirIFrame" src="https://uvkfwela7sn5mydishqhefbgy6cicxw5ycdci2e66hnywycdveoq.arweave.net/pVRbEWD8m9ZgaJHgchQmx4SBXt3AhiRonvHbi2BDqR0/" title="Dust" style="border:0px #ffffff none;" name="Dust" scrolling="no" frameborder="1" 
+	 allowfullscreen></iframe>
 	
+	</div>
 </div>
+
+<style>
+	.directory {
+		display: flex;
+	justify-content: center;
+	}
+
+	#dirIFrame {
+		height: 1200px;
+		width: 1000px;
+	}
+	.Artist-card {
+		align-content: center;
+	}
+</style>
