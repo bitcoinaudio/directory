@@ -10,10 +10,8 @@ const cors = require('cors');
 
 const app = express();
 
-
 function verifySignature(address, signature, message) {
     try {
-        console.log("from OG func: ", address, signature, message )
         return bitcoinMessage.verify(address, signature, message);
     } catch (e) {
         return false;
@@ -32,7 +30,7 @@ app.use(bodyParser.json());
 app.post('/api/verifySignature', (req, res) => {
 
     const { publicKey, signedMessage } = req.query;
-    const originalMessage = 'sign';
+    const originalMessage = "signed this message";
     const isSigValid = verifySignature(req.query.publicKey, req.query.signedMessage, req.query.originalMessage);
 
     console.log(publicKey, signedMessage, originalMessage, isSigValid)
@@ -42,17 +40,28 @@ app.post('/api/verifySignature', (req, res) => {
 });
 
 app.post('/api/verifyMessage', (req, res) => {
-    const network = bitcoin.networks.bitcoin;
-    var { publicKey, signedMessage } = req.query;
 
-    var originalMessage = 'sign';
-    publicKey = req.query.publicKey;
-    signedMessage = req.query.signedMessage;
-    const isMesValid = verifyMessage(originalMessage, publicKey,  signedMessage);
+    var address = req.query.address;
+    var message = req.query.message
+    var signature = req.query.signature;
 
-    // console.log("kp", kp)
-    console.log(req.query)
-    res.json({  isMesValid })
+    const isMesValid = (bitcoinMessage.verify(message, address, signature))
+// => true
+    console.log(isMesValid)
+    res.json({ isMesValid} )
+
+});
+
+app.get('/api/signMessage', (req, res) => {
+var keyPair = ECPair.fromWIF('KyatKtdVaboeVJ8nE1g5VvQpU23R5pezeVvK9bvZxPLSwUh9SJ5J')
+var privateKey = keyPair.privateKey
+var message = 'Hey I am Kenneth Hu'
+
+var signature = bitcoinMessage.sign(message, privateKey, keyPair.compressed)
+console.log(signature.toString('base64'))
+// => 'H9L5yLFjti0QTHhPyFrZCT1V/MMnBtXKmoiKDZ78NDBjERki6ZTQZdSMCtkgoNmp17By9ItJr8o7ChX0XxY91nk='
+
+res.json( signature.toString('base64') )   
 
 });
 

@@ -38,9 +38,9 @@
 				{#each $htmlarray as html, index}
 				<div class="html-card">
 					<!-- <p>{html}</p> -->
-					<!-- <a href={html} >{html}</a> -->
-
+					<!-- <a href={html} target="" ></a> -->
 					<iframe src={html} title="" scrolling=no  allowfullscreen></iframe>
+					
 
 				</div>
 

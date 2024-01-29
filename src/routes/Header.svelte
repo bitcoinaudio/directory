@@ -9,6 +9,16 @@
 
 	let showModal = false;
 
+	
+
+	export let message = 'This site is currently in experimental mode. Some features may not work as expected.';
+    let isVisible = true;
+
+    function closeNotification() {
+        isVisible = false;
+    }
+
+
 </script>
 
 <header>
@@ -26,22 +36,25 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
-				<a href="/directory">Directory</a>
+			<li aria-current={$page.url.pathname === '/radinals' ? 'page' : undefined}>
+				<a href="/radinals">Radinals</a>
 			</li>
+			<!-- <li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
+				<a href="/directory">Directory</a>
+			</li> -->
 			<li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
 				<a href="/collections">Collections</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+				<a href="/about">About Us</a>
+			</li>
+			{#if $walletConnected}
 			<li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
 				<a href="/rules">Rules</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/submit' ? 'page' : undefined}>
 				<a href="/submit">Submit</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About Us</a>
-			</li>
-			{#if $walletConnected}
 			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
 				<a href="/myinscriptions">My Inscriptions</a>
 			</li>
@@ -52,8 +65,15 @@
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
-	
+		{#if isVisible}
+<div class="notification-bar">
+    <p>{message}</p>
+    <button on:click={closeNotification}>&times;</button>
+</div>
+{/if}
+		
 	</nav>
+	
 
 	<div class="corner">
 		
@@ -178,4 +198,29 @@
 		cursor: pointer;
 
 	}
+
+	.notification-bar {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    padding: 10px;
+    position: fixed;
+    top: 48px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-bar p {
+    margin: 0;
+}
+
+/* Optional: Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .notification-bar p {
+        font-size: 0.9em;
+    }
+}
+
 </style>
