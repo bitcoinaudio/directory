@@ -101,7 +101,7 @@ button:focus:not(:focus-visible) {
 	white-space: nowrap;
 }
 iframe {
-	zoom: 0.5;
+	zoom: 0.80;
 	transform: none;
 	transform-origin: 0%;
         -moz-transform: scale(0.75);

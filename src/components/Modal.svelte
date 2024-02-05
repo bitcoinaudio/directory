@@ -14,13 +14,15 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div>
 		<slot name="header" />
-		<hr />
+		<!-- <hr />
 		<slot name="cp" />
-		<hr />
+		<hr /> -->
 		<slot />
 		<hr />
 		<!-- svelte-ignore a11y-autofocus -->
+		<div class="closebtn">
 		<button autofocus on:click={() => dialog.close()}>close this</button>
+	</div>
 	</div>
 </dialog>
 
@@ -64,5 +66,10 @@
 	}
 	button {
 		display: block;
+	}
+
+	.closebtn {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

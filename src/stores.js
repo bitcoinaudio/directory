@@ -18,6 +18,7 @@ export const unisatAccounts = writable("no accounts")
 export const isBitmapOwner = writable(false)
 export const htmlarray = writable()
 export const iscpverified = writable(false)
+export const myinscriptions = writable()
 
 const defaultSettings = {
 	darkMode: true,

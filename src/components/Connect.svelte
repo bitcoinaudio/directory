@@ -1,7 +1,7 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
 	import freewallet from '$lib/images/freewallet.png';
-	import { htmlarray, unisatAccounts, walletConnected, iscpverified } from '../stores';
+	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
 	let winuni = globalThis.unisat;
 	let publicKey = '';
 	let signedMessage = '';
@@ -16,15 +16,18 @@
 		// UniSat Wallet
 
 		try {
-			console.log('globalThis.unisat:', winuni);
+			// console.log('globalThis.unisat:', winuni);
 			if (typeof winuni !== 'undefined') {
 				console.log('UniSat Wallet is installed!');
 				accounts = await winuni.requestAccounts();
 				$walletConnected = true;
+				winuni.Connected =true;
+				
 
 				// settingsBitmap.showMyBitmap = true
 				console.log('connect success', accounts);
-				console.log(winuni);
+				console.log(winuni)
+				
 
 				// unisatAccounts.set(accounts)
 				GetMyBitmaps();
@@ -42,6 +45,7 @@
 	}
 
 	function DisconnectWallet() {
+		
 		htmlArray = [];
 		winuni.Connected = false;
 		$walletConnected = false;
@@ -174,8 +178,8 @@
 
 <div class="wallet">
 	<!-- <button on:click={isCPVerified}><img class="wallet-logo" src={freewallet} alt="" /></button> -->
-	<a href={cpURL}><img class="wallet-logo" src={freewallet} alt="" /></a>
-	<input bind:value={cpAddress} />
+	<!-- <a href={cpURL}><img class="wallet-logo" src={freewallet} alt="" /></a>
+	<input bind:value={cpAddress} /> -->
 </div>
 <hr />
 <div class="wallet">
@@ -227,6 +231,9 @@
 	.wallet-btn {
 		display: flex;
 		background: none;
-		border: none;
+		border: black;
+		border-style: solid;
+		border-radius: 4%;
+		align-items: center;
 	}
 </style>
