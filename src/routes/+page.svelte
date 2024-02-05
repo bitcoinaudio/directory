@@ -19,10 +19,6 @@
 	</h1>
 	<h2>A Collective.</h2>
 
-	<h2>
-		
-	</h2>
-
 </section>
 
 <style>
