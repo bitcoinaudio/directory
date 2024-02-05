@@ -1,5 +1,4 @@
 <script>
-	import logo from '$lib/images/ba-logo.svg';
 	import logounisat from '$lib/images/logo-unisat.png';
 	import freewallet from '$lib/images/freewallet.png';
 	import { htmlarray, unisatAccounts, walletConnected, iscpverified } from '../stores';
@@ -133,31 +132,49 @@
 		console.log('html', html);
 	}
 
-	async function isCPVerified() {
-		console.log(cpAddress)
-	var file = "<file contents here>";
-	var requestOptions = {
-  	method: 'POST',
-  	body: file,
-  	redirect: 'follow'
-};
-
-fetch("http://localhost:3000/api/verifyMessage?address=1Lkukgo9kNZBFMTYaC72fHtyRJMPk78rYg&message=1Lkukgo9kNZBFMTYaC72fHtyRJMPk78rYg&signature=IIhrq1zc%2BjqQqVP7l95PUis61yU0FBl5uG2XeGkDLTLmC%2BwuEdYT7%2BMLg2veUEBffjG6m7EDiEYIUME2Fkbxjb8%3D", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-		//
-	}
-
 	let selected;
 	let selectedInscription;
 	let selectedmimetype;
 	let cpAddress = ''
+	let message = 'Bitcoin%20Audio%20is%20RAD!'
+	let cpURL =	"counterparty:"+ cpAddress + "?action=sign&message="+ message + "&icon=&callback=http%3A%2F%2Flocalhost:3000%2Fapi%2FverifyMessage"
+
+	async function isCPVerified() {
+		let cpURL =	"counterparty:"+ cpAddress + "?action=sign&message="+ message + "&icon=&callback=http%3A%2F%2Flocalhost:3000%2Fapi%2FverifyMessage"
+
+		console.log(cpAddress)
+		console.log(cpURL)
+	// var file = "<file contents here>";
+	var requestOptions = {
+  	method: 'POST',
+  	
+  	redirect: 'follow'
+};
+
+// fetch("http://localhost:3000/api/verifyMessage?address=" + {cpAddress} + "&message=" + {message} + "&signature=H4ojQ%2BmaI7ikDSs7rrcdgFzogXT4P9Lue6MrtYDqZAdLAEPl9twBj%2BPhUX9IfUgw36GvRdLv44cP3n35LAL9Wxg%3D", requestOptions)
+// fetch(cpURL, requestOptions)
+
+// .then(response => response.text())
+//   .then(result => console.log(result))
+//   .catch(error => console.log('error', error));
+		//
+	}
+
+
+// fetch("http://localhost:3000/api/verifyMessage?address=" + {cpAddress} + "&message=" + {message} + "&signature=IPPTJW08XhfGoTRYYcXz%2FCrx5Ymjq5HKiMS0dKpBsoR7FH%2B8Sa0JoKYxgeQ6wTdHuDd7xErIz2GqOgerU9Mkp4Y%3D", requestOptions)
+//   .then(response => response.text())
+//   .then(result => console.log(result))
+//   .catch(error => console.log('error', error));
+// 		//
+// 	}
+
+	// counterparty:{cpAddress} + ?action=sign&message=+ {message} +&icon= + {icon} + &callback=http%3A%2F%2Flocalhost:3000%2Fapi%2FverifyMessage
 	
 </script>
 
 <div class="wallet">
-	<button on:click={isCPVerified}><img class="wallet-logo" src={freewallet} alt="" /></button>
+	<!-- <button on:click={isCPVerified}><img class="wallet-logo" src={freewallet} alt="" /></button> -->
+	<a href={cpURL}><img class="wallet-logo" src={freewallet} alt="" /></a>
 	<input bind:value={cpAddress} />
 </div>
 <hr />

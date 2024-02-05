@@ -44,6 +44,7 @@ app.post('/api/verifyMessage', (req, res) => {
     var address = req.query.address;
     var message = req.query.message
     var signature = req.query.signature;
+    console.log(address, message, signature)
 
     const isMesValid = (bitcoinMessage.verify(message, address, signature))
 // => true
@@ -55,7 +56,7 @@ app.post('/api/verifyMessage', (req, res) => {
 app.get('/api/signMessage', (req, res) => {
 var keyPair = ECPair.fromWIF('KyatKtdVaboeVJ8nE1g5VvQpU23R5pezeVvK9bvZxPLSwUh9SJ5J')
 var privateKey = keyPair.privateKey
-var message = 'Hey I am Kenneth Hu'
+var message = 'Bitcoin Audio is RAD!'
 
 var signature = bitcoinMessage.sign(message, privateKey, keyPair.compressed)
 console.log(signature.toString('base64'))
