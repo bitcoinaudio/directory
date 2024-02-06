@@ -4,7 +4,7 @@
 </svelte:head>
 
 <div class="text-column">
-	<h1>About this app</h1>
+	<h1>About Us</h1>
 
 	<p>
 		
