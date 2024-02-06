@@ -23,7 +23,7 @@ jobs:
         key: ${{ secrets.SSHKEY }}
         port: 22
         script: |
-          cd /var/www/directory/
+          cd /var/www/directory
           git checkout .
           git pull
           npm install
