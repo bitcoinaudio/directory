@@ -1,12 +1,7 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
-	import freewallet from '$lib/images/freewallet.png';
 	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
 	let winuni = globalThis.unisat;
-	let publicKey = '';
-	let signedMessage = '';
-	let icon =
-		'https://bitcoinaudio.co/wp-content/uploads/2022/04/cropped-bitcoinaudio-logo-BA-2020-005-1024x209.png';
 
 	export let accounts = unisatAccounts;
 
