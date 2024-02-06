@@ -28,4 +28,4 @@ jobs:
           git pull
           npm install
           npm run build
-          PORT=5173 node build
+          PORT=5173 node build 
