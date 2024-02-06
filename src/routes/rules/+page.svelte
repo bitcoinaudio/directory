@@ -33,7 +33,7 @@
 	</p>
 
 	<p>
-		Once approved, your card will appear on <a href="directory.bitcoinaudio.co">Bitcoin Audio Directory</a>… and <a href="https://pepe.wtf/new/collections/Fake-Rares">pepe.wtf</a>… and probably all over twitter. 
+		Once approved, your card will appear on <a href="https://directory.bitcoinaudio.co">Bitcoin Audio Directory</a>… and <a href="https://pepe.wtf/new/collections/Fake-Rares">pepe.wtf</a>… and probably all over twitter. 
 		Don’t feel compelled to DM the team to check on the status. 
 		Persistence is key in many things… but here it will only distract and delay. 
 		Also it makes us think you are all frothing in the loins for us and it will give us a big head. 
