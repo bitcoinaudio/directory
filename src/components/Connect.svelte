@@ -1,6 +1,12 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
-	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
+	import {
+		htmlarray,
+		unisatAccounts,
+		walletConnected,
+		iscpverified,
+		myinscriptions
+	} from '../stores';
 	let winuni = globalThis.unisat;
 
 	export let accounts = unisatAccounts;
@@ -16,13 +22,11 @@
 				console.log('UniSat Wallet is installed!');
 				accounts = await winuni.requestAccounts();
 				$walletConnected = true;
-				winuni.Connected =true;
-				
+				winuni.Connected = true;
 
 				// settingsBitmap.showMyBitmap = true
 				console.log('connect success', accounts);
-				console.log(winuni)
-				
+				console.log(winuni);
 
 				// unisatAccounts.set(accounts)
 				GetMyBitmaps();
@@ -40,7 +44,6 @@
 	}
 
 	function DisconnectWallet() {
-		
 		htmlArray = [];
 		winuni.Connected = false;
 		$walletConnected = false;
@@ -66,7 +69,7 @@
 		if ($walletConnected) {
 			const regexBitmap = /^(?:0|[1-9][0-9]*).bitmap$/;
 			const regexBitmapstr = /^(?:0|[1-9][0-9]*).bitmapstr$/;
-			const hiroURL = 'https://api.hiro.so/ordinals/v1/inscriptions/';
+			// const hiroURL = 'https://api.hiro.so/ordinals/v1/inscriptions/';
 			const radinals = 'https://radinals.bitcoinaudio.co';
 
 			try {
@@ -78,9 +81,9 @@
 					const mimetype = walletInscriptions.list[i].contentType;
 					const insContent = walletInscriptions.list[i].content;
 
-					const hiro = hiroURL + insID;
+					// const hiro = hiroURL + insID;
 
-					const content = await fetch(hiro + '/content');
+					const content = await fetch(radinals + '/inscriptions');
 					const ins = await content.text();
 					const inscriptionParts = ins.split('.');
 					// console.log(inscriptionParts);
@@ -101,7 +104,7 @@
 
 					if (mimetype == 'text/html;charset=utf-8') {
 						let insURL = radinals + '/content/' + insID;
-
+						
 						htmlArray.push(insURL);
 						console.log(mimetype);
 					} else {
@@ -122,12 +125,9 @@
 			console.log('else GetMyBitmaps ERROR');
 		}
 	}
-
-	
 </script>
 
-<div class="wallet">
-</div>
+<div class="wallet"></div>
 <hr />
 <div class="wallet">
 	{#if $walletConnected}
