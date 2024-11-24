@@ -49,6 +49,9 @@
 				<a href="/about">About Us</a>
 			</li>
 			{#if $walletConnected}
+			<li aria-current={$page.url.pathname === '/inscribe' ? 'page' : undefined}>
+				<a href="/inscribe">inscribe</a>
+			</li>
 			<li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
 				<a href="/rules">Rules</a>
 			</li>
