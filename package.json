@@ -23,6 +23,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
 		"autoprefixer": "^10.4.20",
+		"daisyui": "^4.12.14",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
@@ -40,6 +41,7 @@
 	"dependencies": {
 		"flowbite": "^2.5.1",
 		"flowbite-svelte": "^0.46.15",
-		"flowbite-svelte-icons": "^1.6.1"
+		"flowbite-svelte-icons": "^1.6.1",
+		"theme-change": "^2.5.0"
 	}
 }
