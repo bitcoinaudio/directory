@@ -1,17 +1,19 @@
 <script>
-	import Header from './Header.svelte';
+	import Contact from '../components/Contact.svelte';
+import Header from './Header.svelte';
 	import './app.css';
 </script>
 
 <div class="app">
 	<Header />
+	
 
 	<main>
 		<slot />
 	</main>
 
 	<footer>
-		<p>built by artist for artists</p>
+		 <!-- <Contact /> -->
 	</footer>
 </div>
 
