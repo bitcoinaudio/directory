@@ -126,7 +126,7 @@
 	
 </script>
 
-<div class="wallet">
+<div class="card wallet">
 </div>
 <hr />
 <div class="wallet">
