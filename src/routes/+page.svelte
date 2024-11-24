@@ -1,5 +1,6 @@
 <script>
 	import welcome_fallback from '$lib/images/bitcoinaudio.png';
+	import Hero from '../components/Hero.svelte';
 </script>
 
 <svelte:head>
@@ -8,17 +9,7 @@
 </svelte:head>
 
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-		Building a directory of Bitcoin Audio artists. 	
-		
-	</h1>
-	<h2>A Collective.</h2>
-
+	<Hero />
 	
 </section>
 
