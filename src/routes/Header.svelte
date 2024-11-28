@@ -12,7 +12,7 @@
 	
 
 	export let message = 'This site is currently in experimental mode. Some features may not work as expected.';
-    let isVisible = true;
+    let isVisible = false;
 
     function closeNotification() {
         isVisible = false;

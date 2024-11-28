@@ -1,25 +1,13 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
-	import Wallet from 'sats-connect'
 	let winuni = globalThis.unisat;
 
 	export let accounts = unisatAccounts;
 
 	// UniSat stuff
-	const handleGetInfo = async () => {
-	try {
-		const wallet = await Wallet.request("getInfo", null)
-		console.log(wallet)
-	} catch (error) {
-		console.error(error)
-	}
-}
+
 	async function ConnectWallet() {
-
-
-
-
 		// UniSat Wallet
 
 		try {
@@ -49,7 +37,6 @@
 			console.log('Sign into wallet');
 			alert('UniSat Wallet is installed! Sign in to your Wallet');
 		}
-
 	}
 
 	function DisconnectWallet() {
@@ -148,7 +135,7 @@
 			><img class="wallet-logo" src={logounisat} alt="" />Disconnect?</button
 		>
 	{:else}
-		<button class="wallet-btn" on:click={handleGetInfo}
+		<button class="wallet-btn" on:click={ConnectWallet}
 			><img class="wallet-logo" src={logounisat} alt="" />Connect?</button
 		>
 	{/if}
