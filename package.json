@@ -42,6 +42,7 @@
 		"flowbite": "^2.5.1",
 		"flowbite-svelte": "^0.46.15",
 		"flowbite-svelte-icons": "^1.6.1",
+		"sats-connect": "3.0.x",
 		"theme-change": "^2.5.0"
 	}
 }
