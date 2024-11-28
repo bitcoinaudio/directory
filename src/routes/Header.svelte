@@ -4,8 +4,9 @@
 	import github from '$lib/images/github.svg';
 	import Modal from '../components/Modal.svelte';
 	import wallet from '$lib/images/wallet.svg';
-	import Connect from '../components/Connect.svelte';
-	import { walletConnected } from '../stores';
+	import ConnectUnisat from '../components/ConnectUnisat.svelte';
+	import ConnectXverse from '../components/ConnectXverse.svelte';
+	import { walletConnected } from '../stores';	
 
 	let showModal = false;
 
@@ -80,12 +81,13 @@
 
 	<div class="corner">
 		
-		<span><a href="https://github.com/bitcoinaudio/directory">
+		
+		<button class="connectbutton" on:click={() => (showModal = true)}> 
+			<img src={wallet} alt="wallet connect" />
+		 </button>
+		 <span><a href="https://github.com/bitcoinaudio/directory">
 			<img src={github} alt="GitHub" />
 		</a></span>
-		<button class="connectbutton" on:click={() => (showModal = true)}> 
-			<img src={wallet} alt="GitHub" />
-		 </button>
 	</div>
 
 		
@@ -95,7 +97,8 @@
 
 <Modal bind:showModal>
 	
-	<Connect />
+	<ConnectUnisat />
+	<ConnectXverse />
 
 	
 </Modal>

@@ -15,9 +15,9 @@
  let selected;
 </script>
 <svelte:head>
-	<title>My Inscriptions</title>
-	<meta name="description" content="My Inscriptions" />
-</svelte:head>
+	<title>My Wallet Media</title>
+	<meta name="description" content="My Wallet Media" />
+</svelte:head>	
 
 <!-- 
 	<select class="dropdown" bind:value={selected} on:load={getHTML} on:change={handleSubmit}>

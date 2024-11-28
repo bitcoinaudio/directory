@@ -1,44 +1,29 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
-	import Wallet from 'sats-connect'
-	let winuni = globalThis.unisat;
+ 	let winuni = globalThis.unisat;
+
+	
 
 	export let accounts = unisatAccounts;
 
-	// UniSat stuff
-	const handleGetInfo = async () => {
-	try {
-		const wallet = await Wallet.request("getInfo", null)
-		console.log(wallet)
-	} catch (error) {
-		console.error(error)
-	}
-}
+ 
 	async function ConnectWallet() {
 
-
-
-
-		// UniSat Wallet
+ 
 
 		try {
-			// console.log('globalThis.unisat:', winuni);
-			if (typeof winuni !== 'undefined') {
+ 			if (typeof winuni !== 'undefined') {
 				console.log('UniSat Wallet is installed!');
 				accounts = await winuni.requestAccounts();
 				$walletConnected = true;
 				winuni.Connected =true;
-				
-
-				// settingsBitmap.showMyBitmap = true
-				console.log('connect success', accounts);
+				 
+ 				console.log('connect success', accounts);
 				console.log(winuni)
-				
-
-				// unisatAccounts.set(accounts)
-				GetMyBitmaps();
+				 
 			} else {
+				 
 				$walletConnected = false;
 				// settingsBitmap.showMyBitmap = false
 				// console.log('UniSat Wallet is not installed :(');
@@ -148,8 +133,8 @@
 			><img class="wallet-logo" src={logounisat} alt="" />Disconnect?</button
 		>
 	{:else}
-		<button class="wallet-btn" on:click={handleGetInfo}
-			><img class="wallet-logo" src={logounisat} alt="" />Connect?</button
+		<button class="wallet-btn" on:click={ConnectWallet}
+			><img class="wallet-logo" src={logounisat} alt="" />Connect to Unisat Wallet?</button
 		>
 	{/if}
 </div>
@@ -167,9 +152,6 @@
 	.wallet-btn {
 		display: flex;
 		background: none;
-		border: black;
-		border-style: solid;
-		border-radius: 4%;
-		align-items: center;
+ 		align-items: center;
 	}
 </style>
