@@ -10,9 +10,9 @@
 	--color-bg-0: rgba(128, 128, 128, 0.835);
 	--color-bg-1: hsl(60, 2%, 24%);
 	--color-bg-2:hsl(0deg 0% 0% / 45%);
-	--color-theme-1: #af1a07;
+	--color-theme-1: #000000;
 	--color-theme-2: #a6a640;
-	--color-text: #F0D800;
+	--color-text: #fcfcfc;
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
@@ -106,17 +106,10 @@ button:focus:not(:focus-visible) {
 iframe {
 	zoom: 0.80;
 	transform: none;
-	transform-origin: 0%;
-        -moz-transform: scale(0.75);
-        -moz-transform-origin: 0 0;
-        -o-transform: scale(0.75);
-        -o-transform-origin: 0 0;
-        -webkit-transform: scale(0.75);
-        -webkit-transform-origin: 0 0;
 	border-radius: 4%;
 	height: 600px;
 	width: 460px;
-	box-shadow: -20px 11px 17px 20px rgb(83 82 82 / 75%);
+	box-shadow: -10px 11px 17px 10px rgba(0, 0, 0, 0.75);
 }
 .logo {
 	width: 100px;

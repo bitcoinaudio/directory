@@ -23,13 +23,14 @@
 </script>
 
 <header>
-	<div class="corner logo">
+	<div class="size-1/4 p-4">
 		<a href="https://inscribed.audio/">
 			<img src={logo} alt="Inscribed Audio" />
 		</a>
 	</div>
 
-	<nav class="navbar max-w-xs rounded-full bg-base-100/90 py-0 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-4xl">
+	<div  class="sticky top-0 z-50 flex justify-center py-4">
+	<nav class="navbar max-w-xs   py-0 shadow-2xl  backdrop-blur md:max-w-2xl">
 		 
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
@@ -44,21 +45,21 @@
 			<li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
 				<a href="/collections">Collections</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About Us</a>
-			</li>
+			</li> -->
 			{#if $walletConnected}
-			<li aria-current={$page.url.pathname === '/inscribe' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/inscribe' ? 'page' : undefined}>
 				<a href="/inscribe">inscribe</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
+			</li> -->
+			<!-- <li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
 				<a href="/rules">Rules</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/submit' ? 'page' : undefined}>
+			</li> -->
+			<!-- <li aria-current={$page.url.pathname === '/submit' ? 'page' : undefined}>
 				<a href="/submit">Submit</a>
-			</li>
+			</li> -->
 			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-				<a href="/myinscriptions">My Inscriptions</a>
+				<a href="/myinscriptions">My Wallet Media</a>
 			</li>
 			{/if}
 			
@@ -73,7 +74,7 @@
 {/if}
 		
 	</nav>
-	
+	</div>
 
 	<div class="corner">
 		
@@ -127,11 +128,7 @@
 		object-fit: contain;
 	}
 
-	nav {
-		display: flex;
-		justify-content: center;
-		--background: rgba(0, 0, 0, 0.7);
-	}
+ 
 
 	svg {
 		width: 2em;

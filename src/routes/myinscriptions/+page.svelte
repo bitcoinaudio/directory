@@ -1,6 +1,6 @@
 
 <script>
-	import GetMyBitmaps from '../../components/Connect.svelte';
+	// import GetMyBitmaps from '../../components/Connect.svelte';
 	import { htmlarray } from '../../stores';
  async function getHTML() {
 

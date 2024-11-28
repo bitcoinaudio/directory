@@ -1,0 +1,21 @@
+const collections = [
+    {
+      name: "Dust",
+      icon: "/images/icons/dust.png",
+      description:
+        "Bitcoin Infused Music",
+        ordinal: "https://ordinals.com/content/ab699442da30abce39169d52a70ef4aac05bd268171a4b26f4a49894ebe037c9i0",
+        app: "https://arweave.net/LCsgW3xifQxW07lzImZAOxuMkrOj6M_33VmS8KXKMhs",
+    },
+    {
+      name: "The Ides of March",
+      icon: "/images/icons/ides.png",
+      description:
+        "Redefining Digital Music on Bitcoin",
+        ordinal: "https://ordinals.com/content/b90c683a0ff8bac19d77468d3891046e26b0ca9a4003a9715c2def14a0b86fbdi0",
+       app: "https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg",
+
+    },
+  ];
+
+  export default collections;
