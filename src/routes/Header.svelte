@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from '$lib/images/ba-logo.svg';
+	import logo from '$lib/images/ia-logo.svg';
 	import github from '$lib/images/github.svg';
 	import Modal from '../components/Modal.svelte';
 	import wallet from '$lib/images/wallet.svg';
@@ -23,16 +23,14 @@
 </script>
 
 <header>
-	<div class="corner">
-		<a href="https://bitcoinaudio.co/">
-			<img src={logo} alt="BitcoinAudio" />
+	<div class="corner logo">
+		<a href="https://inscribed.audio/">
+			<img src={logo} alt="Inscribed Audio" />
 		</a>
 	</div>
 
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
+	<nav class="navbar max-w-xs rounded-full bg-base-100/90 py-0 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-4xl">
+		 
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
@@ -66,9 +64,7 @@
 			
 			
 		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
+		 
 		{#if isVisible}
 <div class="notification-bar">
     <p>{message}</p>
