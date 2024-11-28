@@ -4,7 +4,7 @@ import Header from './Header.svelte';
 	import './app.css';
 </script>
 
-<div class="app">
+<div class="app bg-base-100">
 	<Header />
 	
 

@@ -5,7 +5,7 @@
 <div id="home" class="hero py-10 flex justify-center">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <img
-      src="https://images.unsplash.com/photo-1552960562-daf630e9278b?q=100&w=900"
+      src=""
       alt=""
       class="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
     />
