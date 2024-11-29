@@ -1,5 +1,7 @@
 <script>
  import collections from '../collections';
+ let collection;
+
 </script>
  
 <div
@@ -25,7 +27,7 @@
           <iframe src={item.ordinal} title="" scrolling=no  height="100%" width="100%" allowfullscreen></iframe>
          
 
-          <h2 class="font-urbanist card-title text-3xl font-black">
+          <h2 class="font-urbanist card-title text-3xl font-black ">
             {item.name}
           </h2>
           <p class="text-md font-urbanist font-medium opacity-60">
@@ -35,6 +37,7 @@
           <div  class="card-actions justify-center">
             <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
               <li>
+                <!-- svelte-ignore a11y-missing-attribute -->
                 <a class="tooltip" data-tip="Home">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +54,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="Details" href={item.ordinal} target="_blank">
+                <a class="tooltip" data-tip="Details" href={item.details} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"

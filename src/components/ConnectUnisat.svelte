@@ -1,6 +1,7 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
+	import iom from '$lib/images/collections/idesofmarch.json'
  	let winuni = globalThis.unisat;
 
 	
@@ -73,10 +74,10 @@
 					const insContent = walletInscriptions.list[i].content;
 
  
-					const content = await fetch(radinals + '/content/');
+					const content = await fetch(radinals);
 					const ins = await content.text();
 					const inscriptionParts = ins.split('.');
-					console.log(ins);
+					// console.log(ins);
 
 			
 
@@ -84,17 +85,17 @@
 						let insURL = radinals + '/content/' + insID;
 
 						htmlArray.push(insURL);
-						console.log(mimetype);
+						// console.log(mimetype);
 					} else {
 						console.log('not html');
 					}
 
 					mimetypes.push(mimetype);
-				    console.log("mimetypes: ", mimetypes)
+				    // console.log("mimetypes: ", mimetypes)
 				}
 
-				console.log('htmlArray', htmlArray);
-				return [htmlArray, bitmapArray];
+				// console.log('htmlArray', htmlArray);
+				return [htmlArray];
 			} catch (e) {
 				console.log(' catch GetMyBitmaps ERROR');
 				console.log(e);
