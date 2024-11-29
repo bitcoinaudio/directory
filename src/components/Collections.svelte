@@ -18,22 +18,22 @@
   <div class="container flex flex-wrap gap-4">
     {#each collections as item, index}
       <div
-        class="card max-w-2xl shadow-sm transition duration-300 hover:-translate-y-1 bg-base-200 rounded-box mt-6 gap-4"
+        class="card max-w-2xl  transition duration-300 hover:-translate-y-1 bg-base-200 rounded-box mt-4 gap-4"
       >
-        <div class="card-body">
-          <div
-            class=""
-          >
-          <iframe src={item.ordinal} title="" scrolling=no  allowfullscreen></iframe>
-        </div>
+        <div class="card-body shadow-inner">
+          
+          <iframe src={item.ordinal} title="" scrolling=no  height="100%" width="100%" allowfullscreen></iframe>
+         
+
           <h2 class="font-urbanist card-title text-3xl font-black">
             {item.name}
           </h2>
           <p class="text-md font-urbanist font-medium opacity-60">
             {item.description}
-          </p>
+          </p> 
+
           <div  class="card-actions justify-center">
-            <ul class="menu menu-horizontal bg-base-200 rounded-box mt-6">
+            <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
               <li>
                 <a class="tooltip" data-tip="Home">
                   <svg
@@ -67,7 +67,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="Stats">
+                <a class="tooltip" data-tip="App" href={item.app} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -99,4 +99,9 @@
 
 		
 	}
+
+  .iframe {
+    height: 100%;
+    width: 100%;
+  }
 </style>

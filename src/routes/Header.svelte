@@ -23,15 +23,15 @@
 </script>
 
 <header>
-	<div class="size-1/4 p-4">
-		<a href="https://inscribed.audio/">
-			<img src={logo} alt="Inscribed Audio" />
-		</a>
-	</div>
+	
 
-	<div  class="sticky top-0 z-50 flex justify-center py-4">
-	<nav class="navbar max-w-xs   py-0 shadow-2xl  backdrop-blur md:max-w-2xl">
-		 
+	<div  class="sticky top-0 z-50 flex justify-center">
+	<nav class="navbar max-w-xs  rounded-box py-0 shadow-2xl   backdrop-blur md:max-w-3xl">
+		<div class="  p-2">
+			<a href="https://inscribed.audio/">
+				<img src={logo} alt="Inscribed Audio" />
+			</a>
+		</div>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
@@ -59,12 +59,13 @@
 				<a href="/submit">Submit</a>
 			</li> -->
 			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-				<a href="/myinscriptions">My Wallet Media</a>
+				<span><a href="/myinscriptions">My Media</a></span>
 			</li>
 			{/if}
 			
 			
 		</ul>
+		 
 		 
 		{#if isVisible}
 <div class="notification-bar">
@@ -72,20 +73,18 @@
     <button on:click={closeNotification}>&times;</button>
 </div>
 {/if}
+
+<button class=" justify-center " on:click={() => (showModal = true)}> 
+	<img class="size-32" src={wallet} alt="wallet connect" />
+ </button>
+ <span><a href="https://github.com/bitcoinaudio/directory">
+	<img class="size-32" src={github} alt="GitHub" />
+</a></span>
 		
 	</nav>
 	</div>
 
-	<div class="corner">
-		
-		
-		<button class="connectbutton" on:click={() => (showModal = true)}> 
-			<img src={wallet} alt="wallet connect" />
-		 </button>
-		 <span><a href="https://github.com/bitcoinaudio/directory">
-			<img src={github} alt="GitHub" />
-		</a></span>
-	</div>
+	 
 
 		
 		
@@ -190,13 +189,7 @@
 	a:hover {
 		color: var(--color-theme-1);
 	}
-
-	.connectbutton {
-		background: none;
-		border: none;
-		cursor: pointer;
-
-	}
+ 
 
 	.notification-bar {
     background-color: #f8d7da; /* Light red background */
