@@ -5,7 +5,7 @@
  async function getHTML() {
 
 	
-	GetMyBitmaps
+	 
  }
 
  function handleSubmit() {

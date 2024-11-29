@@ -25,7 +25,7 @@
 				
 
 				// unisatAccounts.set(accounts)
-				GetMyBitmaps();
+				// GetMyBitmaps();
 			} else {
 				$walletConnected = false;
 				// settingsBitmap.showMyBitmap = false

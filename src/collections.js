@@ -12,7 +12,7 @@ const collections = [
       icon: "/images/icons/ides.png",
       description:
         "Redefining Digital Music on Bitcoin",
-        ordinal: "https://ordinals.com/content/b90c683a0ff8bac19d77468d3891046e26b0ca9a4003a9715c2def14a0b86fbdi0",
+        ordinal: "https://ordinals.com/content/a33c04ca65a41c509becca1915b19bc5508e5c4df40944b42828001f5cebfd74i0",
        app: "https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg",
 
     },

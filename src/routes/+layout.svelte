@@ -1,11 +1,12 @@
 <script>
-	import Contact from '../components/Contact.svelte';
+	import { Navbar } from 'flowbite-svelte';
+import Contact from '../components/Contact.svelte';
 import Header from './Header.svelte';
 	import './app.css';
 </script>
 
 <div class="app bg-base-100 items-center">
-	<Header />
+	<Header /><Navbar />
 	
 
 	<main>

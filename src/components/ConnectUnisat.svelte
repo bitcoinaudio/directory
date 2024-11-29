@@ -9,9 +9,6 @@
 
  
 	async function ConnectWallet() {
-
- 
-
 		try {
  			if (typeof winuni !== 'undefined') {
 				console.log('UniSat Wallet is installed!');
@@ -21,7 +18,8 @@
 				 
  				console.log('connect success', accounts);
 				console.log(winuni)
-				 
+				GetWalletInsTotal();
+				getMyMedia();  
 			} else {
 				 
 				$walletConnected = false;
@@ -42,13 +40,14 @@
 		htmlArray = [];
 		winuni.Connected = false;
 		$walletConnected = false;
+
 	}
 
 	async function GetWalletInsTotal() {
 		let limit = 20;
 		const walletInscriptions = await winuni.getInscriptions(0, 20);
-		// console.log(" GetWalletInsTotal()")
-		// console.log(walletInscriptions.total)
+		console.log(" GetWalletInsTotal()")
+		console.log(walletInscriptions)
 		return walletInscriptions.total;
 	}
 
@@ -59,6 +58,52 @@
 	export let mimetypes = [];
 	htmlarray.set(htmlArray);
 	// console.log("$htmlarray: ", $htmlarray)
+
+	export async function getMyMedia() {
+		if ($walletConnected) {
+  			const radinals = 'https://radinals.bitcoinaudio.co';
+
+			try {
+				const limit = await GetWalletInsTotal();
+				const walletInscriptions = await winuni.getInscriptions(0, limit);
+
+				for (let i = 0; i < walletInscriptions.total; i++) {
+					const insID = walletInscriptions.list[i].inscriptionId;
+					const mimetype = walletInscriptions.list[i].contentType;
+					const insContent = walletInscriptions.list[i].content;
+
+ 
+					const content = await fetch(radinals + '/content/');
+					const ins = await content.text();
+					const inscriptionParts = ins.split('.');
+					console.log(ins);
+
+			
+
+					if (mimetype == 'text/html;charset=utf-8') {
+						let insURL = radinals + '/content/' + insID;
+
+						htmlArray.push(insURL);
+						console.log(mimetype);
+					} else {
+						console.log('not html');
+					}
+
+					mimetypes.push(mimetype);
+				    console.log("mimetypes: ", mimetypes)
+				}
+
+				console.log('htmlArray', htmlArray);
+				return [htmlArray, bitmapArray];
+			} catch (e) {
+				console.log(' catch GetMyBitmaps ERROR');
+				console.log(e);
+			}
+		} else {
+			console.log('else GetMyBitmaps ERROR');
+		}
+
+	}
 
 	export async function GetMyBitmaps() {
 		if ($walletConnected) {
@@ -124,9 +169,7 @@
 	
 </script>
 
-<div class="card wallet">
-</div>
-<hr />
+
 <div class="wallet">
 	{#if $walletConnected}
 		<button class="wallet-btn" on:click={DisconnectWallet}
