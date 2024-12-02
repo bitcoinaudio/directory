@@ -1,44 +1,48 @@
 <script>
- import collections from '../collections';
- let collection;
-
-</script>
+  import iomCollection from '$lib/images/collections/idesofmarch.json'
  
-<div
-  id="collections"
-  class=" "
->
-  <div class=" ">
-    <h1 class="text-center font-urbanist text-2xl font-semibold md:text-5xl">
-      
-    </h1>
-    <span
-      class="text-md font-urbanist mt-2 px-2 text-center md:mt-4 md:px-5 md:text-xl"
-      ></span
-    > 
-  </div>
-  <div class="container flex flex-wrap gap-4">
-    {#each collections as item, index}
-      <div
-        class="card max-w-2xl  transition duration-300 hover:-translate-y-1 bg-base-200 rounded-box mt-4 gap-4"
-      >
-        <div class="card-body shadow-inner">
-          
-          <iframe src={item.ordinal} title="" scrolling=no  height="100%" width="100%" allowfullscreen></iframe>
-         
+ // Pagination state
+ let currentPage = 1;
+ const itemsPerPage = 21; // Adjust this number as needed
 
-          <h2 class="font-urbanist card-title text-3xl font-black ">
-            {item.name}
-          </h2>
-          <p class="text-md font-urbanist font-medium opacity-60">
-            {item.description}
-          </p> 
+ // Calculate the total number of pages
+ const totalPages = Math.ceil(iomCollection.length / itemsPerPage);
+
+ // Get the items for the current page
+ $: paginatedItems = iomCollection.slice(
+   (currentPage - 1) * itemsPerPage,
+   currentPage * itemsPerPage
+ );
+
+ // Function to change the page
+ function changePage(page) {
+   if (page > 0 && page <= totalPages) {
+     currentPage = page;
+   }
+ }
+</script>
+ <div class="grid grid-cols-4 gap-4">   
+  
+ 
+    {#each paginatedItems as item, index}
+    <div class="card flex flex-wrap ">
+      
+          <div class="card-body shadow-inner flex flex-col justify-center">
+          
+          <iframe src={"https://radinals.bitcoinaudio.co/content/" + item.id} title=""   allowfullscreen></iframe>
+         
+          <a href={"https://ordinals.com/inscription/" + item.id} target="_blank"> 
+
+          <p class="font-urbanist font-black ">
+            {item.meta.name}
+          </p>
+          </a>
 
           <div  class="card-actions justify-center">
             <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a class="tooltip" data-tip="Home">
+                <a class="tooltip" data-tip="Home" href={'/collections'}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -54,7 +58,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" + item.insID} target="_blank">
+                <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" +  item.id} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -70,7 +74,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="App" href={item.ordinal} target="_blank">
+                <a class="tooltip" data-tip="App" href={"https://ordinals.com/content/" + item.id} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -87,24 +91,61 @@
               </li>
             </ul>
             </div>
+
         </div>
-      </div>
-      
+      </div> 
+
     {/each}
     
   </div>
+<!-- Pagination Controls -->
+<div class="join pagination-controls">
+  <button class="join-item" on:click={() => changePage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+  <span class="join-item">Page {currentPage} of {totalPages}</span>
+  <button class="join-item" on:click={() => changePage(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
 </div>
-<style>
-	.collections {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
 
-		
+<style>
+
+	.card {
+ 		margin: 10px;
 	}
 
-  .iframe {
-    height: 100%;
-    width: 100%;
+	.card-body {
+		padding: 10px;
+	}
+
+	 
+
+	.card-title {
+		font-size: 1.5rem;
+	}
+
+  iframe {
+    height: 200px ;
+    width: 200px;
   }
+
+	.text-md {
+		font-size: 0.875rem;
+	}
+
+	.pagination-controls {
+		display: flex;
+		justify-content: center;
+		margin-top: 20px;
+	}
+
+	.pagination-controls button {
+		margin: 0 5px;
+		padding: 5px 10px;
+		background-color: #f0f0f0;
+		border: none;
+		cursor: pointer;
+	}
+
+	.pagination-controls button:disabled {
+		background-color: #ccc;
+		cursor: not-allowed;
+	}
 </style>

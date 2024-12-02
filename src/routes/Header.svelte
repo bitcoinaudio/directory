@@ -4,30 +4,37 @@
 	import github from '$lib/images/github.svg';
 	import Modal from '../components/Modal.svelte';
 	import wallet from '$lib/images/wallet.svg';
+	import { walletConnected } from '../stores';	
+	import NavBar from '../components/NavBar.svelte';
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
-	import { walletConnected } from '../stores';	
-
 	let showModal = false;
 
 	
 
-	export let message = 'This site is currently in experimental mode. Some features may not work as expected.';
+	export const message = 'This site is currently in experimental mode. Some features may not work as expected.';
     let isVisible = false;
 
     function closeNotification() {
         isVisible = false;
     }
 
+	function openModal() {
+		console.log("openModal", showModal);
+		showModal = true;
+	}
+
 
 </script>
 
 <header>
-	
-
-	<div  class="sticky top-0 z-50 flex justify-center">
-	<nav class="navbar max-w-xs  rounded-box py-0 shadow-2xl   backdrop-blur md:max-w-3xl">
-		<div class="  p-2">
+ 		<!-- <NavBar />	 -->
+		 <!-- <span><a href="https://github.com/bitcoinaudio/directory">
+			<img class="size-12" src={github} alt="GitHub" />
+		</a></span> -->
+		
+	 <nav class="navbar max-w-xl  rounded-box py-0 shadow-2xl   backdrop-blur md:max-w-3xl gap-8">
+		<div class="">
 			<a href="https://inscribed.audio/">
 				<img src={logo} alt="Inscribed Audio" />
 			</a>
@@ -39,9 +46,9 @@
 			<li aria-current={$page.url.pathname === '/radinals' ? 'page' : undefined}>
 				<a href="/radinals">Radinals</a>
 			</li>
-			<!-- <li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
 				<a href="/directory">Directory</a>
-			</li> -->
+			</li>
 			<li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
 				<a href="/collections">Collections</a>
 			</li>
@@ -49,15 +56,7 @@
 				<a href="/about">About Us</a>
 			</li> -->
 			{#if $walletConnected}
-			<!-- <li aria-current={$page.url.pathname === '/inscribe' ? 'page' : undefined}>
-				<a href="/inscribe">inscribe</a>
-			</li> -->
-			<!-- <li aria-current={$page.url.pathname === '/rules' ? 'page' : undefined}>
-				<a href="/rules">Rules</a>
-			</li> -->
-			<!-- <li aria-current={$page.url.pathname === '/submit' ? 'page' : undefined}>
-				<a href="/submit">Submit</a>
-			</li> -->
+			 
 			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
 				<span><a href="/myinscriptions">My Media</a></span>
 			</li>
@@ -66,31 +65,16 @@
 			
 		</ul>
 		 
-		 
-		{#if isVisible}
-<div class="notification-bar">
-    <p>{message}</p>
-    <button on:click={closeNotification}>&times;</button>
-</div>
-{/if}
 
-<button class=" justify-center " on:click={() => (showModal = true)}> 
+<button class=" justify-center " on:click={openModal}> 
 	<img class="size-32" src={wallet} alt="wallet connect" />
  </button>
- <span><a href="https://github.com/bitcoinaudio/directory">
-	<img class="size-32" src={github} alt="GitHub" />
-</a></span>
+ 
 		
-	</nav>
-	</div>
+	</nav> 
+ 
 
-	 
-
-		
-		
 </header>
-
-
 <Modal bind:showModal>
 	
 	<ConnectUnisat />
@@ -98,6 +82,8 @@
 
 	
 </Modal>
+
+
 
 
 <style>

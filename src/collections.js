@@ -2,6 +2,7 @@ const collections = [
     {
       name: "Dust",
       icon: "/images/icons/dust.png",
+      insID: 'ab699442da30abce39169d52a70ef4aac05bd268171a4b26f4a49894ebe037c9i0',
       description:
         "Bitcoin Infused Music",
         details: "",
@@ -11,11 +12,13 @@ const collections = [
     {
       name: "The Ides of March",
       icon: "/images/icons/ides.png",
+      insID: 'a33c04ca65a41c509becca1915b19bc5508e5c4df40944b42828001f5cebfd74i0',
       description:
         "Redefining Digital Music on Bitcoin",
         details: "",
         ordinal: "https://ordinals.com/content/a33c04ca65a41c509becca1915b19bc5508e5c4df40944b42828001f5cebfd74i0",
        app: "https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg",
+       
 
     },
   ];

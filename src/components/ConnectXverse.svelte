@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import logounisat from '$lib/images/logo-unisat.png';
-	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
+	import { htmlArray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
 	import Wallet from 'sats-connect'
 	import {getProviders} from 'sats-connect'
 	 
@@ -19,8 +19,8 @@ let providerIcon;
  
 	function DisconnectWallet() {
 		
-		htmlArray = [];
-		winuni.Connected = false;
+		// htmlarray = [];
+		// winuni.Connected = false;
 		$walletConnected = false;
 	}
 

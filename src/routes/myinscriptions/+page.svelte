@@ -1,14 +1,16 @@
 
 <script>
- 	import { htmlarray } from '../../stores';
+ 	import { htmlArray, mimeArray, isIOMOwner } from '../../stores';
+
+	let ordURL = "https://radinals.bitcoinaudio.co"
  async function getHTML() {
 
-	console.log("htmlarray", $htmlarray)
+	console.log("htmlArray", $htmlArray)
 	 
  }
 
  function handleSubmit() {
-	console.log(selected)
+	console.log(selected)	
  }
 	
  let selected;
@@ -18,28 +20,18 @@
 	<meta name="description" content="My Wallet Media" />
 </svelte:head>	
 
-
-	<select class="dropdown" bind:value={selected} on:load={getHTML} on:change={handleSubmit}>
- 		{#await getHTML()}
-		<p>.Loading bitmaps</p>
-		{:then htmls}
-				{#each $htmlarray as html, index}
-				<option value={index}>{html}</option>
-
-				{/each}
-		{/await}
-	</select>
+ 
 <div class="myInscriptions">
 		{#await getHTML()}
-		<p>.Loading your inscriptions</p>
+		<p>Loading your inscriptions</p>
 		{:then htmls}
-				{#each $htmlarray as html, index}
-				<div class="card">
-					<!-- <p>{html}</p> -->
-					<!-- <a href={html} target="" ></a> -->
 
+				<!-- htmls -->
+				{#each $htmlArray as html, index}
+				<div class="card">
+				 
 					<div class="card-body shadow-inner">
-					<iframe src={html} title="" scrolling=no  allowfullscreen></iframe>
+					<iframe src={ordURL + '/content/' + html} title="" scrolling=no  allowfullscreen></iframe>
 				</div>
 				<div  class="card-actions justify-center">
 					<ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
@@ -61,7 +53,7 @@
 						</a>
 					  </li>
 					  <li>
-						<a class="tooltip" data-tip="Details" href={html} target="_blank">
+						<a class="tooltip" data-tip="Details" href={ ordURL + '/inscription/' + html} target="_blank">
 						  <svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-5 w-5"
@@ -76,8 +68,8 @@
 						  </svg>
 						</a>
 					  </li>
-					  <li>
-						<a class="tooltip" data-tip="App" href={html}} target="_blank">
+ 					  <li>
+						<a class="tooltip" data-tip="App" href={ordURL + '/content/' + html} target="_blank">
 						  <svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-5 w-5"
@@ -91,14 +83,35 @@
 							  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
 						  </svg>
 						</a>
-					  </li>
-					</ul>
+					  	</li>
+
+						{#if $isIOMOwner == true}
+						<li>
+							<a class="tooltip" data-tip="IOM" href={"https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg"} target="_blank">
+								<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+								  stroke-linecap="round"
+								  stroke-linejoin="round"
+								  stroke-width="2"
+								  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+							  </svg>
+							</a>
+						</li>
+						{/if}
+ 					</ul>
 					</div>
 		
 
 				</div>
-
 				{/each}
+				<!-- end htmls -->
+
+ 
 		{/await}
 	</div>
 
