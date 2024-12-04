@@ -1,13 +1,14 @@
 <script>
 import Header from './Header.svelte';
 	import './app.css';
-</script>
+	import backgroundImage from '$lib/images/ia-bg1.jpg';
+	import NavBar from '../components/NavBar.svelte';
+ </script>
 
-<div class="app bg-base-100 items-center">
-	<Header />
- 	
-
-	<main>
+<div class="app bg-base-100 items-center" >
+	<!-- <Header /> -->
+ 	<NavBar />
+ 	<main>
 		<slot />
 	</main>
 

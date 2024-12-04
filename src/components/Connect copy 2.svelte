@@ -1,6 +1,6 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
-	import { htmlarray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
+	import { htmlArray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
 	let winuni = globalThis.unisat;
 
 	export let accounts = unisatAccounts;

@@ -14,7 +14,7 @@
        
       <h1 class="font-urbanist text-3xl font-black uppercase md:text-7xl">
         Inscribed Audio
-        <span class="text-base-content/30">tools to manage your media</span>
+        <span class="text-black/70">tools to manage your onchain media</span>
       </h1>
       
       

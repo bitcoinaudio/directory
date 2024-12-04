@@ -7,7 +7,7 @@
     import { walletConnected } from "../stores";
     import Modal from "./Modal.svelte";
     import ConnectUnisat from '../components/ConnectUnisat.svelte';
-	import ConnectXverse from '../components/ConnectXverse.svelte';
+	import SatsConnect from '../components/SatsConnect.svelte';
 
  
 
@@ -25,12 +25,7 @@
     ];
 
     let active = "Home";
-    export const message = 'This site is currently in experimental mode. Some features may not work as expected.';
-    let isVisible = false;
-    let showModal = false;
-    function closeNotification() {
-        isVisible = false;
-    }
+   
 
     /**
      * @param {string} itemName
@@ -39,21 +34,12 @@
         active = itemName;
     }
 
-    function openModal() {
-        console.log("openModal", showModal);
-        showModal = true;
-    }
+    
 </script>
-<Modal bind:showModal>
-	
-	<ConnectUnisat />
-	<ConnectXverse />
-
-	
-</Modal>
+ 
 <nav>
-<div class="sticky top-0 z-50 flex justify-center py-4">
-    <div class="navbar max-w-xs rounded-full bg-base-100/90 py-0 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-4xl">
+<div class="sticky top-0 z-50 flex justify-center py-4 ">
+    <div class="navbar max-w-4xl rounded-box py-0 shadow-xl backdrop-blur md:max-w-3xl gap-8 ">
         <div class="navbar-start">
             <div class="dropdown">
                 <div tabindex="0" role="button" class="btn btn-circle btn-ghost lg:hidden">
@@ -75,21 +61,12 @@
                         <li>
                             <a href={item.href} class="font-urbanist">{item.name}</a>
                         </li>
-                        <li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
-                            <a href="/collections">Collections</a>
-                        </li>
-                        <!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-                            <a href="/about">About Us</a>
-                        </li> -->
-                      
                     {/each}
-                    {#if walletConnected}
-                    <li aria-current={$page.url.pathname === '/radinals' ? 'page' : undefined}>
-                        <a href="/radinals">Radinals</a>
-                    </li>
-                  
+                    <li><ConnectUnisat /></li>
+                    <li><SatsConnect /></li>
+                    {#if $walletConnected}
                     <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-                        <a href="/myinscriptions">My Inscriptions</a>
+                        <a href="/myinscriptions">My Media</a>
                     </li>
                     {/if}
                 </ul>
@@ -108,10 +85,24 @@
                         on:click={() => setActive(item.name)}>{item.name}</a>
                 </nav>
             {/each}
-            <button class=" justify-center " on:click={openModal}> 
-                <img class="size-" src={wallet} alt="wallet connect" />
-             </button>
+            {#if $walletConnected}
+            <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
+                <a href="/myinscriptions">My Media</a>
+            </li>
+            {/if}
+            <div class="dropdown dropdown-bottom dropdown-end btn-ghost">
+                <div tabindex="0" role="button" class="btn-ghost m-1">Connect</div>
+                <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                <li><ConnectUnisat /></li>
+                <li><SatsConnect /></li>
+                </ul>
+            </div>
                             
+         </div>
+
+         <div class="navbar-end">
+            <ThemeToggle />
          </div>
        
     </div>

@@ -12,7 +12,10 @@ export const devEvents = writable({
 export const settingsOpen = writable(false)
 
 export const currentHeight = writable(0)
-export const walletConnected = writable()
+export const walletConnected = writable(false)
+export const walletProvider = writable(null)
+export const walletUnisatConnected = writable(false)
+export const walletXverseConnected = writable(false)
 export const verifiedBitmapstr = writable()
 export const unisatAccounts = writable("no accounts")
 export const isBitmapOwner = writable(false)

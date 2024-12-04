@@ -1,39 +1,24 @@
 <script>
+// @ts-nocheck
+
 	import { page } from '$app/stores';
 	import logo from '$lib/images/ia-logo.svg';
-	import github from '$lib/images/github.svg';
 	import Modal from '../components/Modal.svelte';
 	import wallet from '$lib/images/wallet.svg';
-	import { walletConnected } from '../stores';	
+	import { walletConnected } from '../stores';
 	import NavBar from '../components/NavBar.svelte';
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
+	import SatsConnect from '../components/SatsConnect.svelte';
 	let showModal = false;
 
-	
-
-	export const message = 'This site is currently in experimental mode. Some features may not work as expected.';
-    let isVisible = false;
-
-    function closeNotification() {
-        isVisible = false;
-    }
-
 	function openModal() {
-		console.log("openModal", showModal);
 		showModal = true;
 	}
-
-
 </script>
 
 <header>
- 		<!-- <NavBar />	 -->
-		 <!-- <span><a href="https://github.com/bitcoinaudio/directory">
-			<img class="size-12" src={github} alt="GitHub" />
-		</a></span> -->
-		
-	 <nav class="navbar max-w-xl  rounded-box py-0 shadow-2xl   backdrop-blur md:max-w-3xl gap-8">
+	<nav class="navbar max-w-xl rounded-box py-0 shadow-xl backdrop-blur md:max-w-3xl gap-8 text-black">
 		<div class="">
 			<a href="https://inscribed.audio/">
 				<img src={logo} alt="Inscribed Audio" />
@@ -46,9 +31,9 @@
 			<li aria-current={$page.url.pathname === '/radinals' ? 'page' : undefined}>
 				<a href="/radinals">Radinals</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/directory' ? 'page' : undefined}>
 				<a href="/directory">Directory</a>
-			</li>
+			</li> -->
 			<li aria-current={$page.url.pathname === '/collections' ? 'page' : undefined}>
 				<a href="/collections">Collections</a>
 			</li>
@@ -56,42 +41,33 @@
 				<a href="/about">About Us</a>
 			</li> -->
 			{#if $walletConnected}
-			 
-			<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-				<span><a href="/myinscriptions">My Media</a></span>
-			</li>
+				<li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
+					<a href="/myinscriptions">My Media</a>
+				</li>
 			{/if}
-			
-			
 		</ul>
-		 
 
-<button class=" justify-center " on:click={openModal}> 
-	<img class="size-32" src={wallet} alt="wallet connect" />
- </button>
- 
-		
-	</nav> 
- 
+		<button class=" justify-center" on:click={openModal}>
+			<img class="size-24" src={wallet} alt="wallet connect" />
+		</button>
 
+		<div class="dropdown dropdown-bottom dropdown-end">
+			<div tabindex="0" role="button" class="btn m-1">Click</div>
+			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+			<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+			<li><ConnectUnisat /></li>
+			<li><SatsConnect /></li>
+			</ul>
+		</div>
+	</nav>
 </header>
-<Modal bind:showModal>
-	
-	<ConnectUnisat />
-	<ConnectXverse />
-
-	
-</Modal>
-
-
-
-
+ 
 <style>
 	header {
 		display: flex;
 		justify-content: space-between;
 		padding-bottom: 5px;
-		z-index: 1;
+ 		z-index: 1;
 	}
 
 	.corner {
@@ -178,27 +154,27 @@
  
 
 	.notification-bar {
-    background-color: #f8d7da; /* Light red background */
-    color: #721c24; /* Dark red text */
-    padding: 10px;
-    position: fixed;
-    top: 48px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+		background-color: #f8d7da; /* Light red background */
+		color: #721c24; /* Dark red text */
+		padding: 10px;
+		position: fixed;
+		top: 48px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-.notification-bar p {
-    margin: 0;
-}
+	.notification-bar p {
+		margin: 0;
+	}
 
-/* Optional: Responsive design for smaller screens */
-@media (max-width: 600px) {
-    .notification-bar p {
-        font-size: 0.9em;
-    }
-}
+	/* Optional: Responsive design for smaller screens */
+	@media (max-width: 600px) {
+		.notification-bar p {
+			font-size: 0.9em;
+		}
+	}
 
 </style>

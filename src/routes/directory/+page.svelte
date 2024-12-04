@@ -1,6 +1,9 @@
 <script>
-	import { page } from '$app/stores';
-	let artist = "Kane Mayfield"
+	import collections from '../../collections';
+ 	let artist = "Kane Mayfield"
+	let ordURL = "https://radinals.bitcoinaudio.co"
+	let html = "32a3ebf3927d777ce547e755bf6eb6018c01fbb510f36a318654676b6d008291i0"
+	let dustApp = collections[0].app
 </script>
 <svelte:head>
 	<title>Directory</title>
@@ -14,9 +17,8 @@
 
 	<img src="" alt=""/>
 
-	<iframe id="dirIFrame" src="https://uvkfwela7sn5mydishqhefbgy6cicxw5ycdci2e66hnywycdveoq.arweave.net/pVRbEWD8m9ZgaJHgchQmx4SBXt3AhiRonvHbi2BDqR0/" title="Dust" style="border:0px #ffffff none;" name="Dust" scrolling="no" frameborder="1" 
-	 allowfullscreen></iframe>
-	
+	<iframe src={dustApp} title="" scrolling=no  allowfullscreen></iframe>
+
 	</div>
 </div>
 

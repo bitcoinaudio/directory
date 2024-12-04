@@ -4,7 +4,8 @@
 	import { htmlArray, unisatAccounts, walletConnected, iscpverified, myinscriptions } from '../stores';
 	import Wallet from 'sats-connect'
 	import {getProviders} from 'sats-connect'
-	 
+	export let showModal;
+	showModal = false;	
 
 let providerIcon;
 	const handleGetInfo = async () => {

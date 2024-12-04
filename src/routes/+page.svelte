@@ -1,7 +1,7 @@
 <script>
 	import welcome_fallback from '$lib/images/bitcoinaudio.png';
 	import Hero from '../components/Hero.svelte';
-</script>
+ </script>
 
 <svelte:head>
 	<title>Home</title>
@@ -10,7 +10,7 @@
 
 <section>
 	<Hero />
-	
+ 	
 </section>
 
 <style>
