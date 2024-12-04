@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import Wallet from 'sats-connect';
 	import { walletUnisatConnected, walletXverseConnected, walletConnected } from '../stores';
  	import { request, AddressPurpose, RpcErrorCode, getProviders } from 'sats-connect';
@@ -39,6 +40,12 @@
 
 	function DisconnectWallet() {
 		$walletXverseConnected = false;
+		// htmlArray.set([]);
+ 		walletUnisatConnected.set(false);
+		walletConnected.set(false);
+		localStorage.removeItem('walletConnected');
+		localStorage.removeItem('connectionTime');
+		$page.url.pathname = '/';
 	}
 
 	onMount(async () => {
