@@ -61,6 +61,7 @@
 		htmlArray.set([]);
 		winuni.Connected = false;
 		walletUnisatConnected.set(false);
+		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
 		$page.url.pathname = '/';
