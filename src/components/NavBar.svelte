@@ -1,6 +1,6 @@
 <script>
     import ThemeToggle from "./ThemeToggle.svelte";
-    import logo from '$lib/images/ia-logo.svg';
+    import logo from '$lib/images/ia-logo-1.webp';
 	import github from '$lib/images/github.svg';
 	import wallet from '$lib/images/wallet.svg';
 	import { page } from '$app/stores';
@@ -39,6 +39,8 @@
  
 <nav>
 <div class="sticky top-0 z-50 flex justify-center py-4 ">
+    <!-- <img src={logo} alt="Inscribed Audio Logo" class="w-40 h-30" /> -->
+
     <div class="navbar max-w-4xl rounded-box py-0 shadow-xl backdrop-blur md:max-w-3xl gap-8 ">
         <div class="navbar-start">
             <div class="dropdown">
