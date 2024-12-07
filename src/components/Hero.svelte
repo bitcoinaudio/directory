@@ -2,7 +2,7 @@
     
 </script>
 
-<div id="home" class="hero py-10 flex justify-center">
+<div id="home" class="hero py-2 flex justify-center">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <img
       src=""
@@ -13,7 +13,7 @@
       
        
       <h1 class="font-urbanist text-3xl font-black uppercase md:text-7xl">
-        Inscribed Audio
+        My Inscribed Audio
         <span class="text-black/70">tools to manage your onchain media</span>
       </h1>
       

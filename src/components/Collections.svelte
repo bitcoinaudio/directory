@@ -17,7 +17,7 @@
       ></span
     > 
   </div>
-  <div class="container flex flex-wrap gap-4">
+  <div class="container flex flex-wrap gap-4 justify-center">
     {#each collections as item, index}
       <div
         class="card max-w-2xl  transition duration-300 hover:-translate-y-1 bg-base-200 rounded-box mt-4 gap-4"
@@ -84,16 +84,5 @@
   </div>
 </div>
 <style>
-	.collections {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-
-		
-	}
-
-  .iframe {
-    height: 100%;
-    width: 100%;
-  }
+	 
 </style>

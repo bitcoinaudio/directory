@@ -71,9 +71,7 @@
 	async function GetWalletInsTotal() {
 		let limit = 20;
 		const walletInscriptions = await winuni.getInscriptions(0, 20);
-		// console.log(" GetWalletInsTotal()")
-		// console.log(walletInscriptions)
-		return walletInscriptions.total;
+ 		return walletInscriptions.total;
 	}
 
 	

@@ -6,8 +6,8 @@
 	let ordURL = "https://radinals.bitcoinaudio.co"
 
  async function getHTML() {
-	let htmlarray = $htmlArray;
-	console.log("htmlArray", htmlarray)
+	// let htmlarray = $htmlArray;
+	console.log("htmlArray", $htmlArray)
 	 
  }
 
@@ -23,7 +23,7 @@
 	});
 </script>
 <svelte:head>
-	<title>My Wallet Media</title>
+	<title>My Inscribed Media</title>
 	<meta name="description" content="My Wallet Media" />
 </svelte:head>	
 

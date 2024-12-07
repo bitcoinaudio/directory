@@ -12,14 +12,14 @@
  
 
     const navigation = [
-        // { name: "Home", href: "#home" },
+        { name: "My Inscibed", href: "/" },
         // { name: "Services", href: "#services" },
         // { name: "Testimonial", href: "#testimonial" },
         // { name: "Team", href: "#team" },
         // { name: "Contact Us", href: "#contactus" },
         // { name: "My Inscriptions", href: "/myinscriptions"},
         { name: "Collections", href: "/collections"},
-        { name: "Radinals", href: "/radinals"},
+        // { name: "Radinals", href: "/radinals"},
         
         
     ];
@@ -73,10 +73,10 @@
                     {/if}
                 </ul>
             </div>
-            <a href="/" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
+            <a href="https://inscribed.audio" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
         </div>
         
-        <div class="navbar-center ml-10 hidden lg:flex">
+        <div class="navbar-center ml-10 hidden lg:flex gap-4">
             {#each navigation as item}
                 <nav class="menu menu-horizontal px-1">
                     <a
@@ -89,11 +89,20 @@
             {/each}
             {#if $walletConnected}
             <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-                <a href="/myinscriptions">My Media</a>
+                <a href="/myinscriptions" >My Media</a>
+            </li>
+            <li aria-current={$page.url.pathname === '/samplerr' ? 'page' : undefined}>
+                <a href="/samplerr" on:click={() => setActive("Samplerr")}>Samplerr</a>
             </li>
             {/if}
             <div class="dropdown dropdown-bottom dropdown-end btn-ghost">
+                {#if !$walletConnected}
                 <div tabindex="0" role="button" class="btn-ghost m-1">Connect</div>
+                {/if}
+                {#if $walletConnected}
+                <div tabindex="0" role="button" class="btn-ghost m-1">Disconnect</div>
+                {/if}
+
                 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                 <li><ConnectUnisat /></li>

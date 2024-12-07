@@ -1,6 +1,7 @@
 <script>
 	import welcome_fallback from '$lib/images/bitcoinaudio.png';
 	import Hero from '../components/Hero.svelte';
+	import Feature from '../components/Feature.svelte';	
  </script>
 
 <svelte:head>
@@ -10,6 +11,7 @@
 
 <section>
 	<Hero />
+	<Feature />
  	
 </section>
 
