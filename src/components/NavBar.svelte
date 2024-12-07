@@ -19,7 +19,7 @@
         // { name: "Contact Us", href: "#contactus" },
         // { name: "My Inscriptions", href: "/myinscriptions"},
         { name: "Collections", href: "/collections"},
-        { name: "Radinals", href: "/radinals"},
+        // { name: "Radinals", href: "/radinals"},
         
         
     ];
