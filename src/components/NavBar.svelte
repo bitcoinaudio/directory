@@ -12,7 +12,7 @@
  
 
     const navigation = [
-        // { name: "Home", href: "#home" },
+        { name: "Home", href: "#home" },
         // { name: "Services", href: "#services" },
         // { name: "Testimonial", href: "#testimonial" },
         // { name: "Team", href: "#team" },
@@ -73,7 +73,7 @@
                     {/if}
                 </ul>
             </div>
-            <a href="/" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
+            <a href="https://inscribed.audio" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
         </div>
         
         <div class="navbar-center ml-10 hidden lg:flex">
