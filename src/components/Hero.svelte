@@ -1,13 +1,12 @@
 <script>
-    
+    import backgroundImage from '$lib/images/ia-logo-1.webp';
 </script>
-
-<div id="home" class="hero py-2 flex justify-center">
+<div id="home" class="hero py-10 flex justify-center shadow-lg shadow-black rounded-lg bg-black-800/80">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <img
-      src=""
+      src={backgroundImage}
       alt=""
-      class="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
+      
     />
     <div class="text-center lg:text-start">
       

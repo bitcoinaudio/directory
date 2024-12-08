@@ -5,7 +5,7 @@ import Header from './Header.svelte';
 	import NavBar from '../components/NavBar.svelte';
  </script>
 
-<div class="app bg-base-100 items-center" >
+<div class="app bg-base-100 items-center " >
 	<!-- <Header /> -->
  	<NavBar />
  	<main>

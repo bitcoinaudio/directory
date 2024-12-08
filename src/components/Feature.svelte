@@ -2,7 +2,7 @@
     
 </script>
 
-<div id="home" class="hero py-10 flex justify-center">
+<div id="home" class="hero py-10 flex justify-center py-32 shadow-lg shadow-black rounded-lg bg-black-800/80">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <!-- <img
       src=""
@@ -14,8 +14,9 @@
        
         <span class="text-black/70">The Ides of March Ordinal</span>
       </h1>
+      <div class="flex justify-center">
       <iframe src="https://ordinals.com/content/b1ade815da823de16f0dc26417c5bfb9caefc9005f0e9585b1f0072eb7e43605i0" title="ordinal" scrolling=no  allowfullscreen ></iframe>
-
+    </div>
       </div>
       <p class="text-3xl">
         Welcome to the future of music ownership, where legendary hip-hop meets Bitcoin innovation. The Ides Of March isn't just another music NFT—it's a revolutionary approach to digital music collecting and creation on Bitcoin Ordinals.
@@ -23,7 +24,7 @@
     </div>
   </div>
  <style>
-  iframe {
+  /* iframe {
 	zoom: 0.8;
 	transform: none;
 	border-radius: 4%;
@@ -31,5 +32,5 @@
 	width: 800px;
 	box-shadow: -10px 11px 17px 10px rgba(0, 0, 0, 0.75);
 
-  }
+  } */
  </style>

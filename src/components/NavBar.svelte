@@ -68,7 +68,10 @@
                     <li><SatsConnect /></li>
                     {#if $walletConnected}
                     <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-                        <a href="/myinscriptions">My Media</a>
+                        <a href="/myinscriptions" >My Media</a>
+                    </li>
+                    <li aria-current={$page.url.pathname === '/samplerr' ? 'page' : undefined}>
+                        <a href="/samplerr" on:click={() => setActive("Samplerr")}>Samplerr</a>
                     </li>
                     {/if}
                 </ul>

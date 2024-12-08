@@ -5,20 +5,8 @@
 
 </script>
  
-<div
-  id="collections"
-  class=" "
->
-  <div class=" ">
-    <h1 class="text-center font-urbanist text-2xl font-semibold md:text-5xl">
-      
-    </h1>
-    <span
-      class="text-md font-urbanist mt-2 px-2 text-center md:mt-4 md:px-5 md:text-xl"
-      ></span
-    > 
-  </div>
-  <div class="container flex flex-wrap gap-4 justify-center">
+
+  <div class="flex flex-wrap gap-4 justify-center">
     {#each collections as item, index}
       <div
         class="card max-w-2xl  transition duration-300 hover:-translate-y-1 bg-base-200 rounded-box mt-4 gap-4"
@@ -83,7 +71,7 @@
     {/each}
     
   </div>
-</div>
+
 <style>
 	 
 </style>
