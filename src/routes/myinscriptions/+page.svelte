@@ -7,7 +7,12 @@
 	import { htmlArray } from '../../stores';
 	import { onMount } from 'svelte';
 	import ordImage from '../../lib/images/ordinals.svg';
-	import iomImage from '../../lib/images/idseofmarch.png';
+	import iomImage from '../../lib/images/idesofmarch.png';
+	import { walletConnected, isIOMOwner } from '../../stores';
+	import NonOwners from '../../components/NonOwners.svelte';
+	import Gallery from '../../components/Gallery.svelte';	
+
+	let isOwner = $isIOMOwner;
 
 	let ordURL = "https://ordinals.com";
 
@@ -34,7 +39,7 @@
 					<div class="card-actions justify-center">
 						<ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
 							<li>
-								<a class="tooltip" data-tip="Home" href={ordURL} target="_blank">
+								<a class="tooltip" data-tip="Home" href="/" target="_blank">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-5 w-5"
@@ -146,11 +151,12 @@
 										<img class="size-10" src={iomImage} alt="IOM" />
 									</a>
 								</li>
-							{:else}
+							{:else}	
 								<li>
-									<a class="tooltip" href="#" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of The Ides Of March. Please return when you have acquired the fortitude and vitality for this ordinal experience">	
-										<div>Not IOM</div>
-									</a>
+									<!-- <button class="btn" onclick="my_modal_2.showModal()">open modal</button> -->
+
+									<!-- <a class="tooltip" href="#" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of The Ides Of March. Please return when you have acquired the fortitude and vitality for this ordinal experience">									
+									</a> -->
 								</li>
 							{/if}
 						</ul>

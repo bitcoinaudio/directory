@@ -54,7 +54,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" + item.insID} target="_blank">
+                <a class="tooltip" data-tip="Details" href={"/" + item.insID} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
