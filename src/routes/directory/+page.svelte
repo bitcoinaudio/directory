@@ -28,10 +28,7 @@
 	justify-content: center;
 	}
 
-	#dirIFrame {
-		height: 1200px;
-		width: 1000px;
-	}
+
 	.Artist-card {
 		align-content: center;
 	}
