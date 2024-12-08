@@ -1,4 +1,6 @@
-import { writable } from 'svelte/store'
+import {get, writable } from 'svelte/store'
+import idesofmarch from '$lib/collections/idesofmarch.json'
+
 
 export const darkMode = writable(true)
 export const serverConnected = writable(false)
@@ -36,6 +38,8 @@ const defaultSettings = {
 
 export const urlPath = writable(null)
 export const settingsBitmap = createCachedDict('settingsBitmap', defaultSettings)
+
+
 
 
 function createCachedDict ( setValues, defaultValues) {
