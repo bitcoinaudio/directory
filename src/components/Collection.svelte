@@ -1,5 +1,5 @@
 <script>
-  import iomCollection from '$lib/images/collections/idesofmarch.json'
+  import iomCollection from '$lib/collections/idesofmarch.json'
  
  // Pagination state
  let currentPage = 1;

@@ -2,12 +2,19 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import logounisat from '$lib/images/logo-unisat.png';
-	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected, iscpverified, isIOMOwner, myinscriptions, mimeArray } from '../stores';
-	import iom from '$lib/images/collections/idesofmarch.json'
+	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected, isIOMOwner, myinscriptions, mimeArray } from '../stores';
+	import idesofmarch from '../lib/collections/idesofmarch.json';
  	let winuni = globalThis.unisat;
 	let htmlarray = []
 	export let accounts = unisatAccounts;
 	 let showModal;
+
+	async function checkIOMOwnership(insID) {
+		const idesOfMarchIDs = idesofmarch.map((item) => item.id);
+		const isOwner = idesOfMarchIDs.includes(insID);
+		isIOMOwner.set(isOwner);
+		console.log('isIOMOwner', isIOMOwner);
+	}
 
 	async function ConnectWallet() {
 		try {
@@ -41,6 +48,12 @@
 
 	}
 
+	async function GetWalletInsTotal() {
+		let limit = 20;
+		const walletInscriptions = await winuni.getInscriptions(0, limit);
+ 		return walletInscriptions.total;
+	}
+
 	function checkWalletConnection() {
     const isConnected = localStorage.getItem('walletConnected') === 'true';
     const connectionTime = localStorage.getItem('connectionTime');
@@ -54,13 +67,14 @@
         localStorage.removeItem('walletConnected');
         localStorage.removeItem('connectionTime');
     }
+	console.log("checkWalletConnection", isConnected)
 }
 
 	function DisconnectWallet() {
 		
 		htmlArray.set([]);
 		winuni.Connected = false;
-		walletUnisatConnected.set(false);
+		$walletUnisatConnected = false;
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
@@ -68,45 +82,42 @@
 
 	}
 
-	async function GetWalletInsTotal() {
-		let limit = 20;
-		const walletInscriptions = await winuni.getInscriptions(0, 20);
- 		return walletInscriptions.total;
-	}
+	
 
 	
 	export async function getMyMedia() {
 		if ($walletUnisatConnected) {
-  			const radinals = 'https://radinals.bitcoinaudio.co';
 
 			try {
-				const limit = await GetWalletInsTotal();
-				const walletInscriptions = await winuni.getInscriptions(0, limit);
+				// const limit = await GetWalletInsTotal();
+				const walletInscriptions = await winuni.getInscriptions(0, 50);
 
 				for (let i = 0; i < walletInscriptions.total; i++) {
 					const insID = walletInscriptions.list[i].inscriptionId;
 					const mimetype = walletInscriptions.list[i].contentType; 
-   					 
+   					 console.log("insID", insID)
 					if (mimetype == 'text/html;charset=utf-8') {
  
-						 htmlarray.push(insID);
+						htmlarray.push(insID);
 						console.log("insID", insID)
-
-						//test with ins_ID = 32a3ebf3927d777ce547e755bf6eb6018c01fbb510f36a318654676b6d008291i0
-						// iom[0].id
-						if (insID == "32a3ebf3927d777ce547e755bf6eb6018c01fbb510f36a318654676b6d008291i0" ) {
-							isIOMOwner.set(true);
+						await checkIOMOwnership(insID)
+						if (isIOMOwner) {
 							console.log("I'm the owner of IOM")
-						} 
+						} else {
+							console.log("I'm not the owner of IOM")
+						}
+						 
 						 
 					} else {
 						console.log('not html');
+						
 					}
 
 					 
 				}
 
  				htmlArray.set(htmlarray);
+				console.log("htmlArray", htmlArray)
 				return htmlarray;
 			} catch (e) {
  				console.log(e);
@@ -120,7 +131,7 @@
 	onMount(async () => {
 		checkWalletConnection();
 		await getMyMedia();
-		console.log("onMount", $isIOMOwner)
+		
 	});
 </script>
 

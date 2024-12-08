@@ -1,7 +1,6 @@
 <script>
 	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlArray, unisatAccounts, walletConnected, iscpverified, isIOMOwner, myinscriptions, mimeArray } from '../stores';
-	import iom from '$lib/images/collections/idesofmarch.json'
  	let winuni = globalThis.unisat;
 
 	export let accounts = unisatAccounts;

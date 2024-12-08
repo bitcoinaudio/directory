@@ -8,7 +8,6 @@
 	import { walletConnected } from '../stores';
 	import NavBar from '../components/NavBar.svelte';
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
-	import ConnectXverse from '../components/ConnectXverse.svelte';
 	import SatsConnect from '../components/SatsConnect.svelte';
 	let showModal = false;
 

@@ -1,31 +1,27 @@
+<svelte:head>
+	<title>My Inscribed Media</title>
+	<meta name="description" content="My Wallet Media" />
+</svelte:head>	
+
 <script>
  	import { htmlArray, mimeArray, isIOMOwner } from '../../stores';
 	import { onMount } from 'svelte';
  	import ordImage from '../../lib/images/ordinals.svg';
 
-	let ordURL = "https://radinals.bitcoinaudio.co"
-
+	let ordURL = "https://ordinals.com"
+ 
  async function getHTML() {
 	// let htmlarray = $htmlArray;
-	console.log("htmlArray", $htmlArray)
+	console.log("getHTML")
 	 
  }
 
- function handleSubmit() {
-	console.log(selected)	
- }
-	
- let selected;
-
 	onMount(async () => {
-		getHTML();
-		// await UnisatConnect;
+		console.log("myinscriptions mounted")
+		//getHTML();
+		
 	});
 </script>
-<svelte:head>
-	<title>My Inscribed Media</title>
-	<meta name="description" content="My Wallet Media" />
-</svelte:head>	
 
  
 <div class="myInscriptions">
@@ -36,7 +32,7 @@
 				<!-- htmls -->
 				{#each $htmlArray as html, index}
 				<div class="card">
-				 
+				
 					<div class="card-body shadow-inner">
 					<iframe src={ordURL + '/content/' + html} title="" scrolling=no  allowfullscreen></iframe>
 				</div>
@@ -81,7 +77,7 @@
 						</a>
 					  	</li>
 
-						{#if $isIOMOwner == true}
+						{#if $isIOMOwner}
 						<li>
 							<a class="tooltip" data-tip="IOM" href={"https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg"} target="_blank">
 								<svg
