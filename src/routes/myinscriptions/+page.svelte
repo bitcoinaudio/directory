@@ -7,6 +7,7 @@
 	import { htmlArray } from '../../stores';
 	import { onMount } from 'svelte';
 	import ordImage from '../../lib/images/ordinals.svg';
+	import iomImage from '../../lib/images/idseofmarch.png';
 
 	let ordURL = "https://ordinals.com";
 
@@ -74,19 +75,7 @@
 						{#if html.isIOM}
 							<li>
 								<a class="tooltip" data-tip="IOM" href="https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg" target="_blank">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-5 w-5"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor">
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-										/>
-									</svg>
+									<img class="size-8" src={iomImage} alt="IOM" />
 								</a>
 							</li>
 						{/if}
