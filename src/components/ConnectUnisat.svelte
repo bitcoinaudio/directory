@@ -2,149 +2,130 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import logounisat from '$lib/images/logo-unisat.png';
-	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected, isIOMOwner, myinscriptions, mimeArray } from '../stores';
+	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected } from '../stores';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
- 	let winuni = globalThis.unisat;
-	let htmlarray = []
-	export let accounts = unisatAccounts;
-	 let showModal;
+	import { get } from 'svelte/store';
 
-	async function checkIOMOwnership(insID) {
-		const idesOfMarchIDs = idesofmarch.map((item) => item.id);
-		const isOwner = idesOfMarchIDs.includes(insID);
-		isIOMOwner.set(isOwner);
-		console.log('isIOMOwner', isIOMOwner);
+	let winuni = globalThis.unisat;
+	let htmlarray = [];
+	export let accounts = unisatAccounts;
+	let showModal = false;
+
+	// Precompute the Ides Of March IDs
+	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
+
+	function checkIOMOwnership(insID) {
+		return idesOfMarchIDs.includes(insID);
 	}
 
 	async function ConnectWallet() {
 		try {
- 			if (typeof winuni !== 'undefined') {
-				console.log('UniSat Wallet is installed!');
+			if (typeof winuni !== 'undefined') {
 				accounts = await winuni.requestAccounts();
 				walletUnisatConnected.set(true);
 				walletXverseConnected.set(false);
 				walletConnected.set(true);
-				winuni.Connected =true;
-				 
- 				console.log('connect success', accounts);
-				console.log(winuni)
-				GetWalletInsTotal();
-				getMyMedia();  
-				showModal = false;
+				winuni.Connected = true;
+
 				localStorage.setItem('walletConnected', 'true');
 				localStorage.setItem('connectionTime', Date.now().toString());
-				
+
+				await getMyMedia();
+				showModal = false;
 			} else {
-				 
-				$walletUnisatConnected = false;				 
-				alert('Install a compatible wallet.');
+				walletUnisatConnected.set(false);
+				console.warn('UniSat Wallet not installed.');
 			}
-		} catch {
-			console.log('Sign into wallet');
-			alert('UniSat Wallet is installed! Sign in to your Wallet');
+		} catch (error) {
+			console.error('Error connecting to UniSat Wallet:', error);
 		}
-
-		
-
 	}
 
 	async function GetWalletInsTotal() {
-		let limit = 20;
-		const walletInscriptions = await winuni.getInscriptions(0, limit);
- 		return walletInscriptions.total;
+		try {
+			const limit = 20;
+			const walletInscriptions = await winuni.getInscriptions(0, limit);
+			return walletInscriptions?.total || 0;
+		} catch (error) {
+			console.error('Error fetching wallet inscriptions total:', error);
+			return 0;
+		}
 	}
 
 	function checkWalletConnection() {
-    const isConnected = localStorage.getItem('walletConnected') === 'true';
-    const connectionTime = localStorage.getItem('connectionTime');
-    const currentTime = Date.now();
-    // Check if the wallet should remain connected
-    if (isConnected && connectionTime && (currentTime - parseInt(connectionTime)) < 24 * 60 * 60 * 1000) {
-        // Keep wallet connected
-        walletUnisatConnected.set(true);
-    } else {
-        // Clear the connection state if 24 hours have passed
-        localStorage.removeItem('walletConnected');
-        localStorage.removeItem('connectionTime');
-    }
-	console.log("checkWalletConnection", isConnected)
-}
+		const isConnected = localStorage.getItem('walletConnected') === 'true';
+		const connectionTime = localStorage.getItem('connectionTime');
+		const currentTime = Date.now();
+
+		if (isConnected && connectionTime && (currentTime - parseInt(connectionTime, 10)) < 24 * 60 * 60 * 1000) {
+			walletUnisatConnected.set(true);
+			walletConnected.set(true);
+		} else {
+			localStorage.removeItem('walletConnected');
+			localStorage.removeItem('connectionTime');
+			walletUnisatConnected.set(false);
+			walletConnected.set(false);
+		}
+	}
 
 	function DisconnectWallet() {
-		
 		htmlArray.set([]);
-		winuni.Connected = false;
-		$walletUnisatConnected = false;
+		if (winuni) winuni.Connected = false;
+		walletUnisatConnected.set(false);
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
 		$page.url.pathname = '/';
-
 	}
 
-	
-
-	
-	export async function getMyMedia() {
-		if ($walletUnisatConnected) {
-
-			try {
-				// const limit = await GetWalletInsTotal();
-				const walletInscriptions = await winuni.getInscriptions(0, 50);
-
-				for (let i = 0; i < walletInscriptions.total; i++) {
-					const insID = walletInscriptions.list[i].inscriptionId;
-					const mimetype = walletInscriptions.list[i].contentType; 
-   					 console.log("insID", insID)
-					if (mimetype == 'text/html;charset=utf-8') {
- 
-						htmlarray.push(insID);
-						console.log("insID", insID)
-						await checkIOMOwnership(insID)
-						if (isIOMOwner) {
-							console.log("I'm the owner of IOM")
-						} else {
-							console.log("I'm not the owner of IOM")
-						}
-						 
-						 
-					} else {
-						console.log('not html');
-						
-					}
-
-					 
-				}
-
- 				htmlArray.set(htmlarray);
-				console.log("htmlArray", htmlArray)
-				return htmlarray;
-			} catch (e) {
- 				console.log(e);
-			}
-		} else {
-			console.log('else getMyMedia ERROR');
+	async function getMyMedia() {
+		const isUnisatConnected = get(walletUnisatConnected);
+		if (!isUnisatConnected) {
+			console.log('Wallet not connected, cannot fetch media.');
+			return;
 		}
 
+		try {
+			const limit = 50;
+			const walletInscriptions = await winuni.getInscriptions(0, limit);
+
+			htmlarray = [];
+
+			if (walletInscriptions?.list) {
+				for (let i = 0; i < walletInscriptions.list.length; i++) {
+					const ins = walletInscriptions.list[i];
+					const insID = ins.inscriptionId;
+					const mimetype = ins.contentType;
+
+					if (mimetype && mimetype.startsWith('text/html')) {
+						const isIOM = checkIOMOwnership(insID);
+						htmlarray.push({ id: insID, isIOM });
+					}
+				}
+			}
+
+			htmlArray.set(htmlarray);
+			return htmlarray;
+		} catch (e) {
+			console.error('Error fetching media from UniSat:', e);
+		}
 	}
 
 	onMount(async () => {
 		checkWalletConnection();
 		await getMyMedia();
-		
 	});
 </script>
 
-
 <div class="wallet">
 	{#if $walletUnisatConnected}
-		<button class="wallet-btn" on:click={DisconnectWallet}
-			><img class="wallet-logo" src={logounisat} alt="" />Disconnect?</button
-		>
+		<button class="wallet-btn" on:click={DisconnectWallet}>
+			<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Disconnect?
+		</button>
 	{:else}
-		<button class="wallet-btn" on:click={ConnectWallet}
-			><img class="wallet-logo" src={logounisat} alt="" />Connect?</button
-		>
+		<button class="wallet-btn" on:click={ConnectWallet}>
+			<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
+		</button>
 	{/if}
 </div>
 
@@ -152,15 +133,13 @@
 	.wallet {
 		display: flex;
 	}
-
 	.wallet-logo {
-		display: flex;
 		height: 40px;
 		width: 40px;
 	}
 	.wallet-btn {
-		display: flex;
 		background: none;
- 		align-items: center;
+		align-items: center;
+		display: flex;
 	}
 </style>

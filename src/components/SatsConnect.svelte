@@ -2,88 +2,88 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import {
-		htmlArray,
-		isIOMOwner,
-		walletUnisatConnected,
-		walletXverseConnected,
+		htmlArray, 
+		walletUnisatConnected, 
+		walletXverseConnected, 
 		walletConnected
 	} from '../stores';
-	import { request, AddressPurpose, RpcErrorCode, getProviders } from 'sats-connect';
- 	import idesofmarch from '../lib/collections/idesofmarch.json';
+	import { request, RpcErrorCode, getProviders } from 'sats-connect';
+	import idesofmarch from '../lib/collections/idesofmarch.json';
+	import { get } from 'svelte/store';
 
 	let providerIcon;
 	let htmlarray = [];
-	export async function checkIOMOwnership(insID) {
-		const idesOfMarchIDs = idesofmarch.map((item) => item.id);
-		const isOwner = idesOfMarchIDs.includes(insID);
-		isIOMOwner.set(isOwner);
-		console.log('isIOMOwner', isIOMOwner);
+
+	// Precompute Ides Of March IDs for ownership checks
+	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
+
+	function checkIOMOwnership(insID) {
+		return idesOfMarchIDs.includes(insID);
 	}
+
 	async function GetWalletInsTotal() {
-		let total = 100;
-		const inscriptions = await request('ord_getInscriptions', { offset: 0, limit: total });
-		console.log("inscriptions", inscriptions)
-		return inscriptions.result.total;
+		try {
+			const inscriptions = await request('ord_getInscriptions', { offset: 0, limit: 1 });
+			return inscriptions?.result?.total || 0;
+		} catch (error) {
+			console.error('Error getting wallet inscriptions total:', error);
+			return 0;
+		}
 	}
+
 	async function ConnectWallet() {
 		try {
 			const response = await request('wallet_requestPermissions', null);
-			const inscriptions = await request('ord_getInscriptions', {
-				offset: 0,
-				limit: 10
-			});
 			if (response.status === 'success') {
 				walletUnisatConnected.set(false);
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
-				console.log('inscriptions', inscriptions);
-				console.log('inscriptions', inscriptions.result.total);
+
+				localStorage.setItem('walletConnected', 'true');
+				localStorage.setItem('connectionTime', Date.now().toString());
+
+				await getMyMedia();
 			} else {
-				if (response.error.code === RpcErrorCode.USER_REJECTION) {
-					// handle user cancellation error
+				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
+					console.log('User rejected permissions request.');
 				} else {
-					// handle error
+					console.error('Error connecting wallet:', response.error);
 				}
 			}
 		} catch (err) {
-			alert(err);
+			console.error('Error connecting wallet:', err);
 		}
 	}
 
-	
+	async function getMyMedia() {
+		const isXverseConnected = get(walletXverseConnected);
+		if (!isXverseConnected) {
+			console.log('Wallet not connected');
+			return;
+		}
 
-	export async function getMyMedia() {
-		if ($walletXverseConnected) {
-			try {
-				const limit = await GetWalletInsTotal();
-				const inscriptions = await request('ord_getInscriptions', { offset: 0, limit: limit });
+		try {
+			const limit = await GetWalletInsTotal();
+			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit });
+			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
 
-				for (let i = 0; i < limit; i++) {
-					const insID = inscriptions.result.inscriptions[i].inscriptionId;
-					const mimetype = inscriptions.result.inscriptions[i].contentType;
-					if (mimetype == 'text/html;charset=utf-8') {
-						console.log('insID', insID);
-						htmlarray.push(insID);
-						await checkIOMOwnership(insID);
-						if (isIOMOwner) {
-							console.log("I'm the owner of IOM");
-						} else {
-							console.log("I'm not the owner of IOM");
-						}
-					} else {
-						console.log('not html');
-					}
+			htmlarray = [];
+
+			for (const ins of inscriptions) {
+				const insID = ins.inscriptionId;
+				const mimetype = ins.contentType;
+
+				if (mimetype && mimetype.startsWith('text/html')) {
+					const isIOM = checkIOMOwnership(insID);
+					htmlarray.push({ id: insID, isIOM });
 				}
-
-				htmlArray.set(htmlarray);
-				console.log('htmlArray', $htmlArray);
-				console.log('htmlarray', htmlarray);
-				return htmlarray;
-			} catch (e) {
-				console.log(e);
 			}
-		} else {
-			console.log('else getMyMedia ERROR');
+
+			htmlArray.set(htmlarray);
+			console.log('htmlArray:', get(htmlArray));
+			return htmlarray;
+		} catch (e) {
+			console.error('Error fetching media:', e);
 		}
 	}
 
@@ -91,24 +91,21 @@
 		const isConnected = localStorage.getItem('walletConnected') === 'true';
 		const connectionTime = localStorage.getItem('connectionTime');
 		const currentTime = Date.now();
-		// Check if the wallet should remain connected
-		if (
-			isConnected &&
-			connectionTime &&
-			currentTime - parseInt(connectionTime) < 24 * 60 * 60 * 1000
-		) {
-			// Keep wallet connected
-			$walletXverseConnected = true;
+
+		if (isConnected && connectionTime && currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000) {
+			walletXverseConnected.set(true);
+			walletConnected.set(true);
 		} else {
-			// Clear the connection state if 24 hours have passed
 			localStorage.removeItem('walletConnected');
 			localStorage.removeItem('connectionTime');
+			walletXverseConnected.set(false);
+			walletConnected.set(false);
 		}
 	}
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
-		$walletXverseConnected = false;
+		walletXverseConnected.set(false);
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
@@ -116,22 +113,28 @@
 	}
 
 	onMount(async () => {
-		const providers = await getProviders();
-		providerIcon = providers[0].icon;
-		checkWalletConnection();
-		await getMyMedia();
+		try {
+			const providers = await getProviders();
+			if (providers && providers.length > 0) {
+				providerIcon = providers[0].icon;
+			}
+			checkWalletConnection();
+			await getMyMedia();
+		} catch (err) {
+			console.error('Error on mount:', err);
+		}
 	});
 </script>
 
 <div class="wallet">
 	{#if $walletXverseConnected}
-		<button class="wallet-btn" on:click={DisconnectWallet}
-			><img class="wallet-logo" src={providerIcon} alt="" />Disconnect?</button
-		>
+		<button class="wallet-btn" on:click={DisconnectWallet}>
+			<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
+		</button>
 	{:else}
-		<button class="wallet-btn" on:click={ConnectWallet}
-			><img class="wallet-logo" src={providerIcon} alt="" />Connect?</button
-		>
+		<button class="wallet-btn" on:click={ConnectWallet}>
+			<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
+		</button>
 	{/if}
 </div>
 
@@ -139,15 +142,13 @@
 	.wallet {
 		display: flex;
 	}
-
 	.wallet-logo {
-		display: flex;
 		height: 40px;
 		width: 40px;
 	}
 	.wallet-btn {
-		display: flex;
 		background: none;
 		align-items: center;
+		display: flex;
 	}
 </style>
