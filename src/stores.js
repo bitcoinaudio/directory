@@ -1,6 +1,5 @@
 import {get, writable } from 'svelte/store'
-import idesofmarch from '$lib/collections/idesofmarch.json'
-
+ 
 
 export const darkMode = writable(true)
 export const serverConnected = writable(false)
