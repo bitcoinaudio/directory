@@ -19,11 +19,12 @@
 	}
 
 	async function ConnectWallet() {
+		walletXverseConnected.set(false);
+
 		try {
 			if (typeof winuni !== 'undefined') {
 				accounts = await winuni.requestAccounts();
 				walletUnisatConnected.set(true);
-				walletXverseConnected.set(false);
 				walletConnected.set(true);
 				winuni.Connected = true;
 

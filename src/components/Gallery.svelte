@@ -55,38 +55,23 @@
     <!-- Gallery Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {#each currentItems as item}
-        <div class="card bg-base-100 shadow-md">
+        <div class="card bg-base-200 shadow-lg bg-contain  bg-no-repeat" style="background-image: url({iomImage});">
           <figure><iframe
             src={ 'https://ordinals.com/content/' + item.id}
             title={"Inscription " + item.id}
             scrolling="no"
-            allowfullscreen>
+            allowfullscreen>  
         </iframe></figure>
           <div class="card-body">
-            <h2 class="card-title">{item.meta.name}</h2>
+            <!-- <h2 class="card-title">{item.meta.name}</h2> -->
+             <h2></h2>
             <!-- Additional info can go here, if available -->
-            <p>ID: {item.id}</p>
+            <!-- <p>ID: {item.id}</p> -->
              <div class="card-actions justify-center">
                 <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
+                    
                     <li>
-                        <a class="tooltip" data-tip="Home" href="/" target="_blank">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                />
-                            </svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tooltip" data-tip="Details" href="/collection" target="_blank">
+                        <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" + item.id} target="_blank">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="h-5 w-5"
@@ -103,13 +88,13 @@
                         </a>
                     </li>
                     <li>
-                        <a class="tooltip" data-tip="App" href="/myinscriptions" target="_blank">
+                        <a class="tooltip" data-tip="Ordinal" href={"https://ordinals.com/content/" + item.id} target="_blank">
                             <img class="size-5" src={ordImage} alt="IOM" />
                         </a>
                     </li>
                     <li>
                         <a class="btn btn-sm" href={"https://ordinals.com/content/" + item.id} target="_blank">
-                            <img src={iomImage} alt="IOM" class="w-10 h-10" />
+                            <img src={iomImage} alt="IOM" class="w-15 h-10" />
                         </a>
                     </li>
 

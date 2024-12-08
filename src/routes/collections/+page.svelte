@@ -5,9 +5,9 @@
 <script>
 	import collections from '../../collections';
  	import Collections from '../../components/Collections.svelte';
-	// import Gallery from '../../components/Gallery.svelte';
+	import Gallery from '../../components/Gallery.svelte';
 	import { walletConnected, isIOMOwner } from '../../stores';
-	// import NonOwners from '../../components/NonOwners.svelte';
+	import NonOwners from '../../components/NonOwners.svelte';
 
 let isOwner = $isIOMOwner;
 
@@ -16,7 +16,7 @@ let isOwner = $isIOMOwner;
 
 <Collections />
 
-<!-- <div>
+<div>
 	<div>
 		{#if $walletConnected}
 			{#if !isOwner}
@@ -26,7 +26,7 @@ let isOwner = $isIOMOwner;
 			{/if}
 		{/if}
 	</div>
-</div> -->
+</div>
 
 
 

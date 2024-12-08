@@ -10,7 +10,7 @@
 	import { request, RpcErrorCode, getProviders } from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
-
+	import logounisat from '../lib/images/logo-unisat.png';
 	let providerIcon;
 	let htmlarray = [];
 
@@ -32,10 +32,11 @@
 	}
 
 	async function ConnectWallet() {
+		walletUnisatConnected.set(false);
+
 		try {
 			const response = await request('wallet_requestPermissions', null);
 			if (response.status === 'success') {
-				walletUnisatConnected.set(false);
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
 
@@ -112,11 +113,16 @@
 		$page.url.pathname = '/';
 	}
 
+	let showButton = true;
 	onMount(async () => {
 		try {
 			const providers = await getProviders();
 			if (providers && providers.length > 0) {
 				providerIcon = providers[0].icon;
+			}
+			if (providers == null) {
+				providerIcon = logounisat;
+				showButton = false;
 			}
 			checkWalletConnection();
 			await getMyMedia();
@@ -127,14 +133,16 @@
 </script>
 
 <div class="wallet">
-	{#if $walletXverseConnected}
-		<button class="wallet-btn" on:click={DisconnectWallet}>
-			<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
-		</button>
-	{:else}
-		<button class="wallet-btn" on:click={ConnectWallet}>
-			<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
-		</button>
+	{#if showButton}
+		{#if $walletXverseConnected}
+			<button class="wallet-btn" on:click={DisconnectWallet}>
+				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
+			</button>
+		{:else}
+			<button class="wallet-btn" on:click={ConnectWallet}>
+				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
+			</button>
+		{/if}
 	{/if}
 </div>
 

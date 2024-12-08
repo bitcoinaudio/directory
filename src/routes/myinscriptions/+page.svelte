@@ -68,7 +68,7 @@
 								</a>
 							</li>
 							<li>
-								<a class="tooltip" data-tip="App" href={ordURL + '/content/' + html.id} target="_blank">
+								<a class="tooltip" data-tip="Ordinal" href={ordURL + '/content/' + html.id} target="_blank">
 									<img class="size-5" src={ordImage} alt="IOM" />
 								</a>
 							</li>
