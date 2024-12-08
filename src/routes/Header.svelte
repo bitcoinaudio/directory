@@ -69,36 +69,7 @@
  		z-index: 1;
 	}
 
-	.corner {
-		width: 3em;
-		height: 3em;
-	}
-
-	.corner a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.corner img {
-		width: 2em;
-		height: 2em;
-		object-fit: contain;
-	}
-
  
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
-	path {
-		fill: var(--background);
-	}
 
 	ul {
 		position: relative;
@@ -151,29 +122,14 @@
 		color: var(--color-theme-1);
 	}
  
-
-	.notification-bar {
-		background-color: #f8d7da; /* Light red background */
-		color: #721c24; /* Dark red text */
-		padding: 10px;
-		position: fixed;
-		top: 48px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.notification-bar p {
-		margin: 0;
-	}
+ 
+	 
 
 	/* Optional: Responsive design for smaller screens */
 	@media (max-width: 600px) {
-		.notification-bar p {
+		/* .notification-bar p {
 			font-size: 0.9em;
-		}
+		} */
 	}
 
 </style>
