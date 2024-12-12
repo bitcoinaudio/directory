@@ -7,8 +7,8 @@
     import { walletConnected } from "../stores";
     import Modal from "./Modal.svelte";
     import ConnectUnisat from '../components/ConnectUnisat.svelte';
-	import SatsConnect from '../components/SatsConnect.svelte';
-
+	import ConnectXverse from '../components/ConnectXverse.svelte';
+    import ConnectMagic from '../components/ConnectMagic.svelte';
  
 
     const navigation = [
@@ -65,7 +65,7 @@
                         </li>
                     {/each}
                     <li><ConnectUnisat /></li>
-                    <li><SatsConnect /></li>
+                    <li><ConnectXverse /></li>
                     {#if $walletConnected}
                     <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
                         <a href="/myinscriptions" >My Media</a>
@@ -92,10 +92,18 @@
             {/each}
             {#if $walletConnected}
             <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
-                <a href="/myinscriptions" >My Media</a>
+                <a 
+                href="/myinscriptions" on:click={() => setActive("My Media")}
+                class={`btn btn-ghost rounded-full font-urbanist text-sm font-light ${
+                    active === "My Media" ? "bg-base-300" : ""
+                }`} >My Media</a>
             </li>
             <li aria-current={$page.url.pathname === '/samplerr' ? 'page' : undefined}>
-                <a href="/samplerr" on:click={() => setActive("Samplerr")}>Samplerr</a>
+                <a href="/samplerr"
+                class={`btn btn-ghost rounded-full font-urbanist text-sm font-light ${
+                    active === "Samplerr" ? "bg-base-300" : ""
+                }`}
+                 on:click={() => setActive("Samplerr")}>Samplerr</a>
             </li>
             {/if}
             <div class="dropdown dropdown-bottom dropdown-end btn-ghost">
@@ -109,7 +117,8 @@
                 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                 <li><ConnectUnisat /></li>
-                <li><SatsConnect /></li>
+                <li><ConnectXverse /></li>
+                <li><ConnectMagic /></li>
                 </ul>
             </div>
                             

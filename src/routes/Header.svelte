@@ -8,7 +8,7 @@
 	import { walletConnected } from '../stores';
 	import NavBar from '../components/NavBar.svelte';
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
-	import SatsConnect from '../components/SatsConnect.svelte';
+	import ConnectXverse from '../components/ConnectXverse.svelte';
 	let showModal = false;
 
 	function openModal() {
@@ -55,7 +55,7 @@
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
 			<li><ConnectUnisat /></li>
-			<li><SatsConnect /></li>
+			<li><ConnectXverse /></li>
 			</ul>
 		</div>
 	</nav>

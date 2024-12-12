@@ -25,8 +25,8 @@
     import { onMount } from "svelte";
     import * as Tone from "tone";
      import TimelineSlider from "./TimelineSlider.svelte";
-     import loadTrack  from "./MultiTrack.svelte";
-     import '@fontsource/material-symbols-outlined';
+    //  import loadTrack  from "./MultiTrack.svelte";
+    //  import '@fontsource/material-symbols-outlined';
      let randomTrack;
 
 
@@ -41,7 +41,6 @@
     let sampleStartValue = 0;
     const numSamples = 16;
     let trackUrl = randomTrack;
-    let imageUrl ; 
     let albumsIndex;
     let trackindex;
     let albumTracks = [];
@@ -53,7 +52,7 @@
     let baseSampleDuration = 0;
     let defaultBPM = 91.5;
     let bpmMin = 45;
-    let bpmMax = 300;
+    let bpmMax = 260;
     let bpmSliderValue = defaultBPM;
 
     let loopStarts = new Array(numSamples).fill(0);
@@ -89,11 +88,12 @@
 
     let producerName ;
     let artist;
-
+    let audioUrl = "./Scrilla_Beat_2_MIXED.wav";
+    let imageUrl = "./iom-icon-headphones.png";
     // New variable to control looping
     let isLooping = true;
     function handleLoadTrack() {
-        loadTrack;
+        //loadTrack;
     }
   
     function loadSoundAndImage(url, imageUrl) {
@@ -156,7 +156,8 @@
             const dx = col * canvasWidth;
             const dy = (numRows - 1 - row) * canvasHeight; // Reverse the row order
     
-            // ctx.drawImage(img, sx + (col * sWidth / numCols), sy + (row * sHeight / numRows), sWidth / numCols, sHeight / numRows, 0, 0, canvasWidth, canvasHeight);
+            
+            ctx.drawImage(img, sx + (col * sWidth / numCols), sy + (row * sHeight / numRows), sWidth / numCols, sHeight / numRows, 0, 0, canvasWidth, canvasHeight);
           
             sampleGrid.appendChild(canvas);
             canvas.addEventListener('mousedown', () => selectSample(i));
@@ -471,7 +472,7 @@ function updateLoopLength(value) {
 
     onMount(() => {
     //  loadSessionData();
-    loadSoundAndImage(randomTrack, imageUrl);
+    loadSoundAndImage(audioUrl, imageUrl);
     setupMIDI();
     
     // Cleanup function
@@ -527,11 +528,52 @@ function updateLoopLength(value) {
         
         alert('Session settings cleared!');
     }
+
+    function dragOverHandler(ev) {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+}
+function dropHandler(ev, type) {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+
+    if (ev.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+            // If dropped items aren't files, reject them
+            if (ev.dataTransfer.items[i].kind === 'file') {
+                var file = ev.dataTransfer.items[i].getAsFile();
+                var reader = new FileReader();
+                
+                reader.onload = (function(theFile) {
+                    return function(e) {
+                        if (type === 'image') {
+                            // Handle image URL
+                            console.log('Image URL:', e.target.result);
+                        } else if (type === 'audio') {
+                            // Handle audio URL
+                            console.log('Audio URL:', e.target.result);
+                        }
+                    };
+                })(file);
+
+                // Read the file as a data URL
+                reader.readAsDataURL(file);
+            }
+        }
+    } else {
+        // Use DataTransfer interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+            console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+        }
+    }
+}
+
 </script>
 
-<div class="w-full text-white/80">
+<div class="w-96 text-white/80 flex justify-center">
     <div class="flex flex-col sm:flex-row sm:gap-4 lg:flex-col">
-        <div id="sampleGrid" bind:this={sampleGrid} class="grid sm:w-1/2 lg:w-full"></div>
+        <div id="sampleGrid"  bind:this={sampleGrid} class="grid sm:w-1/2 lg:w-full"></div>
         <div class="sm:w-1/2 lg:w-full">
             <!-- <p class="text-sm font-bold text-center font-mono p-1">{producerName}</p>
             <p class="text-sm font-bold text-center font-mono p-1">{$randomItems.trackAlbum}</p> -->
@@ -546,7 +588,7 @@ function updateLoopLength(value) {
                      <button on:click={() => listenForControl('bpm')}>Listen for BPM</button>
                      {/if}
                      <TimelineSlider
-                        min={bpmMin}
+                        min={0}
                         max={bpmMax}
                         timeline={bpmSliderValue}
                          {getPercentage}
@@ -555,7 +597,7 @@ function updateLoopLength(value) {
                         thumbsliderImage={imageUrl}
                         step={1}
                     />
-                    <br>
+                     <br/>
                     <label for="sampleLength" id="SampleLengthValue">Sample Length: {SampleLengthValue}</label>
                     {#if midiAvailable}
                     <button on:click={() => listenForControl('sampleLength')}>Listen for Sample Length</button>
@@ -564,14 +606,13 @@ function updateLoopLength(value) {
                         min={0}
                         max={sampleDuration}
                         timeline={SampleLengthValue}
-                         
-                        {getPercentage}
+                         {getPercentage}
                         timeChange={adjustLoopLength}
                         sliderValue={SampleLengthValue}
                         thumbsliderImage={imageUrl}
                         step={0.1}
                     />
-                    <br>
+                     <br/>
                     <label for="sampleStart" id="sampleStartValue">Sample Start: {format(sampleStartValue)}</label>
                     {#if midiAvailable}
                     <button on:click={() => listenForControl('sampleStart')}>Listen for Sample Start</button>
@@ -580,15 +621,14 @@ function updateLoopLength(value) {
                         min={0}
                         max={sampleDuration}
                         timeline={sampleStartValue}
-                         
-                        {getPercentage}
+                         {getPercentage}
                         timeChange={adjustLoopStart}
                         sliderValue={sampleStartValue}
                         thumbsliderImage={imageUrl}
                         step={0.1}
                     />
-                    <br> 
-                   
+                 
+                   <br/>
                     <div class="flex justify-between col-span-4 gap-4">
                         <div class=" ">
                             <label class="loop-toggle ">
@@ -598,7 +638,7 @@ function updateLoopLength(value) {
                         </div>
                         <div class="flex gap-2">
                             <button class="mx-auto" on:click={stopSample}>
-                                <img src="./images/stop.png" alt="stop" class="w-12 h-10 ">
+                                🛑
                                 {#if midiAvailable}
                                 <button class="text-sm font-bold text-center font-mono p-1" on:click={() => listenForControl('sampleStart')}>Listen for Sample Start</button>
                                 {/if}

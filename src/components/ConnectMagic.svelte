@@ -5,6 +5,7 @@
 		htmlArray, 
 		walletUnisatConnected, 
 		walletXverseConnected, 
+		walletMagicConnected,
 		walletConnected
 	} from '../stores';
 	import { request, RpcErrorCode, getProviders } from 'sats-connect';
@@ -33,11 +34,12 @@
 
 	async function ConnectWallet() {
 		walletUnisatConnected.set(false);
+		walletXverseConnected.set(false);
 
 		try {
 			const response = await request('wallet_requestPermissions', null);
 			if (response.status === 'success') {
-				walletXverseConnected.set(true);
+				walletMagicConnected.set(true);
 				walletConnected.set(true);
 
 				localStorage.setItem('walletConnected', 'true');
@@ -99,24 +101,36 @@
 		} else {
 			localStorage.removeItem('walletConnected');
 			localStorage.removeItem('connectionTime');
-			walletXverseConnected.set(false);
+			walletMagicConnected.set(false);
 			walletConnected.set(false);
 		}
 	}
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
-		walletXverseConnected.set(false);
+		walletMagicConnected.set(false);
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
 		$page.url.pathname = '/';
 	}
 
+  const getBtcProvider = () => {
+	if ("magicEden" in window) {
+		const anyWindow = window;
+		if (anyWindow.magicEden.bitcoin && anyWindow.magicEden.bitcoin.isMagicEden)
+    console.log('magicEden:', anyWindow.magicEden.bitcoin);
+			return anyWindow.magicEden.bitcoin;
+	}
+		window.location.href = "https://wallet.magiceden.io/";
+	};
+
 	let showButton = true;
 	onMount(async () => {
 		try {
 			const providers = await getProviders();
+			getBtcProvider();
+ 			console.log('providers:', providers);
 			if (providers && providers.length > 0) {
 				providerIcon = providers[0].icon;
 			}
@@ -134,7 +148,7 @@
 
 <div class="wallet">
 	{#if showButton}
-		{#if $walletXverseConnected}
+		{#if $walletMagicConnected}
 			<button class="wallet-btn" on:click={DisconnectWallet}>
 				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
 			</button>

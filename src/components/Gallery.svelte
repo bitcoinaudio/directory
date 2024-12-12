@@ -64,7 +64,7 @@
         </iframe></figure>
           <div class="card-body">
             <!-- <h2 class="card-title">{item.meta.name}</h2> -->
-             <h2></h2>
+             <!-- <h2></h2> -->
             <!-- Additional info can go here, if available -->
             <!-- <p>ID: {item.id}</p> -->
              <div class="card-actions justify-center">

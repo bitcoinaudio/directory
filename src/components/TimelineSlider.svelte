@@ -34,7 +34,6 @@
         width: 2em;
         height: 2em;
         border-radius: 50%;
-        position: absolute;
         top: 50%;
         left: -0.5em;
         transform: translateY(-50%);

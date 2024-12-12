@@ -23,7 +23,7 @@
 		{#each $htmlArray as html, index}
 			<div class="card">
 				{#if html.isIOM}
-				<div class="card-body shadow-inner" style='background-image: url({iomImage}); background-size: cover;'>
+				<div class="card-body shadow-inner bg-contain bg-center bg-no-repeat " style='background-image: url({iomImage});'>
 					<iframe
 						src={ordURL + '/content/' + html.id}
 						title={"Inscription " + html.id}
@@ -148,9 +148,7 @@
 								</li>
 							{:else}	
 								<li>
- 
-									<a class="tooltip" href="/" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of The Ides Of March. Please return when you have acquired the fortitude and vitality for this ordinal experience">									
-									NON OWNER</a>
+									<a class="tooltip" href="/" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of The Ides Of March. Please return when you have acquired the fortitude and vitality for this ordinal experience">NON OWNER</a>
 								</li>
 							{/if}
 						</ul>
@@ -175,8 +173,8 @@
 		margin: 1rem;
 	}
 	iframe {
-		width: 300px;
-		height: 200px;
+		width: 400px;
+		height: 300px;
 		border: none;
 	}
 </style>
