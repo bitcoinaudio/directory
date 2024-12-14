@@ -9,7 +9,6 @@
     import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
     import ConnectMagic from '../components/ConnectMagic.svelte';
- 
 
     const navigation = [
         { name: "My Inscibed", href: "/" },
@@ -64,8 +63,7 @@
                             <a href={item.href} class="font-urbanist">{item.name}</a>
                         </li>
                     {/each}
-                    <li><ConnectUnisat /></li>
-                    <li><ConnectXverse /></li>
+                    
                     {#if $walletConnected}
                     <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
                         <a href="/myinscriptions" >My Media</a>
@@ -74,6 +72,8 @@
                         <a href="/samplerr" on:click={() => setActive("Samplerr")}>Samplerr</a>
                     </li>
                     {/if}
+                    <li><ConnectUnisat /></li>
+                    <li><ConnectXverse /></li>
                 </ul>
             </div>
             <a href="https://inscribed.audio" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>

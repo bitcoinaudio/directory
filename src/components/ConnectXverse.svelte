@@ -8,6 +8,8 @@
 		walletMagicConnected,
 		walletConnected
 	} from '../stores';
+	import { isMobile, isIOS, isAndroid } from '../stores';
+	import { goto } from '$app/navigation';
 	import { request, RpcErrorCode, getProviders } from 'sats-connect';
 	import Wallet from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
@@ -47,6 +49,9 @@
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
+			} else if ($isMobile) {
+				console.log('Mobile');
+				ConnectXverseMobile();
 			} else {
 				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
 					console.log('User rejected permissions request.');
@@ -58,6 +63,16 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
+	async function ConnectXverseMobile() {
+		if ($isMobile) {
+			if ($isIOS) {
+				window.open('https://connect.xverse.app/', '_blank');
+			} else if ($isAndroid) {
+				window.open('https://connect.xverse.app/browser?url=https://my.inscribed.audio', '_blank');
+			}
+		}
+	}
+
 
 	async function getMyMedia() {
 		const isXverseConnected = get(walletXverseConnected);
@@ -113,7 +128,7 @@
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
-		$page.url.pathname = '/';
+		goto('/');
 	}
 
 	let showButton = true;

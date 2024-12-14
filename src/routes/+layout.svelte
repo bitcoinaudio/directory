@@ -1,8 +1,21 @@
 <script>
-import Header from './Header.svelte';
+	import { onMount } from 'svelte';
+ 	import { isMobile, isAndroid, isIOS } from '../stores';
 	import './app.css';
-	import backgroundImage from '$lib/images/ia-bg1.jpg';
-	import NavBar from '../components/NavBar.svelte';
+ 	import NavBar from '../components/NavBar.svelte';
+
+
+	onMount(() => {
+		if (/Android|iPhone/i.test(navigator.userAgent)) {
+			isMobile.set(true);
+			isAndroid.set(/Android/i.test(navigator.userAgent));
+			isIOS.set(/iPhone/i.test(navigator.userAgent));
+ 		}
+		console.log("$isMobile", $isMobile);
+		console.log("$isAndroid", $isAndroid);
+		console.log("$isIOS", $isIOS);
+ 	});
+	
  </script>
 
 <div class="app bg-base-100 items-center w-full" >

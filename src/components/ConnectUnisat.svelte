@@ -1,10 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import logounisat from '$lib/images/logo-unisat.png';
+ 	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected } from '../stores';
+	import { isMobile, isIOS, isAndroid } from '../stores';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
+ 	import { goto } from '$app/navigation';
+
 
 	let winuni = globalThis.unisat;
 	let htmlarray = [];
@@ -33,12 +35,28 @@
 
 				await getMyMedia();
 				showModal = false;
+			} else if ($isMobile) {
+				console.log('Mobile');
+				ConnectUnisatMobile();
 			} else {
 				walletUnisatConnected.set(false);
 				console.warn('UniSat Wallet not installed.');
 			}
 		} catch (error) {
 			console.error('Error connecting to UniSat Wallet:', error);
+		}
+		console.log('isMobile', $isMobile);
+	}
+
+	async function ConnectUnisatMobile() {
+		let appName = 'Inscribed Audio';
+		let nonce = Date.now().toString();
+		if ($isMobile) {
+			if ($isIOS) {
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}`, '_blank');
+			} else if ($isAndroid) {
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}`, '_blank');
+			}
 		}
 	}
 
@@ -71,12 +89,12 @@
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
-		if (winuni) winuni.Connected = false;
-		walletUnisatConnected.set(false);
+ 		walletUnisatConnected.set(false);
 		walletConnected.set(false);
 		localStorage.removeItem('walletConnected');
 		localStorage.removeItem('connectionTime');
-		$page.url.pathname = '/';
+		goto('/');
+		 
 	}
 
 	async function getMyMedia() {
@@ -113,6 +131,8 @@
 	}
 
 	onMount(async () => {
+		
+		console.log('Device:', navigator.userAgent);
 		checkWalletConnection();
 		await getMyMedia();
 	});

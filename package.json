@@ -43,6 +43,7 @@
 		"flowbite-svelte": "^0.46.15",
 		"flowbite-svelte-icons": "^1.6.1",
 		"sats-connect": "3.0.x",
+		"svelte-device-info": "^1.0.6",
 		"theme-change": "^2.5.0",
 		"tone": "^15.0.4",
 		"wbip": "^0.0.1"
