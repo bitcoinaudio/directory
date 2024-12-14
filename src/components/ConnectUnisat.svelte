@@ -45,8 +45,7 @@
 		} catch (error) {
 			console.error('Error connecting to UniSat Wallet:', error);
 		}
-		console.log('isMobile', $isMobile);
-	}
+ 	}
 
 	async function ConnectUnisatMobile() {
 		let appName = 'Inscribed Audio';
@@ -54,8 +53,12 @@
 		if ($isMobile) {
 			if ($isIOS) {
 				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				console.log('Connected to UniSat on iOS');	
+				await getMyMedia();
 			} else if ($isAndroid) {
 				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				console.log('Connected to UniSat on Android');
+				await getMyMedia();
 			}
 		}
 	}
