@@ -14,7 +14,7 @@
 	import Wallet from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
-	import logounisat from '../lib/images/logo-unisat.png';
+	import logoxverse from '../lib/images/logo-xverse.jpg';
  	let providerIcon;
 	let htmlarray = [];
 
@@ -137,9 +137,10 @@
 			const providers = await getProviders();
 			if (providers && providers.length > 0) {
 				providerIcon = providers[0].icon;
+				console.log('providerIcon', providerIcon);
 			}
 			if (providers == null) {
-				providerIcon = logounisat;
+				providerIcon = logoxverse;
 				showButton = false;
 			}
 			checkWalletConnection();
@@ -154,11 +155,11 @@
 	{#if showButton}
 		{#if $walletXverseConnected}
 			<button class="wallet-btn" on:click={DisconnectWallet}>
-				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
 			</button>
 		{:else}
 			<button class="wallet-btn" on:click={ConnectWallet}>
-				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
 			</button>
 		{/if}
 	{/if}

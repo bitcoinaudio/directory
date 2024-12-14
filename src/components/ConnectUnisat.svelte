@@ -53,9 +53,9 @@
 		let nonce = Date.now().toString();
 		if ($isMobile) {
 			if ($isIOS) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}`, '_blank');
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
 			} else if ($isAndroid) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}`, '_blank');
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
 			}
 		}
 	}
