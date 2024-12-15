@@ -64,12 +64,18 @@
 	async function ConnectXverseMobile() {
 		const appName = 'Inscribed Audio'; 
 		const nonce = Math.random().toString(36).substring(2); 
-		const redirectUrl = encodeURIComponent('https://my.inscribed.audio/callback');
+		const redirectUrl = encodeURIComponent('/callback');
 
-			if ($isMobile) {
-			const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
-			window.open(url, '_blank');
-			await getMyMedia();
+		if ($isMobile) {
+			if ($isIOS) {		
+				const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+				window.open(url, '_blank');
+				await getMyMedia();
+			} else if ($isAndroid) {
+					const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+					window.open(url, '_blank');
+				await getMyMedia();
+			}
 		}
 	}
 	function setLocalStorage(key, value) {

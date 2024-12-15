@@ -36,10 +36,7 @@
 
 				await getMyMedia();
 				showModal = false;
-			} else if ($isMobile) {
-				console.log('Mobile');
-				ConnectUnisatMobile();
-			} else {
+			} else{
 				walletUnisatConnected.set(false);
 				console.warn('UniSat Wallet not installed.');
 			}
@@ -53,11 +50,11 @@
 		let nonce = Date.now().toString();
 		if ($isMobile) {
 			if ($isIOS) {
-				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=http://100.123.54.34:5173/callback`, '_blank');
+				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
 				console.log('Connected to UniSat on iOS');	
 				await getMyMedia();
 			} else if ($isAndroid) {
-				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=http://100.123.54.34:5173/callback`, '_blank');
+				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
 				console.log('Connected to UniSat on Android');
 				await getMyMedia();
 			}
@@ -148,9 +145,15 @@
 			<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Disconnect?
 		</button>
 	{:else}
-		<button class="wallet-btn" on:click={ConnectWallet}>
-			<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
-		</button>
+		{#if $isMobile}	
+			<button class="wallet-btn" on:click={ConnectUnisatMobile}>
+				<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
+			</button>
+		{:else}
+			<button class="wallet-btn" on:click={ConnectWallet}>
+				<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
+			</button>
+		{/if}
 	{/if}
 </div>
 
