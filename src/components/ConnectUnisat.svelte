@@ -12,6 +12,7 @@
 	let htmlarray = [];
 	export let accounts = unisatAccounts;
 	let showModal = false;
+	
 
 	// Precompute the Ides Of March IDs
 	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
@@ -52,11 +53,11 @@
 		let nonce = Date.now().toString();
 		if ($isMobile) {
 			if ($isIOS) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=http://100.123.54.34:5173/callback`, '_blank');
 				console.log('Connected to UniSat on iOS');	
 				await getMyMedia();
 			} else if ($isAndroid) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=http://100.123.54.34:5173/callback`, '_blank');
 				console.log('Connected to UniSat on Android');
 				await getMyMedia();
 			}

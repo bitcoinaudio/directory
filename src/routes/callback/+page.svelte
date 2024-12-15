@@ -12,7 +12,8 @@
 	  const params = new URLSearchParams(window.location.search);
 	  const address = params.get('address');
 	  const error = params.get('error');
-  
+		console.log('address', address);
+		console.log('error', error);	
 	  if (address) {
 		walletAddress = address;
 		console.log('Connected Address:', walletAddress);

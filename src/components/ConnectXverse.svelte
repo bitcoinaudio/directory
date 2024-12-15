@@ -49,9 +49,6 @@
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
-			} else if ($isMobile) {
-				console.log('Mobile');
-				ConnectXverseMobile();
 			} else {
 				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
 					console.log('User rejected permissions request.');
@@ -63,16 +60,29 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
+
 	async function ConnectXverseMobile() {
-		if ($isMobile) {
-			if ($isIOS) {
-				window.open('https://connect.xverse.app/', '_blank');
-			} else if ($isAndroid) {
-				window.open('https://connect.xverse.app/browser?url=https://my.inscribed.audio', '_blank');
-			}
+		const appName = 'Inscribed Audio'; 
+		const nonce = Math.random().toString(36).substring(2); 
+		const redirectUrl = encodeURIComponent('https://my.inscribed.audio/callback');
+
+			if ($isMobile) {
+			const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+			window.open(url, '_blank');
+			await getMyMedia();
 		}
 	}
+	function setLocalStorage(key, value) {
+        localStorage.setItem(key, value);
+    }
 
+    function getLocalStorage(key) {
+        return localStorage.getItem(key);
+    }
+
+	function removeLocalStorage(key) {
+		localStorage.removeItem(key);
+	}	
 
 	async function getMyMedia() {
 		const isXverseConnected = get(walletXverseConnected);
@@ -107,20 +117,21 @@
 	}
 
 	function checkWalletConnection() {
-		const isConnected = localStorage.getItem('walletConnected') === 'true';
-		const connectionTime = localStorage.getItem('connectionTime');
-		const currentTime = Date.now();
+        const isConnected = getLocalStorage('walletConnected') === 'true';
+        const connectionTime = getLocalStorage('connectionTime');
+        const currentTime = Date.now();
 
-		if (isConnected && connectionTime && currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000) {
-			walletXverseConnected.set(true);
-			walletConnected.set(true);
-		} else {
-			localStorage.removeItem('walletConnected');
-			localStorage.removeItem('connectionTime');
-			walletXverseConnected.set(false);
-			walletConnected.set(false);
-		}
-	}
+        if (isConnected && connectionTime && currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000) {
+            walletXverseConnected.set(true);
+            walletConnected.set(true);
+        } else {
+            removeLocalStorage('walletConnected');
+            removeLocalStorage('connectionTime');
+            walletXverseConnected.set(false);
+            walletConnected.set(false);
+        }
+    }
+
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
@@ -158,9 +169,15 @@
 				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
 			</button>
 		{:else}
-			<button class="wallet-btn" on:click={ConnectWallet}>
-				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
-			</button>
+			{#if $isMobile}
+				<button class="wallet-btn" on:click={ConnectXverseMobile}>
+					<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+				</button>
+			{:else}
+				<button class="wallet-btn" on:click={ConnectWallet}>
+					<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+				</button>
+			{/if}
 		{/if}
 	{/if}
 </div>
