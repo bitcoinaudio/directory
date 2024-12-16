@@ -48,14 +48,20 @@
 	async function ConnectUnisatMobile() {
 		let appName = 'Inscribed Audio';
 		let nonce = Date.now().toString();
+		let redirectUrl = encodeURIComponent(`/callback`);
 		if ($isMobile) {
 			if ($isIOS) {
-				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`, '_blank');
 				console.log('Connected to UniSat on iOS');	
+				walletUnisatConnected.set(true);
+				walletConnected.set(true);
+
 				await getMyMedia();
 			} else if ($isAndroid) {
-				window.open(`unisat://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=/callback`, '_blank');
+				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`, '_blank');
 				console.log('Connected to UniSat on Android');
+				walletUnisatConnected.set(true);
+				walletConnected.set(true);
 				await getMyMedia();
 			}
 		}
@@ -99,6 +105,7 @@
 	}
 
 	async function getMyMedia() {
+		console.log('getMyMedia', "tryin....");
 		const isUnisatConnected = get(walletUnisatConnected);
 		if (!isUnisatConnected) {
 			console.log('Wallet not connected, cannot fetch media.');

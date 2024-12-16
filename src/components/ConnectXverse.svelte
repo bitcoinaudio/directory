@@ -49,7 +49,7 @@
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
-			} else {
+			}  else {
 				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
 					console.log('User rejected permissions request.');
 				} else {
@@ -60,24 +60,32 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
-
+	
 	async function ConnectXverseMobile() {
-		const appName = 'Inscribed Audio'; 
-		const nonce = Math.random().toString(36).substring(2); 
-		const redirectUrl = encodeURIComponent('/callback');
-
+		
+		let appName = 'Inscribed Audio';
+		let nonce = Date.now().toString();
+		let redirectUrl = encodeURIComponent(`/callback`);
+ 
 		if ($isMobile) {
-			if ($isIOS) {		
-				const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
-				window.open(url, '_blank');
+			if ($isIOS) {
+				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+				window.open(url, '_blank');				
+ 				walletXverseConnected.set(true);
+				walletConnected.set(true);
+				console.log('Connected to Xverse on iOS');	
 				await getMyMedia();
 			} else if ($isAndroid) {
-					const url = `xverse://browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
-					window.open(url, '_blank');
-				await getMyMedia();
+				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+				window.open(url, '_blank');				
+ 				walletXverseConnected.set(true);
+				walletConnected.set(true);
+				console.log('Connected to Xverse on Android');	
+ 				await getMyMedia();
 			}
 		}
 	}
+	    
 	function setLocalStorage(key, value) {
         localStorage.setItem(key, value);
     }
@@ -91,17 +99,23 @@
 	}	
 
 	async function getMyMedia() {
+ 
+
 		const isXverseConnected = get(walletXverseConnected);
 		if (!isXverseConnected) {
 			console.log('Wallet not connected');
 			return;
 		}
-
 		try {
-			const limit = await GetWalletInsTotal();
-			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit });
+
+			console.log('getMyMedia', "trying.......");
+			// const limit = await GetWalletInsTotal();
+			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit: 10 });
+			console.log('inscriptionsRes', inscriptionsRes);
 			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
 
+
+			
 			htmlarray = [];
 
 			for (const ins of inscriptions) {
@@ -117,6 +131,7 @@
 			htmlArray.set(htmlarray);
 			console.log('htmlArray:', get(htmlArray));
 			return htmlarray;
+
 		} catch (e) {
 			console.error('Error fetching media:', e);
 		}
@@ -148,18 +163,21 @@
 		goto('/');
 	}
 
-	let showButton = true;
+	const handleGetInfo = async () => {
+    try {
+      const response = await Wallet.request("wallet_connect", null);
+      console.log("getInfo",response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 	onMount(async () => {
+		 
 		try {
-			const providers = await getProviders();
-			if (providers && providers.length > 0) {
-				providerIcon = providers[0].icon;
-				console.log('providerIcon', providerIcon);
-			}
-			if (providers == null) {
-				providerIcon = logoxverse;
-				showButton = false;
-			}
+			console.log("onMount", "trying.......");
+			const providers = getProviders();
+			 
+			 console.log('providers', providers);
 			checkWalletConnection();
 			await getMyMedia();
 		} catch (err) {
@@ -169,8 +187,7 @@
 </script>
 
 <div class="wallet">
-	{#if showButton}
-		{#if $walletXverseConnected}
+ 		{#if $walletXverseConnected}
 			<button class="wallet-btn" on:click={DisconnectWallet}>
 				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
 			</button>
@@ -183,10 +200,9 @@
 				<button class="wallet-btn" on:click={ConnectWallet}>
 					<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
 				</button>
-			{/if}
 		{/if}
 	{/if}
-</div>
+ </div>
 
 <style>
 	.wallet {

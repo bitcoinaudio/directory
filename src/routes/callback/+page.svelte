@@ -12,8 +12,9 @@
 	  const params = new URLSearchParams(window.location.search);
 	  const address = params.get('address');
 	  const error = params.get('error');
-		console.log('address', address);
-		console.log('error', error);	
+	  console.log('params', params);
+	  console.log('address', address);
+	  console.log('error', error);	
 	  if (address) {
 		walletAddress = address;
 		console.log('Connected Address:', walletAddress);
@@ -25,9 +26,9 @@
   </script>
   
   {#if walletAddress}
-	<div>Connected Wallet Address: {walletAddress}</div>
+	<div class="text-center ">Connected Wallet Address: {walletAddress}</div>
   {:else if errorMessage}
-	<div>Error: {errorMessage}</div>
+	<div class="text-center">Error: {errorMessage}</div>
   {/if}
   
 
