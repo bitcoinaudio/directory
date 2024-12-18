@@ -5,7 +5,7 @@ const collections = [
     icon: "/images/icons/dust.png",
     insID: 'ab699442da30abce39169d52a70ef4aac05bd268171a4b26f4a49894ebe037c9i0',
     description:
-      "Bitcoin Infused Music",
+      "Bitcoin Infused Music, Coming Soon to Ordinals",
     details: "",
     ordinal: "https://ordinals.com/content/ab699442da30abce39169d52a70ef4aac05bd268171a4b26f4a49894ebe037c9i0",
     app: "https://arweave.net/LCsgW3xifQxW07lzImZAOxuMkrOj6M_33VmS8KXKMhs",

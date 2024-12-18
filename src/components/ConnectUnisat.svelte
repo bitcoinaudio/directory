@@ -153,7 +153,7 @@
 		</button>
 	{:else}
 		{#if $isMobile}	
-			<button class="wallet-btn" on:click={ConnectUnisatMobile}>
+			<button class="wallet-btn" on:click={ConnectWallet}>
 				<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
 			</button>
 		{:else}

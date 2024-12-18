@@ -88,7 +88,7 @@
 
     let producerName ;
     let artist;
-    let audioUrl = "./Scrilla_Beat_2_MIXED.wav";
+    let audioUrl = "https://ordinals.com/content/78b3b56af07cb926b0f8ac22322cf02714db23984b875bc5be15c726cd1ed27ci0";
     let imageUrl = "./iom-icon-headphones.png";
     // New variable to control looping
     let isLooping = true;

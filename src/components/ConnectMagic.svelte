@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import {
@@ -8,11 +8,12 @@
 		walletMagicConnected,
 		walletConnected
 	} from '../stores';
-	import { request, RpcErrorCode, getProviders } from 'sats-connect';
+	import { request, RpcErrorCode, getProviders, AddressPurpose, BitcoinNetworkType } from 'sats-connect';
+	import Wallet from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
 	import logounisat from '../lib/images/logo-unisat.png';
-	let providerIcon;
+	import providerIcon from '../lib/images/wallet.svg';
 	let htmlarray = [];
 
 	// Precompute Ides Of March IDs for ownership checks
@@ -56,6 +57,33 @@
 		} catch (err) {
 			console.error('Error connecting wallet:', err);
 		}
+	}
+	async function connectOrDeselect() {
+		try {
+			 
+	// await request({
+	// 	getProvider: getBtcProvider,
+	// 	payload: {
+	// 		purposes: [AddressPurpose.Ordinals, AddressPurpose.Payment],
+	// 		message: "Address for receiving Ordinals and payments",
+	// 		network: {
+	// 			type: BitcoinNetworkType.Mainnet,
+	// 		},
+	// 	},
+	// 	onFinish: (response) => {
+	// 		console.log("onFinish response, ", response.addresses);
+	
+	// 		// do some action like updating your app context
+	// 		// connectionStatus?.setAccounts(response.addresses as unknown as Account[]);
+	// 	},
+	// 	onCancel: () => {
+	// 		alert("Request canceled");
+	// 	},
+	// 	});
+		// console.log("request response, ", response);
+	} catch (err) {
+		console.error('Error connecting wallet:', err);
+	}
 	}
 
 	async function getMyMedia() {
@@ -115,34 +143,26 @@
 		$page.url.pathname = '/';
 	}
 
-  const getBtcProvider = () => {
+	const getBtcProvider = () => {
 	if ("magicEden" in window) {
-		const anyWindow = window;
+		const anyWindow: any = window;
 		if (anyWindow.magicEden.bitcoin && anyWindow.magicEden.bitcoin.isMagicEden)
-    console.log('magicEden:', anyWindow.magicEden.bitcoin);
+			 anyWindow.magicEden.bitcoin
+
+			console.log("magicEden found", anyWindow.magicEden.bitcoin.accounts);
+
 			return anyWindow.magicEden.bitcoin;
 	}
-		window.location.href = "https://wallet.magiceden.io/";
-	};
-
+	window.location.href = "https://wallet.magiceden.io/";
+};
+  
 	let showButton = true;
 	onMount(async () => {
-		try {
-			const providers = await getProviders();
-			getBtcProvider();
- 			console.log('providers:', providers);
-			if (providers && providers.length > 0) {
-				providerIcon = providers[0].icon;
-			}
-			if (providers == null) {
-				providerIcon = logounisat;
-				showButton = false;
-			}
-			checkWalletConnection();
-			await getMyMedia();
-		} catch (err) {
-			console.error('Error on mount:', err);
-		}
+	 
+		getBtcProvider();
+		checkWalletConnection();
+		await getMyMedia();
+		 
 	});
 </script>
 
@@ -153,7 +173,7 @@
 				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
 			</button>
 		{:else}
-			<button class="wallet-btn" on:click={ConnectWallet}>
+			<button class="wallet-btn" on:click={connectOrDeselect}>
 				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
 			</button>
 		{/if}
