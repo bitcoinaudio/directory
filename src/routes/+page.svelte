@@ -7,7 +7,7 @@
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="Bitcoin Audio Directory" />
+	<meta name="description" content="My Inscribed Audio" />
 </svelte:head>
 
 <section>
