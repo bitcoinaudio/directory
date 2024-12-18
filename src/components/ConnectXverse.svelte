@@ -69,14 +69,14 @@
  
 		if ($isMobile) {
 			if ($isIOS) {
-				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
 				window.open(url, '_blank');				
  				walletXverseConnected.set(true);
 				walletConnected.set(true);
 				console.log('Connected to Xverse on iOS');	
 				await getMyMedia();
 			} else if ($isAndroid) {
-				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`;
+				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
 				window.open(url, '_blank');				
  				walletXverseConnected.set(true);
 				walletConnected.set(true);
