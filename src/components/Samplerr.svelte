@@ -341,37 +341,37 @@
 
 
     function updateLoopBPM(value) {
-        bpmSliderValue = Math.round(value); // Ensure the BPM value is a whole number
-        sessionStorage.setItem('loopBPM', JSON.stringify(loopBPM));
-        console.log("loopBPM", value);
+        bpmSliderValue = value; // Ensure the BPM value is a whole number
+        sessionStorage.setItem('loopBPM',  (loopBPM));
+        // console.log("loopBPM", value);
     }
 
-    // function loadSessionData() {
-    //     // Try loading from sessionStorage first
-    //     const storedLengths = sessionStorage.getItem('loopLengths');
-    //     const storedStarts = sessionStorage.getItem('loopStarts');
-    //     const storedBPM = sessionStorage.getItem('loopBPM');
+    function loadSessionData() {
+        // Try loading from sessionStorage first
+        const storedLengths = sessionStorage.getItem('loopLengths');
+        const storedStarts = sessionStorage.getItem('loopStarts');
+        const storedBPM = sessionStorage.getItem('loopBPM');
 
-    //     // Try loading saved session from localStorage
-    //     const savedSession = localStorage.getItem('sessionSettings');
+        // Try loading saved session from localStorage
+        const savedSession = localStorage.getItem('sessionSettings');
         
-    //     if (savedSession) {
-    //         loopLengths = savedSession.loopLengths;
-    //         loopStarts = savedSession.loopStarts;
-    //         loopBPM = savedSession.loopBPM;
-    //         midiAssignments = savedSession.midiAssignments;
-    //         sessionName = savedSession.albumName;
-    //      } else if (storedLengths) {
-    //         loopLengths = storedLengths;
-    //         loopStarts = storedStarts;
-    //         loopBPM = storedBPM;
-    //     }
+        if (savedSession) {
+            loopLengths = savedSession.loopLengths;
+            loopStarts = savedSession.loopStarts;
+            loopBPM = savedSession.loopBPM;
+            midiAssignments = savedSession.midiAssignments;
+            sessionName = savedSession.albumName;
+         } else if (storedLengths) {
+            loopLengths = storedLengths;
+            loopStarts = storedStarts;
+            loopBPM = storedBPM;
+        }
 
-    //     const storedMidiAssignments = JSON.parse(localStorage.getItem('midiAssignments'));
-    //     if (storedMidiAssignments) {
-    //         midiAssignments = storedMidiAssignments;
-    //     }
-    // }
+        const storedMidiAssignments = JSON.parse(localStorage.getItem('midiAssignments'));
+        if (storedMidiAssignments) {
+            midiAssignments = storedMidiAssignments;
+        }
+    }
 
     function updateDurationDisplay(value) {
         durationDisplay = value;
@@ -589,8 +589,8 @@ function dropHandler(ev, type) {
                      {/if}
                      <TimelineSlider
                         min={0}
-                        max={bpmMax}
-                        timeline={bpmSliderValue}
+                        max={260}
+                        timeline={bpmSliderValue/10}
                          {getPercentage}
                         timeChange={adjustLoopBPM}
                         sliderValue={bpmSliderValue}
