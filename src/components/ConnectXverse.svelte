@@ -2,23 +2,22 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import {
-		htmlArray, 
-		walletUnisatConnected, 
+		htmlArray,
+		walletUnisatConnected,
 		walletXverseConnected,
 		walletMagicConnected,
 		walletConnected
 	} from '../stores';
 	import { isMobile, isIOS, isAndroid } from '../stores';
 	import { goto } from '$app/navigation';
-	import { request, RpcErrorCode, getProviders } from 'sats-connect';
+	import { request, RpcErrorCode, getProviders, AddressPurpose } from 'sats-connect';
 	import Wallet from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
 	import logoxverse from '../lib/images/logo-xverse.jpg';
- 	let providerIcon;
+	let providerIcon;
 	let htmlarray = [];
 
-	
 	// Precompute Ides Of March IDs for ownership checks
 	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
 
@@ -41,6 +40,7 @@
 
 		try {
 			const response = await request('wallet_requestPermissions', null);
+			console.log('response', response);
 			if (response.status === 'success') {
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
@@ -49,7 +49,7 @@
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
-			}  else {
+			} else {
 				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
 					console.log('User rejected permissions request.');
 				} else {
@@ -60,62 +60,72 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
-	
+ 
+	function getInscriptions() {
+		const response = Wallet.request('ord_getInscriptions', {
+			purposes: [AddressPurpose.Payment, AddressPurpose.Ordinals],
+			message: 'Cool app wants to know your addresses!',
+		});
+		console.log('response', response);
+	}
+
+
 	async function ConnectXverseMobile() {
-		
 		let appName = 'Inscribed Audio';
 		let nonce = Date.now().toString();
 		let redirectUrl = encodeURIComponent(`/callback`);
- 
-		if ($isMobile) {
-			if ($isIOS) {
-				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
-				window.open(url, '_blank');				
- 				walletXverseConnected.set(true);
-				walletConnected.set(true);
-				console.log('Connected to Xverse on iOS');	
+		let url = '';
+	 
+
+		getInscriptions();		
+		
+		try {
+			if ($isMobile) {
+				if ($isIOS) {
+					url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
+					window.open(url);
+					walletXverseConnected.set(true);
+					walletConnected.set(true);
+					console.log('Connected to Xverse on iOS');
+				} else if ($isAndroid) {
+					url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
+					window.open(url);
+					walletXverseConnected.set(true);
+					walletConnected.set(true);
+					console.log('Connected to Xverse on Android');
+				}
+				// ConnectWallet();
 				await getMyMedia();
-			} else if ($isAndroid) {
-				const url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
-				window.open(url, '_blank');				
- 				walletXverseConnected.set(true);
-				walletConnected.set(true);
-				console.log('Connected to Xverse on Android');	
- 				await getMyMedia();
 			}
+		} catch (err) {
+			console.error('Error fetching media:', err);
 		}
 	}
-	    
-	function setLocalStorage(key, value) {
-        localStorage.setItem(key, value);
-    }
 
-    function getLocalStorage(key) {
-        return localStorage.getItem(key);
-    }
+	function setLocalStorage(key, value) {
+		localStorage.setItem(key, value);
+	}
+
+	function getLocalStorage(key) {
+		return localStorage.getItem(key);
+	}
 
 	function removeLocalStorage(key) {
 		localStorage.removeItem(key);
-	}	
+	}
 
 	async function getMyMedia() {
- 
-
 		const isXverseConnected = get(walletXverseConnected);
 		if (!isXverseConnected) {
 			console.log('Wallet not connected');
 			return;
 		}
 		try {
-
-			console.log('getMyMedia', "trying.......");
+			console.log('getMyMedia', 'trying.......');
 			// const limit = await GetWalletInsTotal();
 			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit: 10 });
 			console.log('inscriptionsRes', inscriptionsRes);
 			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
-
-
-			
 			htmlarray = [];
 
 			for (const ins of inscriptions) {
@@ -123,36 +133,39 @@
 				const mimetype = ins.contentType;
 
 				if (mimetype && mimetype.startsWith('text/html')) {
+					
 					const isIOM = checkIOMOwnership(insID);
 					htmlarray.push({ id: insID, isIOM });
 				}
-			}
+ 			}
 
 			htmlArray.set(htmlarray);
 			console.log('htmlArray:', get(htmlArray));
 			return htmlarray;
-
 		} catch (e) {
 			console.error('Error fetching media:', e);
 		}
 	}
 
 	function checkWalletConnection() {
-        const isConnected = getLocalStorage('walletConnected') === 'true';
-        const connectionTime = getLocalStorage('connectionTime');
-        const currentTime = Date.now();
+		const isConnected = getLocalStorage('walletConnected') === 'true';
+		const connectionTime = getLocalStorage('connectionTime');
+		const currentTime = Date.now();
 
-        if (isConnected && connectionTime && currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000) {
-            walletXverseConnected.set(true);
-            walletConnected.set(true);
-        } else {
-            removeLocalStorage('walletConnected');
-            removeLocalStorage('connectionTime');
-            walletXverseConnected.set(false);
-            walletConnected.set(false);
-        }
-    }
-
+		if (
+			isConnected &&
+			connectionTime &&
+			currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000
+		) {
+			walletXverseConnected.set(true);
+			walletConnected.set(true);
+		} else {
+			removeLocalStorage('walletConnected');
+			removeLocalStorage('connectionTime');
+			walletXverseConnected.set(false);
+			walletConnected.set(false);
+		}
+	}
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
@@ -163,21 +176,22 @@
 		goto('/');
 	}
 
-	const handleGetInfo = async () => {
-    try {
-      const response = await Wallet.request("wallet_connect", null);
-      console.log("getInfo",response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-	onMount(async () => {
-		 
+	function handleGetInfo() {
 		try {
-			console.log("onMount", "trying.......");
+			const response = Wallet.request('wallet_connect', null);
+			console.log('getInfo', response);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	onMount(async () => {
+		handleGetInfo();
+		try {
+			console.log('onMount', 'trying.......');
 			const providers = getProviders();
-			 
-			 console.log('providers', providers);
+
+			console.log('providers', providers);
 			checkWalletConnection();
 			await getMyMedia();
 		} catch (err) {
@@ -187,22 +201,20 @@
 </script>
 
 <div class="wallet">
- 		{#if $walletXverseConnected}
-			<button class="wallet-btn" on:click={DisconnectWallet}>
-				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
-			</button>
-		{:else}
-			{#if $isMobile}
-				<button class="wallet-btn" on:click={ConnectXverseMobile}>
-					<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
-				</button>
-			{:else}
-				<button class="wallet-btn" on:click={ConnectWallet}>
-					<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
-				</button>
-		{/if}
+	{#if $walletXverseConnected}
+		<button class="wallet-btn" on:click={DisconnectWallet}>
+			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
+		</button>
+	{:else if $isMobile}
+		<button class="wallet-btn" on:click={ConnectXverseMobile}>
+			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+		</button>
+	{:else}
+		<button class="wallet-btn" on:click={ConnectWallet}>
+			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+		</button>
 	{/if}
- </div>
+</div>
 
 <style>
 	.wallet {
