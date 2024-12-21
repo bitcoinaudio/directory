@@ -68,10 +68,8 @@
 	async function ConnectXverseMobile() {
 		let appName = 'Inscribed Audio';
 		let nonce = Date.now().toString(); 		
-		let browserUrl = 'http://100.115.52.114:5173/myinscriptions';
+		let browserUrl = 'http://100.123.54.34:5173/myinscriptions';
 		try {
-			const provider = await getProviders();
-			console.log('provider', provider);
 			 
 			if ($isMobile) {
 				if ($isIOS) {
@@ -181,7 +179,7 @@
 	};
 
 	onMount(async () => {
-		 handleGetInfo();
+		// handleGetInfo();
 		try {
 			console.log('onMount', 'trying.......');
 			 
