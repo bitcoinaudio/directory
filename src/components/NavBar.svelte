@@ -66,6 +66,9 @@
                     {/each}
                     
                     {#if $walletConnected}
+                    <li aria-current={$page.url.pathname === '/callback' ? 'page' : undefined}>
+                        <a href="/callback" >Callback</a>
+                    </li>
                     <li aria-current={$page.url.pathname === '/myinscriptions' ? 'page' : undefined}>
                         <a href="/myinscriptions" >My Media</a>
                     </li>

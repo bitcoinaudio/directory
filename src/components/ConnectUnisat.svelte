@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
  	import logounisat from '$lib/images/logo-unisat.png';
 	import { htmlArray, unisatAccounts, walletConnected, walletUnisatConnected, walletXverseConnected } from '../stores';
 	import { isMobile, isIOS, isAndroid } from '../stores';
@@ -34,8 +35,7 @@
 				localStorage.setItem('walletConnected', 'true');
 				localStorage.setItem('connectionTime', Date.now().toString());
 
-				await getMyMedia();
-				showModal = false;
+				 
 			} else{
 				walletUnisatConnected.set(false);
 				console.warn('UniSat Wallet not installed.');
@@ -45,26 +45,39 @@
 		}
  	}
 
+	 let appName = 'Inscribed Audio';
+	 let nonce = Date.now().toString();
+	 let redirectUrl = ( '/myinscriptions');
+	 const message = encodeURIComponent("Hello from Svelte!");
+	 const data = (JSON.stringify([message,'text']))	
+	 const callbackUrl = ('http://100.123.54.34:5173/callback');
+	 const deeplink = `unisat://request?method=connect&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
+	 const deeplink2 = `unisat://request?method=signMessage&data=[${data}]from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
+ 
 	async function ConnectUnisatMobile() {
-		let appName = 'Inscribed Audio';
-		let nonce = Date.now().toString();
-		let redirectUrl = encodeURIComponent(`/callback`);
-		if ($isMobile) {
+		console.log('callbackUrl', callbackUrl, redirectUrl);
+		try {
+			if ($isMobile) {
 			if ($isIOS) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`, '_blank');
+				window.location.href = deeplink;
 				console.log('Connected to UniSat on iOS');	
 				walletUnisatConnected.set(true);
 				walletConnected.set(true);
 
-				await getMyMedia();
 			} else if ($isAndroid) {
-				window.open(`unisat://request?method=connect&from=${appName}&nonce=${nonce}&redirect=${redirectUrl}`, '_blank');
+				window.location.href = deeplink2;
 				console.log('Connected to UniSat on Android');
 				walletUnisatConnected.set(true);
 				walletConnected.set(true);
-				await getMyMedia();
 			}
 		}
+		} catch (error) {
+			console.error('Error connecting to UniSat on mobile:', error);
+		}
+		 
+		
+		// ConnectWallet();
+		// await getMyMedia();
 	}
 
 	async function GetWalletInsTotal() {
@@ -105,8 +118,7 @@
 	}
 
 	async function getMyMedia() {
-		console.log('getMyMedia', "tryin....");
-		const isUnisatConnected = get(walletUnisatConnected);
+ 		const isUnisatConnected = get(walletUnisatConnected);
 		if (!isUnisatConnected) {
 			console.log('Wallet not connected, cannot fetch media.');
 			return;
@@ -117,17 +129,23 @@
 			const walletInscriptions = await winuni.getInscriptions(0, limit);
 
 			htmlarray = [];
+			
 
 			if (walletInscriptions?.list) {
 				for (let i = 0; i < walletInscriptions.list.length; i++) {
 					const ins = walletInscriptions.list[i];
 					const insID = ins.inscriptionId;
 					const mimetype = ins.contentType;
+					
 
 					if (mimetype && mimetype.startsWith('text/html')) {
+
+
 						const isIOM = checkIOMOwnership(insID);
 						htmlarray.push({ id: insID, isIOM });
+
 					}
+					// console.log('htmlarray', htmlarray);
 				}
 			}
 
@@ -142,7 +160,7 @@
 		
 		console.log('Device:', navigator.userAgent);
 		checkWalletConnection();
-		await getMyMedia();
+		// await getMyMedia();
 	});
 </script>
 
@@ -153,7 +171,7 @@
 		</button>
 	{:else}
 		{#if $isMobile}	
-			<button class="wallet-btn" on:click={ConnectWallet}>
+			<button class="wallet-btn" on:click={ConnectUnisatMobile}>
 				<img class="wallet-logo" src={logounisat} alt="UniSat Logo" />Connect?
 			</button>
 		{:else}

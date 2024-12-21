@@ -1,36 +1,28 @@
-<svelte:head>
- 	<meta name="description" content="The Ides of March Collection" />
-</svelte:head>
 <script>
-	import { onMount } from 'svelte';
-  
-	let walletAddress = null;
-	let errorMessage = null;
-  
+	import {onMount} from 'svelte';
+	import { page } from '$app/stores';
+ 	
+	$: {
+	  const query = $page.url.searchParams;
+	  const status = query.get('status');
+	  const signature = query.get('signature');
+	  
+	  // Now you can handle these values as needed:
+	  // - If status === 'success', show a success message or store the signature.
+	  // - If status === 'error', inform the user something went wrong.
+	}
+
 	onMount(() => {
-	  // Parse the query parameters from the URL
-	  const params = new URLSearchParams(window.location.search);
-	  const address = params.get('address');
-	  const error = params.get('error');
-	  console.log('params', params);
-	  console.log('address', address);
-	  console.log('error', error);	
-	  if (address) {
-		walletAddress = address;
-		console.log('Connected Address:', walletAddress);
-	  } else if (error) {
-		errorMessage = error;
-		console.error('Connection Error:', errorMessage);
-	  }
+		console.log("Callback parameters:", $page.url.searchParams);
 	});
   </script>
   
-  {#if walletAddress}
-	<div class="text-center ">Connected Wallet Address: {walletAddress}</div>
-  {:else if errorMessage}
-	<div class="text-center">Error: {errorMessage}</div>
+  <h1>Callback Page</h1>
+  
+  {#if $page.url.searchParams.get('status') === 'success'}
+	<p>Transaction/Signature received successfully!</p>
+	<!-- Additional UI or logic goes here -->
+  {:else}
+	<p>Waiting for wallet response...</p>
   {/if}
   
-
-
-

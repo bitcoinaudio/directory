@@ -40,7 +40,7 @@
 
 		try {
 			const response = await request('wallet_requestPermissions', null);
-			console.log('response', response);
+			console.log('ConnectWallet response', response);
 			if (response.status === 'success') {
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
@@ -61,40 +61,31 @@
 		}
 	}
  
-	function getInscriptions() {
-		const response = Wallet.request('ord_getInscriptions', {
-			purposes: [AddressPurpose.Payment, AddressPurpose.Ordinals],
-			message: 'Cool app wants to know your addresses!',
-		});
-		console.log('response', response);
-	}
+ 
 
+		let url = '';
 
 	async function ConnectXverseMobile() {
 		let appName = 'Inscribed Audio';
-		let nonce = Date.now().toString();
-		let redirectUrl = encodeURIComponent(`/callback`);
-		let url = '';
-	 
-
-		getInscriptions();		
-		
+		let nonce = Date.now().toString(); 		
+		let browserUrl = 'http://100.123.54.34:5173/myinscriptions';
 		try {
+			 
 			if ($isMobile) {
 				if ($isIOS) {
-					url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
-					window.open(url);
-					walletXverseConnected.set(true);
-					walletConnected.set(true);
+					url = `https://connect.xverse.app/browser?url=${browserUrl}`;
+					window.open(url, '/myinscriptions');
 					console.log('Connected to Xverse on iOS');
 				} else if ($isAndroid) {
-					url = `https://connect.xverse.app/browser?url=https://my.inscribed.audio`;
-					window.open(url);
-					walletXverseConnected.set(true);
-					walletConnected.set(true);
+					url = `https://connect.xverse.app/browser?url=${browserUrl}`;
+					window.open(url, '/myinscriptions');
 					console.log('Connected to Xverse on Android');
 				}
-				// ConnectWallet();
+
+				walletXverseConnected.set(true);
+				walletConnected.set(true);
+
+				ConnectWallet();
 				await getMyMedia();
 			}
 		} catch (err) {
@@ -176,24 +167,23 @@
 		goto('/');
 	}
 
-	function handleGetInfo() {
+	async function handleGetInfo() {
 		try {
-			const response = Wallet.request('wallet_connect', null);
-			console.log('getInfo', response);
+
+			 const data = await Wallet.request('getAccounts', null);
+			console.log('getInfo', data);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	onMount(async () => {
-		handleGetInfo();
+		// handleGetInfo();
 		try {
 			console.log('onMount', 'trying.......');
-			const providers = getProviders();
-
-			console.log('providers', providers);
+			 
 			checkWalletConnection();
-			await getMyMedia();
+			// await getMyMedia();
 		} catch (err) {
 			console.error('Error on mount:', err);
 		}
