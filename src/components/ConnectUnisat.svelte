@@ -35,7 +35,9 @@
 				localStorage.setItem('walletConnected', 'true');
 				localStorage.setItem('connectionTime', Date.now().toString());
 
-				 
+				await getMyMedia();
+				goto('/myinscriptions');
+
 			} else{
 				walletUnisatConnected.set(false);
 				console.warn('UniSat Wallet not installed.');
@@ -50,7 +52,7 @@
 	 let redirectUrl = ( '/myinscriptions');
 	 const message = encodeURIComponent("Hello from Svelte!");
 	 const data = (JSON.stringify([message,'text']))	
-	 const callbackUrl = ('http://100.123.54.34:5173/callback');
+	 const callbackUrl = ('/myinscriptions');
 	 const deeplink = `unisat://request?method=connect&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
 	 const deeplink2 = `unisat://request?method=signMessage&data=[${data}]from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
  
@@ -61,23 +63,20 @@
 			if ($isIOS) {
 				window.location.href = deeplink;
 				console.log('Connected to UniSat on iOS');	
-				walletUnisatConnected.set(true);
-				walletConnected.set(true);
+				
 
 			} else if ($isAndroid) {
 				window.location.href = deeplink2;
 				console.log('Connected to UniSat on Android');
-				walletUnisatConnected.set(true);
-				walletConnected.set(true);
+				 
 			}
 		}
 		} catch (error) {
 			console.error('Error connecting to UniSat on mobile:', error);
 		}
 		 
-		
-		// ConnectWallet();
-		// await getMyMedia();
+		walletUnisatConnected.set(true);
+		walletConnected.set(true);
 	}
 
 	async function GetWalletInsTotal() {
@@ -156,12 +155,7 @@
 		}
 	}
 
-	onMount(async () => {
-		
-		console.log('Device:', navigator.userAgent);
-		checkWalletConnection();
-		// await getMyMedia();
-	});
+	 
 </script>
 
 <div class="wallet">

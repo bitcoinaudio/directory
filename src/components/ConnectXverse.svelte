@@ -49,6 +49,7 @@
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
+				goto('/myinscriptions');
 			} else {
 				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
 					console.log('User rejected permissions request.');
@@ -167,25 +168,8 @@
 		goto('/');
 	}
 
-	async function handleGetInfo() {
-		try {			
-			const data = await Wallet.request('getInfo', null);
-			console.log('getInfo', data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	onMount(async () => {
-		 
-		try {
-			console.log('onMount', 'trying.......');
-			// checkWalletConnection();
-			// await getMyMedia();
-		} catch (err) {
-			console.error('Error on mount:', err);
-		}
-	});
+	 
+	 
 </script>
 
 <div class="wallet">
