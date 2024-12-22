@@ -39,7 +39,7 @@
 		walletUnisatConnected.set(false);
 
 		try {
-			const response = await request('wallet_requestPermissions', null);
+			const response = await request('ord_getInscriptions', {offset: 0, limit: 1});
 			console.log('ConnectWallet response', response);
 			if (response.status === 'success') {
 				walletXverseConnected.set(true);
@@ -85,8 +85,8 @@
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
 
-				ConnectWallet();
-				await getMyMedia();
+				// ConnectWallet();
+				// await getMyMedia();
 			}
 		} catch (err) {
 			console.error('Error fetching media:', err);
@@ -168,9 +168,8 @@
 	}
 
 	async function handleGetInfo() {
-		try {
-
-			 const data = await Wallet.request('getAccounts', null);
+		try {			
+			const data = await Wallet.request('getInfo', null);
 			console.log('getInfo', data);
 		} catch (err) {
 			console.log(err);
@@ -178,11 +177,10 @@
 	};
 
 	onMount(async () => {
-		// handleGetInfo();
+		handleGetInfo();
 		try {
 			console.log('onMount', 'trying.......');
-			 
-			checkWalletConnection();
+			// checkWalletConnection();
 			// await getMyMedia();
 		} catch (err) {
 			console.error('Error on mount:', err);
@@ -196,7 +194,7 @@
 			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
 		</button>
 	{:else if $isMobile}
-		<button class="wallet-btn" on:click={ConnectXverseMobile}>
+		<button class="wallet-btn" on:click={ConnectWallet}>
 			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
 		</button>
 	{:else}
