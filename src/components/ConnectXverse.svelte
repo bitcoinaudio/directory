@@ -177,7 +177,7 @@
 	};
 
 	onMount(async () => {
-		handleGetInfo();
+		 
 		try {
 			console.log('onMount', 'trying.......');
 			// checkWalletConnection();
