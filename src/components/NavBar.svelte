@@ -9,7 +9,6 @@
     import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
     import ConnectMagic from '../components/ConnectMagic.svelte';
-    import ConnectLaserEyes from '../components/ConnectLaserEyes.svelte';
 
     const navigation = [
         { name: "My Inscibed", href: "/" },
@@ -123,8 +122,7 @@
                 <!-- <li><ConnectMagic /></li> -->
                 <li><ConnectUnisat /></li>
                 <li><ConnectXverse /></li>
-                <!-- <li><ConnectLaserEyes /></li> -->
-                </ul>
+                 </ul>
             </div>
                             
          </div>
