@@ -75,7 +75,7 @@
 	
 							{#if html.isIOM}
 								<li>
-									<a class="tooltip" data-tip="IOM" href="https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg" target="_blank">
+									<a class="tooltip" data-tip="IOM App" href="https://arweave.net/0AphIk6Qiuu3RwGtYL02w9weo3Cci5Xp-M0LRgZ42Gg" target="_blank">
 										<img class="size-10" src={iomImage} alt="IOM" />
 									</a>
 								</li>

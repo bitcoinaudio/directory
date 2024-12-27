@@ -9,6 +9,8 @@
 				Introducing
 					   <span class="text-black/70">The Samplerr</span>				   
 			</h1>
+			<p class="text-xl text-center">built by <a href="https://bitcoinaudio.co" target="_blank">Bitcoin Audio</a></p>
+
 			<div class="flex justify-center">
 				<Samplerr />	
 
