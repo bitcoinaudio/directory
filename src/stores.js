@@ -29,6 +29,8 @@ export const myinscriptions = writable()
 export const isMobile = writable(false)
 export const isAndroid = writable(false)
 export const isIOS = writable(false)
+export const isInXverseBrowser = writable(false);
+
 
 const defaultSettings = {
 	darkMode: true,

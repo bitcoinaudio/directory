@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { isInXverseBrowser } from '../stores';
 	import {
 		htmlArray,
 		walletUnisatConnected,
@@ -8,6 +9,7 @@
 		walletMagicConnected,
 		walletConnected
 	} from '../stores';
+	import { isXverseBrowser } from '../utils/browserCheck';
 	import { isMobile, isIOS, isAndroid } from '../stores';
 	import { goto } from '$app/navigation';
 	import { request, RpcErrorCode, getProviders, AddressPurpose } from 'sats-connect';
@@ -17,7 +19,6 @@
 	import logoxverse from '../lib/images/logo-xverse.jpg';
 	let providerIcon;
 	let htmlarray = [];
-
 	// Precompute Ides Of March IDs for ownership checks
 	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
 
@@ -67,28 +68,28 @@
 		let url = '';
 
 	async function ConnectXverseMobile() {
+		isInXverseBrowser.set(isXverseBrowser());
 		let appName = 'Inscribed Audio';
 		let nonce = Date.now().toString(); 		
-		let browserUrl = 'http://100.123.54.34:5173/myinscriptions';
+		let browserUrl = 'http://100.123.54.34:5173/';
+		url = `https://connect.xverse.app/browser?url=${browserUrl}`;
+		window.open(url, browserUrl);
 		try {
-			 
-			if ($isMobile) {
+			
+				
 				if ($isIOS) {
-					url = `https://connect.xverse.app/browser?url=${browserUrl}`;
-					window.open(url, '/myinscriptions');
+					
 					console.log('Connected to Xverse on iOS');
 				} else if ($isAndroid) {
-					url = `https://connect.xverse.app/browser?url=${browserUrl}`;
-					window.open(url, '/myinscriptions');
+					 
 					console.log('Connected to Xverse on Android');
 				}
 
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
 
-				// ConnectWallet();
-				// await getMyMedia();
-			}
+				 
+		 
 		} catch (err) {
 			console.error('Error fetching media:', err);
 		}
@@ -169,18 +170,36 @@
 	}
 
 	 
-	 
+	 onMount(() => {
+		isInXverseBrowser.set(isXverseBrowser());
+		console.log('isInXverseBrowser', isXverseBrowser());
+	
+	 });
 </script>
 
 <div class="wallet">
+	<!-- {#if isInXverseBrowser}
+	<button class="wallet-btn" on:click={ConnectWallet}>
+		<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+	</button>
+	{/if} -->
 	{#if $walletXverseConnected}
 		<button class="wallet-btn" on:click={DisconnectWallet}>
 			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
 		</button>
 	{:else if $isMobile}
-		<button class="wallet-btn" on:click={ConnectWallet}>
-			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
-		</button>
+
+		{#if $isInXverseBrowser}
+			<button class="wallet-btn" on:click={ConnectWallet}>
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+			</button>
+		{:else}
+			<button class="wallet-btn" on:click={ConnectXverseMobile}>
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+			</button>
+		{/if}
+
+		
 	{:else}
 		<button class="wallet-btn" on:click={ConnectWallet}>
 			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
