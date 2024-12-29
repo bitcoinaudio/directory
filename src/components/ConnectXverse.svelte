@@ -31,8 +31,8 @@
 		walletUnisatConnected.set(false);
 
 		try {
-			const connectResponse = await request('wallet_connect', null);
-			console.log('connectResponse', connectResponse);
+			// const connectResponse = await request('wallet_connect', null);
+			// console.log('connectResponse', connectResponse);
 			const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
 			if (response.status === 'success') {
 				walletXverseConnected.set(true);
@@ -61,7 +61,7 @@
 	 * - Otherwise, open the Xverse Connect deep link to switch to the Xverse app.
 	 */
 	 function ConnectXverseMobile() {
-		const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio?inXverse=1')}`;
+		const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
 		window.open(xverseUrl, '_blank');
 	}
 
@@ -147,6 +147,11 @@
 	}
 
 	onMount(() => {
+		try{ 
+			ConnectWallet();
+		} catch (e) {
+			console.error('Error connecting wallet:', e);
+		}
 		isInXverseBrowser.set(isXverseBrowser());
 		checkWalletConnection();
 	});
