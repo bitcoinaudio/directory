@@ -12,7 +12,12 @@
 	let ordURL = "https://ordinals.com";
 
 	onMount(() => {
-		console.log("myinscriptions mounted");
+		if (walletConnected) {
+			console.log("Wallet connected");
+			console.log("myinscriptions mounted");
+		} else {
+			console.log("Wallet not connected");
+		}
 	});
 </script>
 
