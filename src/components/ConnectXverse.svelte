@@ -1,53 +1,45 @@
 <script>
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import { isInXverseBrowser } from '../stores';
-	import {
+	import { goto } from '$app/navigation';
+	import { request, RpcErrorCode } from 'sats-connect';
+ 	import {
 		htmlArray,
 		walletUnisatConnected,
 		walletXverseConnected,
-		walletMagicConnected,
-		walletConnected
+		walletConnected,
+		isInXverseBrowser,
+		isMobile,
+		isIOS,
+		isAndroid
 	} from '../stores';
-	import { isXverseBrowser } from '../utils/browserCheck';
-	import { isMobile, isIOS, isAndroid } from '../stores';
-	import { goto } from '$app/navigation';
-	import { request, RpcErrorCode, getProviders, AddressPurpose } from 'sats-connect';
-	import Wallet from 'sats-connect';
-	import idesofmarch from '../lib/collections/idesofmarch.json';
-	import { get } from 'svelte/store';
-	import logoxverse from '../lib/images/logo-xverse.jpg';
-	let providerIcon;
-	let htmlarray = [];
-	// Precompute Ides Of March IDs for ownership checks
+ 	import { isXverseBrowser } from '../utils/browserCheck';
+ 	import idesofmarch from '../lib/collections/idesofmarch.json';
+ 	import { get } from 'svelte/store';
+ 	import logoxverse from '../lib/images/logo-xverse.jpg';
+
+	// --- Precompute Ides Of March IDs for ownership checks ---
 	const idesOfMarchIDs = idesofmarch.map((item) => item.id);
 
 	function checkIOMOwnership(insID) {
 		return idesOfMarchIDs.includes(insID);
 	}
 
-	async function GetWalletInsTotal() {
-		try {
-			const inscriptions = await request('ord_getInscriptions', { offset: 0, limit: 1 });
-			return inscriptions?.result?.total || 0;
-		} catch (error) {
-			console.error('Error getting wallet inscriptions total:', error);
-			return 0;
-		}
-	}
-
+	/**
+	 * Connect wallet (desktop or if already in Xverse browser).
+	 */
 	async function ConnectWallet() {
 		walletUnisatConnected.set(false);
 
 		try {
-			const response = await request('ord_getInscriptions', {offset: 0, limit: 1});
-			console.log('ConnectWallet response', response);
+			const connectResponse = await request('wallet_connect', null);
+			console.log('connectResponse', connectResponse);
+			const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
 			if (response.status === 'success') {
 				walletXverseConnected.set(true);
 				walletConnected.set(true);
 
-				localStorage.setItem('walletConnected', 'true');
-				localStorage.setItem('connectionTime', Date.now().toString());
+				setLocalStorage('walletConnected', 'true');
+				setLocalStorage('connectionTime', Date.now().toString());
 
 				await getMyMedia();
 				goto('/myinscriptions');
@@ -62,84 +54,66 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
- 
- 
 
-		let url = '';
-
-	async function ConnectXverseMobile() {
-		isInXverseBrowser.set(isXverseBrowser());
-		let appName = 'Inscribed Audio';
-		let nonce = Date.now().toString(); 		
-		let browserUrl = 'http://100.123.54.34:5173/';
-		url = `https://connect.xverse.app/browser?url=${browserUrl}`;
-		window.open(url, browserUrl);
-		try {
-			
-				
-				if ($isIOS) {
-					
-					console.log('Connected to Xverse on iOS');
-				} else if ($isAndroid) {
-					 
-					console.log('Connected to Xverse on Android');
-				}
-
-				walletXverseConnected.set(true);
-				walletConnected.set(true);
-
-				 
-		 
-		} catch (err) {
-			console.error('Error fetching media:', err);
-		}
+	/**
+	 * Only used on mobile *outside* the Xverse browser:
+	 * - If we're *already in* the Xverse browser, call ConnectWallet directly.
+	 * - Otherwise, open the Xverse Connect deep link to switch to the Xverse app.
+	 */
+	 function ConnectXverseMobile() {
+		const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('http://100.123.54.34:5173/?inXverse=1')}`;
+		window.open(xverseUrl, '_blank');
 	}
 
-	function setLocalStorage(key, value) {
-		localStorage.setItem(key, value);
-	}
 
-	function getLocalStorage(key) {
-		return localStorage.getItem(key);
-	}
-
-	function removeLocalStorage(key) {
-		localStorage.removeItem(key);
-	}
-
+	/**
+	 * Fetch user’s inscriptions from their Xverse wallet
+	 */
 	async function getMyMedia() {
-		const isXverseConnected = get(walletXverseConnected);
-		if (!isXverseConnected) {
-			console.log('Wallet not connected');
+		if (!get(walletXverseConnected)) {
+			console.error('Wallet not connected');
 			return;
 		}
 		try {
-			console.log('getMyMedia', 'trying.......');
-			// const limit = await GetWalletInsTotal();
+
 			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit: 10 });
-			console.log('inscriptionsRes', inscriptionsRes);
 			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
-			htmlarray = [];
+			const htmlarray = [];
 
 			for (const ins of inscriptions) {
 				const insID = ins.inscriptionId;
 				const mimetype = ins.contentType;
-
 				if (mimetype && mimetype.startsWith('text/html')) {
-					
-					const isIOM = checkIOMOwnership(insID);
-					htmlarray.push({ id: insID, isIOM });
+					htmlarray.push({
+						id: insID,
+						isIOM: checkIOMOwnership(insID)
+					});
 				}
- 			}
+			}
 
 			htmlArray.set(htmlarray);
-			console.log('htmlArray:', get(htmlArray));
 			return htmlarray;
 		} catch (e) {
 			console.error('Error fetching media:', e);
 		}
 	}
 
+	/**
+	 * Local Storage helpers
+	 */
+	function setLocalStorage(key, value) {
+		localStorage.setItem(key, value);
+	}
+	function getLocalStorage(key) {
+		return localStorage.getItem(key);
+	}
+	function removeLocalStorage(key) {
+		localStorage.removeItem(key);
+	}
+
+	/**
+	 * Check if the wallet is still connected based on localStorage data.
+	 */
 	function checkWalletConnection() {
 		const isConnected = getLocalStorage('walletConnected') === 'true';
 		const connectionTime = getLocalStorage('connectionTime');
@@ -160,51 +134,56 @@
 		}
 	}
 
+	/**
+	 * Disconnect the wallet: clear localStorage, store states, and redirect.
+	 */
 	function DisconnectWallet() {
 		htmlArray.set([]);
 		walletXverseConnected.set(false);
 		walletConnected.set(false);
-		localStorage.removeItem('walletConnected');
-		localStorage.removeItem('connectionTime');
+		removeLocalStorage('walletConnected');
+		removeLocalStorage('connectionTime');
 		goto('/');
 	}
 
-	 
-	 onMount(() => {
+	onMount(() => {
 		isInXverseBrowser.set(isXverseBrowser());
-		console.log('isInXverseBrowser', isXverseBrowser());
-	
-	 });
+		checkWalletConnection();
+	});
 </script>
 
 <div class="wallet">
-	<!-- {#if isInXverseBrowser}
-	<button class="wallet-btn" on:click={ConnectWallet}>
-		<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
-	</button>
-	{/if} -->
 	{#if $walletXverseConnected}
+		<!-- Already connected -->
 		<button class="wallet-btn" on:click={DisconnectWallet}>
-			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Disconnect?
+			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />
+			Disconnect?
 		</button>
+	
 	{:else if $isMobile}
-
+		<!-- MOBILE LOGIC -->
 		{#if $isInXverseBrowser}
+			<!-- Already in Xverse browser on mobile -->
 			<button class="wallet-btn" on:click={ConnectWallet}>
-				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />
+				Connect?
 			</button>
 		{:else}
+			<!-- Mobile but NOT in Xverse browser -->
 			<button class="wallet-btn" on:click={ConnectXverseMobile}>
-				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+				<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />
+				Open Xverse?
 			</button>
 		{/if}
 
-		
 	{:else}
+		<!-- DESKTOP -->
 		<button class="wallet-btn" on:click={ConnectWallet}>
-			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />Connect?
+			<img class="wallet-logo" src={logoxverse} alt="Wallet Logo" />
+			Connect?
 		</button>
 	{/if}
+	
 </div>
 
 <style>
@@ -219,5 +198,6 @@
 		background: none;
 		align-items: center;
 		display: flex;
+		cursor: pointer;
 	}
 </style>

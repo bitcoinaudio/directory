@@ -1,7 +1,26 @@
-// src/utils/browserCheck.js
+// utils/browserCheck.js
+
 export function isXverseBrowser() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    console.log('userAgent', userAgent);
-    // Example: Check for a unique part of the Xverse user agent string
-    return userAgent.includes("xverse");
-}
+    // 1. URL param approach
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('inXverse')) {
+        return true;
+      }
+    }
+  
+    // 2. Check global object
+    if (typeof window !== 'undefined' && window?.bitcoin?.isXverse) {
+      return true;
+    }
+  
+    // 3. (Optional) User-Agent check
+    if (typeof window !== 'undefined') {
+      const ua = window.navigator.userAgent || '';
+      if (/Xverse/i.test(ua)) return true;
+    }
+  
+    // If none match, assume not in Xverse
+    return false;
+  }
+  
