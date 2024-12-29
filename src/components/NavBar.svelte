@@ -4,7 +4,7 @@
 	import github from '$lib/images/github.svg';
 	import wallet from '$lib/images/wallet.svg';
 	import { page } from '$app/stores';
-    import { walletConnected } from "../stores";
+    import { walletConnected,isInXverseBrowser } from "../stores";
     import Modal from "./Modal.svelte";
     import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
@@ -73,8 +73,10 @@
                         <a href="/samplerr" on:click={() => setActive("Samplerr")}>Samplerr</a>
                     </li>
                     {/if}
-                    <li><ConnectUnisat /></li>
-                    <li><ConnectXverse /></li>
+                    {#if !$isInXverseBrowser}
+        <li><ConnectUnisat /></li>
+    {/if}
+    <li><ConnectXverse /></li>
                 </ul>
             </div>
             <a href="https://inscribed.audio" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
@@ -118,8 +120,10 @@
                 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                 <!-- <li><ConnectMagic /></li> -->
+                {#if !$isInXverseBrowser}
                 <li><ConnectUnisat /></li>
-                <li><ConnectXverse /></li>
+            {/if}
+            <li><ConnectXverse /></li>
                  </ul>
             </div>
                             
