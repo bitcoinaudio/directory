@@ -61,13 +61,16 @@
 	 * - If we're *already in* the Xverse browser, call ConnectWallet directly.
 	 * - Otherwise, open the Xverse Connect deep link to switch to the Xverse app.
 	 */
+	const browserUrl = 'http://100.123.54.34:5173/?inXverse=1';
 	 function ConnectXverseMobile() {
-		if (isIOS) {
-			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
+		if ($isIOS) {
+			const xverseUrl = `https://connect.xverse.app/`;
 			window.open(xverseUrl, '_blank');
-		} else if (isAndroid)	 {
-			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
+			console.log('isIOS', isIOS);
+		} else if ($isAndroid)	 {
+			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
 			window.open(xverseUrl, '_blank');
+			console.log('isAndroid', isAndroid);
 		} else {
 			console.error('Unsupported platform');
 		}
