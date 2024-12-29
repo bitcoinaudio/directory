@@ -52,13 +52,12 @@
 	 let redirectUrl = ( '/myinscriptions');
 	 const message = encodeURIComponent("Hello from Svelte!");
 	 const data = (JSON.stringify([message,'text']))	
-	 const callbackUrl = ('/myinscriptions');
+	 const callbackUrl = ('https://my.inscribed.audio/myinscriptions');
 	 const deeplink = `unisat://request?method=connect&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
 	 const deeplink2 = `unisat://request?method=signMessage&data=[${data}]from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
  
 	async function ConnectUnisatMobile() {
-		console.log('callbackUrl', callbackUrl, redirectUrl);
-		try {
+ 		try {
 			if ($isMobile) {
 			if ($isIOS) {
 				window.location.href = deeplink;
@@ -66,7 +65,7 @@
 				
 
 			} else if ($isAndroid) {
-				window.location.href = deeplink2;
+				window.location.href = deeplink;
 				console.log('Connected to UniSat on Android');
 				 
 			}
