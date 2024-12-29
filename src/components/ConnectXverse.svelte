@@ -63,7 +63,7 @@
 	 */
 	 function ConnectXverseMobile() {
 		if (isIOS) {
-			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://100.123.54.34:5173/?inXverse=1')}`;
+			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
 			window.open(xverseUrl, '_blank');
 		} else if (isAndroid)	 {
 			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
