@@ -61,7 +61,7 @@
 	 * - If we're *already in* the Xverse browser, call ConnectWallet directly.
 	 * - Otherwise, open the Xverse Connect deep link to switch to the Xverse app.
 	 */
-	const browserUrl = 'http://100.123.54.34:5173/?inXverse=1';
+	const browserUrl = 'https://my.inscribed.audio/?inXverse=1';
 	 function ConnectXverseMobile() {
 		if ($isIOS) {
 			const xverseUrl = `https://connect.xverse.app/`;
