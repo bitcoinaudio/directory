@@ -31,25 +31,26 @@
 		walletUnisatConnected.set(false);
 
 		try {
-			// const connectResponse = await request('wallet_connect', null);
-			// console.log('connectResponse', connectResponse);
-			const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
-			if (response.status === 'success') {
-				walletXverseConnected.set(true);
-				walletConnected.set(true);
+				const walletConnect = await request('wallet_connect', null);
+				if (walletConnect.status === 'success') {		
+					const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
+					if (response.status === 'success') {
+					walletXverseConnected.set(true);
+					walletConnected.set(true);
 
 				setLocalStorage('walletConnected', 'true');
 				setLocalStorage('connectionTime', Date.now().toString());
-
 				await getMyMedia();
-				goto('/myinscriptions');
-			} else {
-				if (response.error?.code === RpcErrorCode.USER_REJECTION) {
-					console.log('User rejected permissions request.');
+					goto('/myinscriptions');
+					}
 				} else {
+					if (response.error?.code === RpcErrorCode.USER_REJECTION) {
+						console.log('User rejected permissions request.');
+					} else {
 					console.error('Error connecting wallet:', response.error);
+					}
 				}
-			}
+			
 		} catch (err) {
 			console.error('Error connecting wallet:', err);
 		}
@@ -61,8 +62,15 @@
 	 * - Otherwise, open the Xverse Connect deep link to switch to the Xverse app.
 	 */
 	 function ConnectXverseMobile() {
-		const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
-		window.open(xverseUrl, '_blank');
+		if (isIOS) {
+			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://100.123.54.34:5173/?inXverse=1')}`;
+			window.open(xverseUrl, '_blank');
+		} else if (isAndroid)	 {
+			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent('https://my.inscribed.audio/?inXverse=1')}`;
+			window.open(xverseUrl, '_blank');
+		} else {
+			console.error('Unsupported platform');
+		}
 	}
 
 
@@ -148,7 +156,7 @@
 
 	onMount(() => {
 		try{ 
-			ConnectWallet();
+			// ConnectWallet();
 		} catch (e) {
 			console.error('Error connecting wallet:', e);
 		}
