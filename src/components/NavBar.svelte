@@ -77,6 +77,7 @@
         <li><ConnectUnisat /></li>
     {/if}
     <li><ConnectXverse /></li>
+    <li><ConnectMagic /></li>
                 </ul>
             </div>
             <a href="https://inscribed.audio" class="btn btn-ghost rounded-full font-urbanist text-lg font-semibold">Inscribed Audio</a>
@@ -124,9 +125,9 @@
                 <li><ConnectUnisat /></li>
             {/if}
             <li><ConnectXverse /></li>
-                 </ul>
-            </div>
-                            
+            <li><ConnectMagic /></li>
+            </ul>
+            </div>         
          </div>
 
          <div class="navbar-end">

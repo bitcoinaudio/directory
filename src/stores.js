@@ -30,6 +30,7 @@ export const isMobile = writable(false)
 export const isAndroid = writable(false)
 export const isIOS = writable(false)
 export const isInXverseBrowser = writable(false);
+export const isMagicEdenConnected = writable(false);
 
 
 const defaultSettings = {

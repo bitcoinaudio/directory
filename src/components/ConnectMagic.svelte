@@ -2,13 +2,19 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import {
-		htmlArray, 
-		walletUnisatConnected, 
-		walletXverseConnected, 
+		htmlArray,
+		walletUnisatConnected,
+		walletXverseConnected,
 		walletMagicConnected,
-		walletConnected
+ 		isMagicEdenConnected
 	} from '../stores';
-	import { request, RpcErrorCode, getProviders, AddressPurpose, BitcoinNetworkType } from 'sats-connect';
+	import {
+		request,
+		RpcErrorCode,
+		getProviders,
+		AddressPurpose,
+		BitcoinNetworkType
+	} from 'sats-connect';
 	import Wallet from 'sats-connect';
 	import idesofmarch from '../lib/collections/idesofmarch.json';
 	import { get } from 'svelte/store';
@@ -39,11 +45,12 @@
 
 		try {
 			const response = await request('wallet_requestPermissions', null);
+			console.log('response, ', response);
 			if (response.status === 'success') {
 				walletMagicConnected.set(true);
-				walletConnected.set(true);
+				walletMagicConnected.set(true);
 
-				localStorage.setItem('walletConnected', 'true');
+				localStorage.setItem('walletMagicConnected', 'true');
 				localStorage.setItem('connectionTime', Date.now().toString());
 
 				await getMyMedia();
@@ -58,43 +65,56 @@
 			console.error('Error connecting wallet:', err);
 		}
 	}
+
 	async function connectOrDeselect() {
-		try {
-			 
-	// await request({
-	// 	getProvider: getBtcProvider,
-	// 	payload: {
-	// 		purposes: [AddressPurpose.Ordinals, AddressPurpose.Payment],
-	// 		message: "Address for receiving Ordinals and payments",
-	// 		network: {
-	// 			type: BitcoinNetworkType.Mainnet,
-	// 		},
-	// 	},
-	// 	onFinish: (response) => {
-	// 		console.log("onFinish response, ", response.addresses);
-	
-	// 		// do some action like updating your app context
-	// 		// connectionStatus?.setAccounts(response.addresses as unknown as Account[]);
-	// 	},
-	// 	onCancel: () => {
-	// 		alert("Request canceled");
-	// 	},
-	// 	});
-		// console.log("request response, ", response);
-	} catch (err) {
-		console.error('Error connecting wallet:', err);
-	}
+		console.log('connectOrDeselect');
+ 			if ('magicEden' in window) {
+				const anyWindow: any = window;
+				if (anyWindow.magicEden.bitcoin && anyWindow.magicEden.bitcoin.isMagicEden)
+					anyWindow.magicEden.bitcoin;
+				console.log('magicEden found', anyWindow.magicEden.bitcoin);
+			} else {
+				console.log(window);
+				console.log('magicEden not found');
+			}
+				// try {
+				// 	await request({
+				// 		getProvider: getBtcProvider,
+				// 		payload: {
+				// 			purposes: [AddressPurpose.Ordinals, AddressPurpose.Payment],
+				// 			message: 'Address for receiving Ordinals and payments',
+				// 			network: {
+				// 				type: BitcoinNetworkType.Mainnet
+				// 			}
+				// 		},
+				// 		onFinish: (response) => {
+				// 			console.log('onFinish response, ', response.addresses);
+
+				// 			// do some action like updating your app context
+				// 			// connectionStatus?.setAccounts(response.addresses as unknown as Account[]);
+				// 		},
+				// 		onCancel: () => {
+				// 			alert('Request canceled');
+				// 		}
+				// 	});
+				// 	console.log('request response, ', response);
+				// } catch (err) {
+				// 	console.error('Error connecting wallet:', err);
+				// }
+
+				console.log('connectOrDeselect done');
+
 	}
 
 	async function getMyMedia() {
-		const isXverseConnected = get(walletXverseConnected);
-		if (!isXverseConnected) {
+		
+		if (!isMagicEdenConnected) {
 			console.log('Wallet not connected');
 			return;
 		}
 
 		try {
-			const limit = await GetWalletInsTotal();
+			 
 			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit });
 			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
 
@@ -119,56 +139,66 @@
 	}
 
 	function checkWalletConnection() {
-		const isConnected = localStorage.getItem('walletConnected') === 'true';
+		const isConnected = localStorage.getItem('walletMagicConnected') === 'true';
 		const connectionTime = localStorage.getItem('connectionTime');
 		const currentTime = Date.now();
 
-		if (isConnected && connectionTime && currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000) {
+		if (
+			isConnected &&
+			connectionTime &&
+			currentTime - parseInt(connectionTime, 10) < 24 * 60 * 60 * 1000
+		) {
 			walletXverseConnected.set(true);
-			walletConnected.set(true);
+			walletMagicConnected.set(true);
 		} else {
-			localStorage.removeItem('walletConnected');
+			localStorage.removeItem('walletMagicConnected');
 			localStorage.removeItem('connectionTime');
 			walletMagicConnected.set(false);
-			walletConnected.set(false);
+			walletMagicConnected.set(false);
 		}
 	}
 
 	function DisconnectWallet() {
 		htmlArray.set([]);
 		walletMagicConnected.set(false);
-		walletConnected.set(false);
-		localStorage.removeItem('walletConnected');
+		walletMagicConnected.set(false);
+		localStorage.removeItem('walletMagicConnected');
 		localStorage.removeItem('connectionTime');
 		$page.url.pathname = '/';
 	}
 
 	const getBtcProvider = () => {
-	if ("magicEden" in window) {
-		const anyWindow: any = window;
-		if (anyWindow.magicEden.bitcoin && anyWindow.magicEden.bitcoin.isMagicEden)
-			 anyWindow.magicEden.bitcoin
+		console.log('getBtcProvider');
+		if ('magicEden' in window) {
+			const anyWindow: any = window;
+			if (anyWindow.magicEden.bitcoin && anyWindow.magicEden.bitcoin.isMagicEden)
+				anyWindow.magicEden.bitcoin;
 
-			console.log("magicEden found", anyWindow.magicEden.bitcoin.accounts);
+				console.log('magicEden found', anyWindow.magicEden.bitcoin.accounts);
 
 			return anyWindow.magicEden.bitcoin;
-	}
-	window.location.href = "https://wallet.magiceden.io/";
-};
-  
-	let showButton = true;
-	onMount(async () => {
+		}
+		// window.location.href = "https://wallet.magiceden.io/";
+	};
+
 	 
-		getBtcProvider();
-		checkWalletConnection();
-		await getMyMedia();
+	onMount(async () => {
+	// 	const anyWindow: any = window;
+	// 	 if (anyWindow.magicEden.bitcoin.isMagicEden) {
+    // console.log('bitcoin found');
+    // } else if (window.ethereum) {
+    //   console.log('ethereum found');
+    // } else {
+    //   console.log('no wallet found');
+    // }
 		 
+		// checkWalletConnection();
+		// await getMyMedia();
 	});
 </script>
 
 <div class="wallet">
-	{#if showButton}
-		{#if $walletMagicConnected}
+ 		{#if $walletMagicConnected}
 			<button class="wallet-btn" on:click={DisconnectWallet}>
 				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Disconnect?
 			</button>
@@ -177,8 +207,7 @@
 				<img class="wallet-logo" src={providerIcon} alt="Wallet Logo" />Connect?
 			</button>
 		{/if}
-	{/if}
-</div>
+ </div>
 
 <style>
 	.wallet {

@@ -10,7 +10,8 @@
 		isInXverseBrowser,
 		isMobile,
 		isIOS,
-		isAndroid
+		isAndroid,
+		isMagicEdenConnected
 	} from '../stores';
  	import { isXverseBrowser } from '../utils/browserCheck';
  	import idesofmarch from '../lib/collections/idesofmarch.json';
@@ -29,6 +30,7 @@
 	 */
 	async function ConnectWallet() {
 		walletUnisatConnected.set(false);
+		isMagicEdenConnected.set(false);
 
 		try {
 				const walletConnect = await request('wallet_connect', null);

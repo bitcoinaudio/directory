@@ -12,7 +12,8 @@
 		walletXverseConnected, 
 		isMobile, 
 		isIOS, 
-		isAndroid 
+		isAndroid,
+		isMagicEdenConnected
 	} from '../stores';
 
 	import idesofmarch from '../lib/collections/idesofmarch.json';
@@ -29,7 +30,7 @@
 	function parseQueryParams() {
 		if (typeof window !== 'undefined') {
 			params = new URLSearchParams(window.location.search);
-			console.log("params", params);
+			// console.log("params", params);
 		}
 	}
 
@@ -49,7 +50,7 @@
 	async function ConnectWallet() {
 		// Ensure we’re not overriding Xverse wallet status
 		walletXverseConnected.set(false);
-
+		isMagicEdenConnected.set(false);
 		try {
 			if (typeof winuni !== 'undefined') {
 				// Request accounts from the UniSat extension
