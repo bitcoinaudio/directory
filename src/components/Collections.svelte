@@ -43,7 +43,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="Details" href={"https://ordinals.com/content/" + item.insID} target="_blank">
+                <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" + item.insID} target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -59,7 +59,7 @@
                 </a>
               </li>
               <li>
-                <a class="tooltip" data-tip="App" href={item.ordinal} target="_blank">
+                <a class="tooltip" data-tip="Ordinal" href={item.ordinal} target="_blank">
                   <img class="size-5" src={ordImage} alt="IOM" />
                 </a>
               </li>
