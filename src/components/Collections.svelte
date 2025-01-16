@@ -25,9 +25,8 @@
 
           <div  class="card-actions justify-center">
             <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
-              <li>
-                <!-- svelte-ignore a11y-missing-attribute -->
-                <a class="tooltip" data-tip="Home">
+              <!-- <li>
+                 <a class="tooltip" data-tip="Home">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
@@ -41,7 +40,7 @@
                       d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                 </a>
-              </li>
+              </li> -->
               <li>
                 <a class="tooltip" data-tip="Details" href={"https://ordinals.com/inscription/" + item.insID} target="_blank">
                   <svg
@@ -63,6 +62,20 @@
                   <img class="size-5" src={ordImage} alt="IOM" />
                 </a>
               </li>
+            {#if item.name == "The Ides of March"}
+            <li>
+              <a class="tooltip" data-tip="Buy" href="https://gamma.io/ordinals/collections/ides-of-march" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="2" class="size-5">
+                  <path d="M3 3h18v4H3z"/>
+                  <path d="M5 7v13h14V7"/>
+                  <path d="M9 21V7"/>
+                  <path d="M15 21V7"/>
+                  <path d="M5 10h14"/>
+                  <path d="M5 14h14"/>
+                </svg>
+              </a>
+            </li>
+            {/if} 
             </ul>
             </div>
         </div>

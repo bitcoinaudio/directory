@@ -11,7 +11,7 @@
     import ConnectMagic from '../components/ConnectMagic.svelte';
 
     const navigation = [
-        { name: "My Inscibed", href: "/" },
+        { name: "My Inscribed", href: "/" },
         // { name: "Services", href: "#services" },
         // { name: "Testimonial", href: "#testimonial" },
         // { name: "Team", href: "#team" },
