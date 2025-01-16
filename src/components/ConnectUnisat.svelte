@@ -184,8 +184,9 @@
 
 		try {
 			const limit = 50;
+			let accounts = await window.unisat.requestAccounts();
 			const walletInscriptions = await winuni.getInscriptions(0, limit);
-
+			console.log('walletInscriptions', walletInscriptions);
 			htmlarray = [];
 
 			if (walletInscriptions?.list) {
