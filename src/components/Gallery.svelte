@@ -33,6 +33,10 @@
       currentPage = 1; // Reset to first page when items per page changes
     }
 
+    function handlePageChange(event) {
+        currentPage = parseInt(event.target.value, 10);
+    }
+
     onMount(() => {
         console.log("Gallery mounted");
     });
@@ -63,10 +67,11 @@
             allowfullscreen>  
         </iframe></figure>
           <div class="card-body">
-            <!-- <h2 class="card-title">{item.meta.name}</h2> -->
-             <!-- <h2></h2> -->
+            <h2 class="card-title">{item.meta.name}</h2>
+             <!-- <h2></h2> --> 
             <!-- Additional info can go here, if available -->
-            <!-- <p>ID: {item.id}</p> -->
+            <p>ID: {item.id.slice(0, 8) + "..." + item.id.slice(-8)}</p>
+            <p>Trait: {item.meta.attributes[0].value}</p>
              <div class="card-actions justify-center">
                 <ul class="menu menu-horizontal bg-base-200 rounded-box mt-1">
                     
@@ -98,6 +103,7 @@
                         </a>
                     </li>
 
+
                 </ul>
             </div>
 
@@ -110,7 +116,10 @@
     {#if totalPages > 1}
       <div class="flex items-center justify-center space-x-2 mt-8">
         <button class="btn btn-sm" on:click={prevPage} disabled={currentPage === 1}>Previous</button>
-        <span>Page {currentPage} of {totalPages}</span>
+        <span>Page {currentPage} </span>
+        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" on:change={handlePageChange}/>
+        <span>Page  {totalPages}</span>
+
         <button class="btn btn-sm" on:click={nextPage} disabled={currentPage === totalPages}>Next</button>
       </div>
     {/if}
