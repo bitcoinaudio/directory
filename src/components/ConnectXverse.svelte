@@ -31,15 +31,16 @@
 		walletUnisatConnected.set(false);
 
 		try {
-				const walletConnect = await request('wallet_connect', null);
-				if (walletConnect.status === 'success') {		
-					const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
+				const response = await request('wallet_connect', null);
+				// const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
+
+				if (response.status === 'success') {		
 					if (response.status === 'success') {
 					walletXverseConnected.set(true);
 					walletConnected.set(true);
 
-				setLocalStorage('walletConnected', 'true');
-				setLocalStorage('connectionTime', Date.now().toString());
+					localStorage.setItem('walletConnected', 'true');
+					localStorage.setItem('connectionTime', Date.now().toString());
 				await getMyMedia();
 					goto('/myinscriptions');
 					}
