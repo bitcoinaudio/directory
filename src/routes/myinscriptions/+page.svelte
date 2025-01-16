@@ -14,7 +14,7 @@
 	onMount(() => {
 		if (walletConnected) {
 			console.log("Wallet connected");
-			console.log("myinscriptions mounted");
+			
 		} else {
 			console.log("Wallet not connected");
 		}
