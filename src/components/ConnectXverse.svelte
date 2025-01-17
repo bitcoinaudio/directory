@@ -65,12 +65,12 @@
 	 function ConnectXverseMobile() {
 		if ($isIOS) {
 			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
-			window.open(xverseUrl, '_blank');
+			window.open(xverseUrl);
 			ConnectWallet();
 			// console.log('isIOS', isIOS);
 		} else if ($isAndroid)	 {
 			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
-			window.open(xverseUrl, '_blank');
+			window.open(xverseUrl);
 			ConnectWallet();
 			// console.log('isAndroid', isAndroid);
 		} else {
