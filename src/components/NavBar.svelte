@@ -9,6 +9,7 @@
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
 	import ConnectMagic from '../components/ConnectMagic.svelte';
+    import { onMount } from 'svelte';
 
 	const navigation = [
 		{ name: 'My Inscribed', href: '/' },
@@ -74,10 +75,14 @@
 								<a href="/samplerr" on:click={() => setActive('Samplerr')}>Samplerr</a>
 							</li>
 						{/if}
-                        {#if !$isInXverseBrowser}
+                        {#if $isInXverseBrowser}
+                        <li><ConnectXverse /></li>
+                        {:else}
                         <li><ConnectUnisat /></li>
-                    {/if}
-                    <li><ConnectXverse /></li>
+                        <li><ConnectXverse /></li>
+
+                        {/if}
+                   
 					</ul>
 				</div>
 				<a
@@ -132,10 +137,13 @@
 						class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
 					>
 						<!-- <li><ConnectMagic /></li> -->
-						{#if !$isInXverseBrowser}
-							<li><ConnectUnisat /></li>
-						{/if}
-						<li><ConnectXverse /></li>
+                        {#if $isInXverseBrowser}
+                        <li><ConnectXverse /></li>
+                        {:else}
+                        <li><ConnectUnisat /></li>
+                        <li><ConnectXverse /></li>
+
+                        {/if}
 					</ul>
 				</div>
 			</div>
