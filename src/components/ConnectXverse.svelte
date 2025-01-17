@@ -31,11 +31,10 @@
 		walletUnisatConnected.set(false);
 
 		try {
-				const response = await request('wallet_connect', null);
-				// const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
-
+			const walletConnect = await request('wallet_connect', null);
+			if (walletConnect.status === 'success') {	
+				const response = await request('ord_getInscriptions', { offset: 0, limit: 10 });
 				if (response.status === 'success') {		
-					if (response.status === 'success') {
 					walletXverseConnected.set(true);
 					walletConnected.set(true);
 
@@ -65,7 +64,7 @@
 	const browserUrl = 'https://my.inscribed.audio/?inXverse=1';
 	 function ConnectXverseMobile() {
 		if ($isIOS) {
-			const xverseUrl = `https://connect.xverse.app/`;
+			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
 			window.open(xverseUrl, '_blank');
 			console.log('isIOS', isIOS);
 		} else if ($isAndroid)	 {
