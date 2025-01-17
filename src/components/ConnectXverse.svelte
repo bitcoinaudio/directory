@@ -66,12 +66,12 @@
 		if ($isIOS) {
 			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
 			window.open(xverseUrl);
-			ConnectWallet();
+			// ConnectWallet();
 			// console.log('isIOS', isIOS);
 		} else if ($isAndroid)	 {
 			const xverseUrl = `https://connect.xverse.app/browser?url=${encodeURIComponent(browserUrl)}`;
 			window.open(xverseUrl);
-			ConnectWallet();
+			// ConnectWallet();
 			// console.log('isAndroid', isAndroid);
 		} else {
 			console.error('Unsupported platform');
@@ -166,6 +166,7 @@
 			console.error('Error connecting wallet:', e);
 		}
 		isInXverseBrowser.set(isXverseBrowser());
+		console.log('isInXverseBrowser', $isInXverseBrowser);
 		checkWalletConnection();
 	});
 </script>
