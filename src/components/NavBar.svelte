@@ -29,6 +29,9 @@
 	function setActive(itemName) {
 		active = itemName;
 	}
+    onMount(() => {
+        isInXverseBrowser.set(isInXverseBrowser);
+     });
 </script>
 
 <nav>
@@ -71,10 +74,10 @@
 								<a href="/samplerr" on:click={() => setActive('Samplerr')}>Samplerr</a>
 							</li>
 						{/if}
-						{#if !$isInXverseBrowser}
-							<li><ConnectUnisat /></li>
-						{/if}
-						<li><ConnectXverse /></li>
+                        {#if !$isInXverseBrowser}
+                        <li><ConnectUnisat /></li>
+                    {/if}
+                    <li><ConnectXverse /></li>
 					</ul>
 				</div>
 				<a
