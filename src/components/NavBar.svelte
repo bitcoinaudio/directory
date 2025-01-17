@@ -9,8 +9,7 @@
 	import ConnectUnisat from '../components/ConnectUnisat.svelte';
 	import ConnectXverse from '../components/ConnectXverse.svelte';
 	import ConnectMagic from '../components/ConnectMagic.svelte';
-    import { onMount } from 'svelte';
-
+ 
 	const navigation = [
 		{ name: 'My Inscribed', href: '/' },
 		// { name: "Services", href: "#services" },
@@ -30,9 +29,7 @@
 	function setActive(itemName) {
 		active = itemName;
 	}
-    onMount(() => {
-        isInXverseBrowser.set(isInXverseBrowser);
-     });
+    
 </script>
 
 <nav>
