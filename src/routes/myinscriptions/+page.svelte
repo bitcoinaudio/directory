@@ -179,7 +179,7 @@
 	}
 	iframe {
 		width: 400px;
-		height: 300px;
+		height: 800px;
 		border: none;
 	}
 </style>
