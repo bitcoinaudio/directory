@@ -77,6 +77,7 @@
 			console.error('Unsupported platform');
 		}
 	}
+	
 
 
 	/**
@@ -88,9 +89,11 @@
 			return;
 		}
 		try {
-
-			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit: 10 });
+			 
+			const inscriptionsRes = await request('ord_getInscriptions', { offset: 0, limit: 50 });
+			console.log('inscriptionsRes', inscriptionsRes.length);
 			const inscriptions = inscriptionsRes?.result?.inscriptions || [];
+
 			const htmlarray = [];
 
 			for (const ins of inscriptions) {
@@ -160,14 +163,9 @@
 	}
 
 	onMount(() => {
-		try{ 
-			// ConnectWallet();
-		} catch (e) {
-			console.error('Error connecting wallet:', e);
-		}
+		 
 		isInXverseBrowser.set(isXverseBrowser());
-		console.log('isInXverseBrowser', $isInXverseBrowser);
-		checkWalletConnection();
+ 		checkWalletConnection();
 	});
 </script>
 
