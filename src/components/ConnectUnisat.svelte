@@ -29,7 +29,7 @@
 	function parseQueryParams() {
 		if (typeof window !== 'undefined') {
 			params = new URLSearchParams(window.location.search);
-			console.log("params", params);
+			// console.log("params", params);
 		}
 	}
 
@@ -83,8 +83,8 @@
 	let nonce = Date.now().toString();
 	const message = encodeURIComponent('Inscribed Audio');
 	const data = encodeURIComponent(JSON.stringify([message, 'text']));
-	const callbackUrl = 'http://100.123.54.34:5173/myinscriptions?unisat-connected=1';
-	const deeplink = `unisat://request?method=connect&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`; 	// Example of signMessage usage:
+	const callbackUrl = 'https://my.inscribed.audio/myinscriptions?unisat-connected=1';
+	const deeplink = `unisat://request?method=connect&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`; 	
 	const deeplink2 = `unisat://request?method=signMessage&data=${data}&from=${appName}&nonce=${nonce}&callback=${callbackUrl}`;
 
 	async function ConnectUnisatMobile() {
@@ -126,7 +126,7 @@
 	 */
 	async function GetWalletInsTotal() {
 		try {
-			const limit = 20;
+			const limit = 50;
 			const walletInscriptions = await winuni.getInscriptions(0, limit);
 			return walletInscriptions?.total || 0;
 		} catch (error) {
