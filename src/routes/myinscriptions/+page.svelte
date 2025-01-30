@@ -86,7 +86,7 @@
 								</li>
 							{:else}
 								<li>
-									<a class="tooltip" href="/" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of The Ides Of March. Please return when you have acquired the fortitude and vitality for this ordinal experience">	
+									<a class="tooltip" href="/" data-tip="We are very sorry, but it appears your wallet does not possess the required hydrationing to acess the raw power of Inscribed Audio. Please return when you have acquired the fortitude and vitality for this ordinal experience">	
 										<div>Not IOM</div>
 									</a>
 								</li>
