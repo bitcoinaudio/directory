@@ -17,7 +17,7 @@
 		// { name: "Team", href: "#team" },
 		// { name: "Contact Us", href: "#contactus" },
 		// { name: "My Inscriptions", href: "/myinscriptions"},
-		{ name: 'Collections', href: '/collections' }
+		{ name: 'Collections', href: '/collections' },
 		// { name: "Radinals", href: "/radinals"},
 	];
 
@@ -56,8 +56,10 @@
 						</svg>
 					</div>
 					<ul
-						class="menu dropdown-content menu-md z-[1] mt-3 w-52 gap-2 rounded-box bg-base-100 p-2 shadow"
-					>
+						class="menu dropdown-content menu-md z-[1] mt-3 w-52 gap-2 rounded-box bg-base-100 p-2 shadow" >
+						<li>
+							<a href="https://madpropro.com/product-category/bitcoiner/dust/" class="font-urbanist">Merchandise</a>
+						</li>
 						{#each navigation as item}
 							<li>
 								<a href={item.href} class="font-urbanist">{item.name}</a>
@@ -89,6 +91,9 @@
 			</div>
 
 			<div class="navbar-center ml-10 hidden lg:flex gap-4">
+				<li>
+					<a href="https://madpropro.com/product-category/bitcoiner/dust/" target="_blank" class="btn btn-ghost rounded-full font-urbanist text-sm font-light">Merchandise</a>
+				</li>
 				{#each navigation as item}
 					<nav class="menu menu-horizontal px-1">
 						<a
